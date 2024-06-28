@@ -1,22 +1,20 @@
 import logo from '../assets/kevinRushLogo.png'
-import { FaLinkedin } from 'react-icons/fa'
-import { FaGithub } from 'react-icons/fa'
-import { FaInstagram } from 'react-icons/fa'
+import { FaLinkedin, FaGithub, FaInstagram, FaFilePdf } from 'react-icons/fa'
 
-function App() {
-
+const Navbar = () => {
     return (
-        <nav className="bg-red-900 mb-20 flex text-center justify-between py-6">
+        <nav className="mb-20 mt-5 flex justify-between py-6">
             <div className="flex flex-shrink-0 items-center">
-                <img src={logo} alt="" />
+                <img className='mx-4 w-10' src={logo} alt="Logo" />
             </div>
-            <div className="m-8 flex items-center justify-center gap-4 text-2xl">
-                <FaLinkedin />
-                <FaGithub />
-                <FaInstagram />
+            <div className="mx-3 flex items-center justify-center gap-4 text-2xl">
+                <FaLinkedin className="cursor-pointer" />
+                <FaGithub className="cursor-pointer" />
+                <FaInstagram className="cursor-pointer" />
+                <FaFilePdf className="cursor-pointer" />
             </div>
         </nav>
     )
 }
 
-export default App
+export default Navbar
