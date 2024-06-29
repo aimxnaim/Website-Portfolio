@@ -5,6 +5,8 @@ import { SiRedux } from "react-icons/si"
 import { BiLogoPostgresql } from "react-icons/bi"
 import { SiPostman } from "react-icons/si"
 import { motion } from "framer-motion"
+import { SiJavascript } from "react-icons/si";
+import { FaBootstrap, FaGitAlt } from "react-icons/fa";
 
 const iconVariants = (duration) => ({
     initial: { y: -10 },
@@ -76,6 +78,30 @@ const Technology = () => {
                     className="rounded-2xl border-4 border-neutral-800 p-4"
                 >
                     <BiLogoPostgresql className="text-7xl text-cyan-400" />
+                </motion.div>
+                <motion.div
+                    variants={iconVariants(4)}
+                    initial="initial"
+                    animate="animate"
+                    className="rounded-2xl border-4 border-neutral-800 p-4"
+                >
+                    <SiJavascript className="text-7xl text-yellow-400" />
+                </motion.div>
+                <motion.div
+                    variants={iconVariants(4)}
+                    initial="initial"
+                    animate="animate"
+                    className="rounded-2xl border-4 border-neutral-800 p-4"
+                >
+                    <FaBootstrap className="text-7xl text-purple-700" />
+                </motion.div>
+                <motion.div
+                    variants={iconVariants(4)}
+                    initial="initial"
+                    animate="animate"
+                    className="rounded-2xl border-4 border-neutral-800 p-4"
+                >
+                    <FaGitAlt className="text-7xl text-red-700" />
                 </motion.div>
                 <motion.div
                     variants={iconVariants(15)}
