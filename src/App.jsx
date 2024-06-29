@@ -23,6 +23,7 @@ function App() {
           <Experiences />
           <Projects />
           <Footer />
+
         </div>
       </div>
     </>
