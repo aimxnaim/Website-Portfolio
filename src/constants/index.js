@@ -1,47 +1,93 @@
-import project2 from "../assets/project/project-2.jpg";
-import project3 from "../assets/project/project-3.jpg";
-import project4 from "../assets/project/project-4.jpg";
+import campVenture from "../assets/project/MapCampVenture.png";
+import gdgetuni from "../assets/project/gdgetuni.png";
+import sentiment from "../assets/project/sentiment_websites.png";
 
-export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. I have honed my skills in front-end technologies like React.js, as well as back-end technologies including Node.js, Express.js, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
+export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. Driven by continuous learning and a collaborative spirit, I am committed to developing innovative solutions that elevate user experiences and drive business growth.`;
 
-export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 5 years of professional experience, I have worked with a variety of technologies, including React, Next.js, Node.js, MySQL, PostgreSQL, and MongoDB. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
+export const ABOUT_TEXT = `With nearly 2 years of hands-on programming experience during my university life, I thrive on the challenges of developing websites from scratch. I have honed my skills in front-end technologies like React.js, as well as back-end technologies including Node.js, Express.js, MongoDB, and PostgreSQL. `;
 
+export const EDUCATION = [
+    {
+        year: "2020 - 2023",
+        degree: "BSc in Computer Science (Hons.)",
+        school: "UiTM Jasin, Melaka",
+        description: `CGPA: 3.53/4.00 (first-class degree).`,
+    },
+    {
+        year: "2018 - 2019",
+        degree: "Matriculation",
+        school: "Pahang Engineering Matriculation College",
+        description: `CGPA: 3.92/4.00`,
+    },
+    {
+        year: "2017 - 2018",
+        degree: "SPM",
+        school: "MRSM Imtiaz YT Ketengah, Terengganu",
+        description: `8A 2B+`,
+    },
+];
 export const EXPERIENCES = [
     {
-        year: "2023 - Present",
-        role: "Senior Full Stack Developer",
-        company: "Google Inc.",
-        description: `Led a team in developing and maintaining web applications using JavaScript, React.js, and Node.js. Implemented RESTful APIs and integrated with MongoDB databases. Collaborated with stakeholders to define project requirements and timelines.`,
-        technologies: ["Javascript", "React.js", "Next.js", "mongoDB"],
+        year: "September 2023 - March 2024",
+        role: "Tech Intern",
+        company: "SEA-YTL Digital Bank Project",
+        description: `Conducted UAT on a digital banking application utilizing Jira for test case management and bug reporting. Identified and reported inconsistencies in functionalities like low-risk and high-risk transfer relevant to digital banking operations. Collaborated effectively with developers via Microsoft Teams to analyze issues and determine optimal solutions, contributing to an improved user experience for digital banking customers.`,
+        technologies: ["Digital Banking Experience", "Test Case Management", "Jira", "UAT Testing", "Microsoft Teams"],
     }
 ];
 
 export const PROJECTS = [
     {
-        title: "E-Commerce Website",
-        image: project3,
-        description:
-            "A fully functional e-commerce website with features like product listing, shopping cart, and user authentication.",
-        technologies: ["HTML", "CSS", "React", "Node.js", "MongoDB"],
+        title: "Gadget Universe - E-commerce Project using React, MongoDB, Stripe and Redux Toolkit",
+        image: gdgetuni,
+        description: [
+            "Developed a comprehensive eCommerce platform using the MERN stack (MongoDB, Express.js, React.js, Node.js), featuring robust functionalities for product management, user authentication, authorization, and order processing that deployed on Render.",
+            "Integrated the Stripe API for secure and efficient payment processing using card during checkout. Utilized Redux Toolkit for efficient state management across the application and reducing boilerplate code.",
+            "Implemented secure user registration and login using bcrypt for password encryption and JSON Web Tokens (JWT) for session management, with tokens stored securely in HTTP Only cookies.",
+            "Configured Nodemailer to handle email notifications, including sending reset password emails with dynamically generated tokens.",
+            "Used MongoDB Atlas for scalable and reliable cloud-based database management, ensuring data persistence and security."
+        ],
+        technologies: ["MongoDB", "Express.js", "React.js", "Node,js", "Redux Toolkit", "Stripe API", "Nodemailer", "JWT", "bcrypt", "Render", "Cloudinary", "MongoDB Atlas", "Postman", "Bootstrap", "HTML", "CSS", "Javascript"],
+        githubLink: "https://github.com/aimxnaim/GadgetUniverse",
+        liveLink: "https://gadgetuniverse.onrender.com",
     },
     {
-        title: "Task Management App",
-        image: project2,
-        description:
-            "An application for managing tasks and projects, with features such as task creation, assignment, and progress tracking.",
-        technologies: ["HTML", "CSS", "Angular", "Firebase"],
+        title: "CampVenture - Full stack websites using Node.js, Express, MongoDB and Bootstrap",
+        image: campVenture,
+        description: [
+            "A website application where user can discover campgrounds through map, create, and review campgrounds, featuring secure user authentication with Passport.js and deployed the application on Heroku.",
+            'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground.',
+            'Implemented data validation and sanitization with Joi, and secured the application against MongoDB injection and XSS attacks.'
+        ],
+        technologies: ["HTML", "CSS", "Javascript", "EJS", "Express.js", "React", "Node.js", "MongoDB", "Cloudinary", "Bootstrap", "Heroku", "Postman"],
+        githubLink: "https://github.com/aimxnaim/CampVenture",
+        liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },
     {
-        title: "Blogging Platform",
-        image: project4,
-        description:
-            "A platform for creating and publishing blog posts, with features like rich text editing, commenting, and user profiles.",
-        technologies: ["HTML", "CSS", "Vue.js", "Express", "mySQL"],
+        title: "Sentiment Analysis Approach to University Student Mental Health",
+        image: sentiment,
+        description: [
+            "Designed and developed a mental health website using Python Flask, HTML, CSS, and JavaScript, providing a secure and anonymous platform for university students to express their thoughts and feelings.",
+            "Implemented a sentiment-analysis algorithm using Logistic Regression in Python to analyze user input text and determine if they exhibit symptoms of a mental health problem.",
+            "Utilized Plotly and D3.js to create interactive charts and graphs, enhancing data representation of the sentiment analysis on the SereneMinds dashboard.",
+            "Applied Bootstrap and custom CSS to ensure a mobile-first, responsive design, providing a seamless user experience across various devices."
+        ],
+        technologies: ["HTML", "CSS", "Javascript", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
+        githubLink: "https://github.com/aimxnaim/Sentiment-Analysis-Approach-to-University-Student-Mental-Health"
     },
 ];
 
-export const CONTACT = {
-    address: "767 Fifth Avenue, New York, NY 10153 ",
-    phoneNo: "+12 4555 666 00 ",
-    email: "me@example.com",
-};
+export const SMALL_PROJECTS = [
+    {
+        title: "Travelling Preferences Among Malaysian Citizens",
+        description: "My data science project during my university life. The system is designed to help travellers identify and plan their next vacation by suggesting destinations that match their individual preferences. ",
+        technologies: ["Python", "Recommendation System", "Data Cleaning", "Data Visualization"],
+        githubLink: "https://github.com/aimxnaim/Travelling-Preferences-in-Malaysia-",
+    },
+    {
+        title: "Website Portfolio",
+        description: "My code for my website portfolio. Built using React, Tailwind CSS, Framer Motion and deployed on Vercel. Feel free to look.",
+        technologies: ["HTML", "CSS", "Javascript", "React", "Tailwind CSS", "Node.js", "Vercel", "Framer Motion"],
+        githubLink: "https://github.com/aimxnaim/Website-Portfolio"
+    }
+];

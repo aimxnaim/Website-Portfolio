@@ -28,6 +28,7 @@ const Hero = () => {
                 <div className="w-full lg:w-2/3">
                     <div className="flex flex-col items-center lg:items-start lg:pl-6">
                         <motion.h1
+                            id='hero'
                             variants={container(0.1)}
                             initial="hidden"
                             animate="visible"
@@ -41,7 +42,7 @@ const Hero = () => {
                             animate="visible"
                             className="bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text text-4xl tracking-tight text-transparent lg:text-5xl"
                         >
-                            <div className='pl-6 md:pl-0'>
+                            <div className='pl-6 md:pl-0 h-20'>
                                 <span className="text-white bg-clip-text text-4xl tracking-tight text-transparent lg:text-5xl">I&apos;m a </span>{text}
                                 <Cursor cursorColor='purple' />
                             </div>
@@ -50,7 +51,7 @@ const Hero = () => {
                             variants={container(0.9)}
                             initial="hidden"
                             animate="visible"
-                            className='my-2 max-w-2xl p-6 md:pl-0 md:text-center font-light tracking-tighter lg:text-left'
+                            className='my-2 max-w-2xl p-6 pt-2 md:pl-0 md:text-center font-light tracking-tighter lg:text-left'
                         >
                             {HERO_CONTENT}
                         </motion.p>

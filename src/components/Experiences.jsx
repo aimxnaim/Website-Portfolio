@@ -5,6 +5,7 @@ const Experiences = () => {
     return (
         <div className="border-b border-neutral-900 pb-4">
             <motion.h1
+                id="experience"
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
                 transition={{ duration: 1.3, delay: 0.1 }}
@@ -38,7 +39,7 @@ const Experiences = () => {
                             <p className="mb-4 text-neutral-400">{experience.description}</p>
                             <div className="flex flex-wrap">
                                 {experience.technologies.map((technology, index) => (
-                                    <span key={index} className="m-1 ml-0 text-sm bg-neutral-900 text-purple-700 py-1 px-2 rounded-lg font-medium">
+                                    <span key={index} className="m-1 ml-0 text-sm bg-neutral-900 text-purple-600 py-1 px-2 rounded-lg font-medium">
                                         {technology}
                                     </span>
 

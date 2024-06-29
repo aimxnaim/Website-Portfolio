@@ -1,8 +1,14 @@
-import logo from '../assets/kevinRushLogo.png'
+import logo from '../assets/logo.png'
 import { FaLinkedin, FaGithub, FaInstagram, FaFilePdf } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 const Navbar = () => {
+    const downloadResume = () => {
+        const link = document.createElement('a');
+        link.href = '/Aiman_Naim_Resume.pdf'; // Path to your resume in the public directory
+        link.download = 'Aiman_Naim_Resume.pdf';
+        link.click();
+    };
     return (
         <nav className="mb-20 mt-5 flex justify-between py-6">
             <div className="flex flex-shrink-0 items-center">
@@ -30,7 +36,13 @@ const Navbar = () => {
                 >
                     <FaInstagram className="cursor-pointer" />
                 </motion.a>
-                <FaFilePdf className="cursor-pointer" />
+                <motion.button
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={downloadResume}
+                >
+                    <FaFilePdf className="cursor-pointer" />
+                </motion.button>
             </div>
         </nav>
     )
