@@ -31,8 +31,12 @@ export const EXPERIENCES = [
         year: "September 2023 - March 2024",
         role: "Tech Intern",
         company: "SEA-YTL Digital Bank Project",
-        description: `Conducted UAT on a digital banking application utilizing Jira for test case management and bug reporting. Identified and reported inconsistencies in functionalities like low-risk and high-risk transfer relevant to digital banking operations. Collaborated effectively with developers via Microsoft Teams to analyze issues and determine optimal solutions, contributing to an improved user experience for digital banking customers.`,
-        technologies: ["Digital Banking Experience", "Test Case Management", "Jira", "UAT Testing", "Microsoft Teams"],
+        description: [
+            `Conducted user acceptance testing (UAT) on a digital banking application utilizing Jira for test case management and bug reporting. Identified and reported inconsistencies in functionalities like low-risk and high-risk transfer relevant to digital banking operations.`,
+            `Use Alibaba Cloud KMS to simulate data encryption by using two methods: Alibaba Cloud commandline interface (CLI) and SDK. In SDK mode, Flask, a microframework written in Python, is used to simulate a simple process of data encryption between server and client.`,
+            `Set up a typical web application on Alibaba Cloud by using Alibaba Cloud services such as Elastic Compute Service (ECS), ApsaraDB for RDS (RDS), Object Storage Service (OSS), Server Load Balancer (SLB).`
+        ],
+        technologies: ["Digital Banking Experience", "Test Case Management", "Jira", "UAT Testing", "Python Flask", "ECS", "RDS", "OSS", "SLB", "Alibaba Cloud KMS"],
     }
 ];
 
@@ -47,7 +51,7 @@ export const PROJECTS = [
             "Configured Nodemailer to handle email notifications, including sending reset password emails with dynamically generated tokens.",
             "Used MongoDB Atlas for scalable and reliable cloud-based database management, ensuring data persistence and security."
         ],
-        technologies: ["MongoDB", "Express.js", "React.js", "Node,js", "Redux Toolkit", "Stripe API", "Nodemailer", "JWT", "bcrypt", "Render", "Cloudinary", "MongoDB Atlas", "Postman", "Bootstrap", "HTML", "CSS", "Javascript"],
+        technologies: ["MongoDB", "Express.js", "React.js", "Node,js", "Redux Toolkit", "Stripe API", "Nodemailer", "JWT", "bcrypt", "Render", "Cloudinary", "MongoDB Atlas", "Postman", "Bootstrap", "Framer Motion", "HTML", "CSS", "Javascript"],
         githubLink: "https://github.com/aimxnaim/GadgetUniverse",
         liveLink: "https://gadgetuniverse.onrender.com",
     },
@@ -56,10 +60,10 @@ export const PROJECTS = [
         image: campVenture,
         description: [
             "A website application where user can discover campgrounds through map, create, and review campgrounds, featuring secure user authentication with Passport.js and deployed the application on Heroku.",
-            'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground.',
+            'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground and use Unsplash API to fetch and generate beautiful random campground images for the website.',
             'Implemented data validation and sanitization with Joi, and secured the application against MongoDB injection and XSS attacks.'
         ],
-        technologies: ["HTML", "CSS", "Javascript", "EJS", "Express.js", "React", "Node.js", "MongoDB", "Cloudinary", "Bootstrap", "Heroku", "Postman"],
+        technologies: ["HTML", "CSS", "Javascript", "EJS", "Express.js", "React", "Node.js", "MongoDB", "Cloudinary", "Bootstrap", "Heroku", "Postman", "Mapbox", "Unsplash API", "Passport.js", "Joi"],
         githubLink: "https://github.com/aimxnaim/CampVenture",
         liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },

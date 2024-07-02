@@ -36,7 +36,16 @@ const Experiences = () => {
                                     {experience.company}
                                 </span>
                             </h6>
-                            <p className="mb-4 text-neutral-400">{experience.description}</p>
+                            <p className="mb-4 text-neutral-400">
+                                {experience.description.map((desc, index) => (
+                                    <li key={index} className=" flex items-center space-x-3 rtl:space-x-reverse mb-2">
+                                        <svg className="flex-shrink-0 text-purple-600 dark:text-purple-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10 16 4-4-4-4" />
+                                        </svg>
+                                        <span>{desc}</span>
+                                    </li>
+                                ))}
+                            </p>
                             <div className="flex flex-wrap">
                                 {experience.technologies.map((technology, index) => (
                                     <span key={index} className="m-1 ml-0 text-sm bg-neutral-900 text-purple-600 py-1 px-2 rounded-lg font-medium">
