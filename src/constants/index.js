@@ -63,7 +63,7 @@ export const PROJECTS = [
             'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground and use Unsplash API to fetch and generate beautiful random campground images for the website.',
             'Implemented data validation and sanitization with Joi, and secured the application against MongoDB injection and XSS attacks.'
         ],
-        technologies: ["HTML", "CSS", "Javascript", "EJS", "Express.js", "React", "Node.js", "MongoDB", "Cloudinary", "Bootstrap", "Heroku", "Postman", "Mapbox", "Unsplash API", "Passport.js", "Joi"],
+        technologies: ["HTML", "CSS", "Javascript", "EJS", "Express.js", "React", "Node.js", "MongoDB", "Cloudinary", "Bootstrap", "Heroku", "Postman", "Mapbox", "Unsplash API", "Passport.js", "Joi", "Git Bash", "RESTful API"],
         githubLink: "https://github.com/aimxnaim/CampVenture",
         liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },
