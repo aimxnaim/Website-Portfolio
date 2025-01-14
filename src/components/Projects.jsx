@@ -27,10 +27,10 @@ const Projects = () => {
                             className="w-full lg:w-2/4"
                         >
                             <motion.img
-                                whileHover={{ scale: 1.1 }}
+                                whileHover={{ scale: 1.035 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 10 }}
                                 src={project.image}
-                                alt={project.name}
+                                alt={project.title}
                                 className="mb-6 rounded-lg shadow-lg"
                                 width={600}
                                 height={250}
