@@ -20,23 +20,28 @@ const Experiences = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             initial={{ opacity: 0, x: -100 }}
                             transition={{ duration: 1 }}
-                            className="w-full lg:w-1/4"
+                            className="lg:w-1/4 lg:mx-6 sm:mb-6 md: mb-6"
                         >
-                            <p className="mb-2 text-sm text-neutral-400">{experience.year}</p>
+                            <motion.img
+                                whileHover={{ scale: 1.03 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                                src={experience.image}
+                                alt={experience.name}
+                                className="rounded-lg shadow-lg sm:w-3/4 md:w-1/2 lg:w-full"
+                            />
                         </motion.div>
                         <motion.div
                             whileInView={{ opacity: 1, x: 0 }}
                             initial={{ opacity: 0, x: 100 }}
                             transition={{ duration: 1 }}
-                            className="w-full max-w-xl  lg:w-3/4"
+                            className="w-full max-w-xl  lg:w-3/4 mx-6"
                         >
-                            <h6 className="mb-2 font-semibold">
-                                {experience.role} -{" "}
-                                <span className="text-sm text-purple-50">
-                                    {experience.company}
-                                </span>
-                            </h6>
-                            <p className="mb-4 text-neutral-400">
+                                <h6 className="font-semibold">
+                                    {experience.role} - {experience.company}
+                                </h6>
+                                <span className="inline-block mb-1 text-sm">{experience.year}</span>
+
+                            <p className="my-4 text-neutral-400">
                                 {experience.description.map((desc, index) => (
                                     <li key={index} className=" flex items-center space-x-3 rtl:space-x-reverse mb-2">
                                         <svg className="flex-shrink-0 text-purple-600 dark:text-purple-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

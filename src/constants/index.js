@@ -1,6 +1,8 @@
 import campVenture from "../assets/project/MapCampVenture.png";
 import gdgetuni from "../assets/project/gdgetuni.png";
 import sentiment from "../assets/project/sentiment_websites.png";
+import rytbank from "../assets/project/rytbank.jpg";
+import ey from "../assets/project/ey.jpg";
 
 export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. Driven by continuous learning and a collaborative spirit, I am committed to developing innovative solutions that elevate user experiences and drive business growth.`;
 
@@ -28,16 +30,28 @@ export const EDUCATION = [
 ];
 export const EXPERIENCES = [
     {
+        image : ey,
+        year: "October 2024 - Current",
+        role: "Full Stack Developer",
+        company: "Ernst & Young",
+        description: [
+            `Currently engaged as a Full Stack Developer on a client project for CCOB Bank Negara, where I am responsible for the development, maintenance, and troubleshooting of CCOB’s web applications. Our tech stack includes Angular for frontend development; Node.js, Express, and Prisma for backend operations; Bootstrap for responsive design; GitHub for version control; JIRA for project management; Swagger for API documentation; and Jasmine as a testing framework.`
+        ],
+        technologies: ["Angular", "Node.js", "Express", "Prisma", "Bootstrap", "GitHub", "JIRA", "Swagger", "Jasmine", "TypeScript", "Javascript", "Postman", "RESTful API"],
+    },
+    {
+        image : rytbank,
         year: "September 2023 - March 2024",
         role: "Tech Intern",
-        company: "SEA-YTL Digital Bank Project",
+        company: "Ryt Bank",
         description: [
             `Conducted user acceptance testing (UAT) on a digital banking application utilizing Jira for test case management and bug reporting. Identified and reported inconsistencies in functionalities like low-risk and high-risk transfer relevant to digital banking operations.`,
             `Use Alibaba Cloud KMS to simulate data encryption by using two methods: Alibaba Cloud commandline interface (CLI) and SDK. In SDK mode, Flask, a microframework written in Python, is used to simulate a simple process of data encryption between server and client.`,
             `Set up a typical web application on Alibaba Cloud by using Alibaba Cloud services such as Elastic Compute Service (ECS), ApsaraDB for RDS (RDS), Object Storage Service (OSS), Server Load Balancer (SLB).`
         ],
         technologies: ["Digital Banking Experience", "Test Case Management", "Jira", "UAT Testing", "Python Flask", "ECS", "RDS", "OSS", "SLB", "Alibaba Cloud KMS"],
-    }
+    },
+
 ];
 
 export const PROJECTS = [
