@@ -91,7 +91,7 @@ export const PROJECTS = [
             "Applied Bootstrap and custom CSS to ensure a mobile-first, responsive design, providing a seamless user experience across various devices."
         ],
         technologies: ["HTML", "CSS", "Javascript", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
-        githubLink: "https://github.com/aimxnaim/Sentiment-Analysis-Approach-to-University-Student-Mental-Health"
+        githubLink: "https://github.com/aimxnaim/sentiment-analysis-approach-to-uni-student-mental-health"
     },
 ];
 
