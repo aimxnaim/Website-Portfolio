@@ -1,8 +1,8 @@
 import campVenture from "../assets/project/MapCampVenture.png";
 import gdgetuni from "../assets/project/gdgetuni.png";
 import sentiment from "../assets/project/sentiment_websites.png";
-import rytbank from "../assets/project/rytbank.jpg";
-import ey from "../assets/project/ey.jpg";
+import rytbank from "../assets/project/ryt-bank.png";
+import ey from "../assets/project/ey.png";
 
 export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. Driven by continuous learning and a collaborative spirit, I am committed to developing innovative solutions that elevate user experiences and drive business growth.`;
 
