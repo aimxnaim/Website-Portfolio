@@ -1,4 +1,4 @@
-import logo from '../assets/logo.png'
+import logo from '../assets/aiman.jpg'
 import { FaLinkedin, FaGithub, FaInstagram, FaFilePdf } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
@@ -12,7 +12,7 @@ const Navbar = () => {
     return (
         <nav className="mb-20 mt-5 flex justify-between py-6">
             <div className="flex flex-shrink-0 items-center">
-                <img className='mx-4 w-10' src={logo} alt="Logo" />
+                <img className='mx-4 w-12 h-12 rounded-full border border-purple-500/50 shadow-md shadow-purple-800/40 object-cover' src={logo} alt="Aiman Naim" />
             </div>
             <div className="mx-3 flex items-center justify-center gap-4 text-2xl">
                 <motion.a
