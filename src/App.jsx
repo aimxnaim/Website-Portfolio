@@ -1,10 +1,7 @@
-import About from './components/About'
-import Experiences from './components/Experiences'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import Navbar from './components/Navbar'
-import Projects from './components/Projects'
-import Technology from './components/Technology'
+import Tabs from './components/Tabs'
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
@@ -19,10 +16,7 @@ function App() {
         <div className="container mx-auto px-8">
           <Navbar />
           <Hero />
-          <About />
-          <Technology />
-          <Experiences />
-          <Projects />
+          <Tabs />
           <Footer />
           <Analytics />
 
