@@ -23,3 +23,15 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Software engineer style background: subtle dot grid with cool accents */
+.bg-engineer-grid {
+  background-color: #0b0f19; /* deep techy navy */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 1px), /* fine dot grid */
+    radial-gradient(circle at 1px 1px, rgba(0,255,180,0.05) 1px, transparent 1px),   /* secondary dot layer */
+    radial-gradient(110% 80% at 50% 0%, rgba(0,140,255,0.12), transparent 70%),     /* top cool accent */
+    radial-gradient(110% 80% at 50% 100%, rgba(0,255,153,0.10), transparent 70%);   /* bottom accent */
+  background-size: 24px 24px, 48px 48px, auto, auto;
+  background-blend-mode: normal, normal, screen, screen;
+}
