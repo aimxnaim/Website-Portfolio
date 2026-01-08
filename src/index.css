@@ -8,6 +8,28 @@
   font-family: 'Inter', sans-serif;
 }
 
+.feature-pulse {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 1.5rem;
+  border: 2px solid rgba(147, 51, 234, 0.35);
+  filter: blur(8px);
+  animation: pulse-ring 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-ring {
+  0% { opacity: 0.35; transform: scale(0.98); }
+  50% { opacity: 0.12; transform: scale(1.04); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
 .container {
   max-width: 1400px;
 }

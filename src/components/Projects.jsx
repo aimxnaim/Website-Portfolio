@@ -5,7 +5,7 @@ import { PROJECTS, SMALL_PROJECTS } from '../constants';
 import ProjectModal from './ProjectModal';
 
 const cardVariants = {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
 };
 
@@ -14,13 +14,11 @@ const Projects = () => {
 
     const renderCard = (project, index) => {
         const isFeatured = project.featured;
-        const summary = Array.isArray(project.description)
-            ? project.description[0]
-            : project.description;
-        const techPreview = (project.technologies || []).slice(0, 6);
+        const subtitle = project.subtitle;
 
         return (
-            <motion.div
+            <motion.button
+                type="button"
                 variants={cardVariants}
                 initial="initial"
                 whileInView="animate"
@@ -28,37 +26,51 @@ const Projects = () => {
                 transition={{ duration: 0.35, delay: index * 0.03 }}
                 key={`${project.title}-${index}`}
                 onClick={() => setSelected(project)}
-                whileHover={{ y: -2, scale: 1.01, transition: { duration: 0.12, ease: "easeOut" } }}
-                className={`cursor-pointer rounded-2xl border p-5 shadow-md transition ${
-                    isFeatured
-                        ? "md:col-span-2 bg-gradient-to-br from-purple-900/40 to-purple-700/20 border-purple-600 ring-2 ring-purple-600/30 hover:shadow-purple-700/30"
-                        : "bg-neutral-900/60 border-neutral-800 hover:shadow-lg"
+                className={`relative w-full max-w-[360px] rounded-3xl border bg-neutral-900/80 px-6 pt-16 pb-8 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-400/70 ${
+                    isFeatured ? "border-purple-500 shadow-purple-900/40 feature-pulse" : "border-neutral-800"
                 }`}
             >
-                <div className="mb-3 flex items-start justify-between">
-                    <h3 className={`font-semibold ${isFeatured ? "text-2xl" : "text-xl"}`}>{project.title}</h3>
-                    <div className="ml-2 flex items-center gap-3">
-                        {project.githubLink && (
-                            <motion.a whileHover={{ scale: 1.15 }} href={project.githubLink} onClick={(e)=>e.stopPropagation()}>
-                                <FaGithub />
-                            </motion.a>
-                        )}
-                        {project.liveLink && (
-                            <motion.a whileHover={{ scale: 1.15 }} href={project.liveLink} onClick={(e)=>e.stopPropagation()}>
-                                <FaGlobe />
-                            </motion.a>
-                        )}
+                {/* {isFeatured && !compact && <span className="absolute inset-0 rounded-3xl border border-purple-400/40 pointer-events-none" aria-hidden />} */}
+
+                <div className="absolute top-3 left-0 right-0 z-10 px-4 mt-1">
+                    <div className="flex items-center">
+                        <span className="flex-1 h-px bg-neutral-700" aria-hidden />
+                        <div className="mx-3 px-4 py-2 rounded-xl bg-neutral-800/90 border border-purple-500/50 text-sm font-semibold text-neutral-50 shadow shadow-purple-900/30">
+                            {project.title}
+                        </div>
+                        <span className="flex-1 h-px bg-neutral-700" aria-hidden />
                     </div>
                 </div>
-                <p className="text-sm text-gray-300">{summary}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                    {techPreview.map((t, i) => (
-                        <span key={i} className="text-xs bg-neutral-800 text-purple-400 px-2 py-1 rounded-lg border border-neutral-700">
-                            {t}
-                        </span>
-                    ))}
+
+                <div className="mt-2 min-h-[78px] flex items-center justify-center">
+                    <p className="text-base text-neutral-200 leading-relaxed line-clamp-3">{subtitle}</p>
                 </div>
-            </motion.div>
+
+                <div className="mt-5 flex justify-center gap-3 text-sm font-medium">
+                    {project.githubLink && (
+                        <a
+                            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-4 py-2 hover:border-purple-400 hover:text-purple-200 transition"
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FaGithub /> GitHub
+                        </a>
+                    )}
+                    { project.liveLink && (
+                        <a
+                            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-4 py-2 hover:border-purple-400 hover:text-purple-200 transition"
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FaGlobe /> Website
+                        </a>
+                    )}
+                </div>
+            </motion.button>
         );
     };
 
@@ -77,13 +89,15 @@ const Projects = () => {
                 <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
             </motion.div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {PROJECTS.map((p, i) => renderCard(p, i))}
-            </div>
+            <div className="max mx-auto px-4 flex flex-col items-center gap-12">
+                    <div className="w-full flex flex-wrap justify-center gap-12">
+                        {PROJECTS.map((p, i) => renderCard(p, i))}
+                    </div>
 
-            <h2 className="mt-12 mb-6 text-center text-2xl">Small Projects</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {SMALL_PROJECTS.map((p, i) => renderCard(p, i))}
+                    <h2 className="mt-4 text-center text-2xl">Small Projects</h2>
+                    <div className="w-full flex flex-wrap justify-center gap-12">
+                        {SMALL_PROJECTS.map((p, i) => renderCard(p, i))}
+                    </div>
             </div>
 
             <AnimatePresence>

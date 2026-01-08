@@ -57,6 +57,7 @@ export const EXPERIENCES = [
 export const PROJECTS = [
     {
         title: "Gadget Universe",
+        subtitle: "MERN Stack E-Commerce Website",
         image: gdgetuni,
         featured: true,
         description: [
@@ -72,6 +73,7 @@ export const PROJECTS = [
     },
     {
         title: "CampVenture",
+        subtitle: "Full Stack Campground Web Application",
         image: campVenture,
         featured: true,
         description: [
@@ -83,30 +85,33 @@ export const PROJECTS = [
         githubLink: "https://github.com/aimxnaim/CampVenture",
         liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },
-    {
-        title: "SereneMinds - Sentiment Analysis Approach to University Student Mental Health",
+];
+
+export const SMALL_PROJECTS = [
+     {
+        title: "SereneMinds",
+        subtitle: "Sentiment Analysis Approach to University Student Mental Health",
         image: sentiment,
-        featured: true,
+        // featured: true,
         description: [
             "Designed and developed a mental health website using Python Flask, HTML, CSS, and JavaScript, providing a secure and anonymous platform for university students to express their thoughts and feelings.",
             "Implemented a sentiment-analysis algorithm using Logistic Regression in Python to analyze user input text and determine if they exhibit symptoms of a mental health problem.",
             "Utilized Plotly and D3.js to create interactive charts and graphs, enhancing data representation of the sentiment analysis on the SereneMinds dashboard.",
             "Applied Bootstrap and custom CSS to ensure a mobile-first, responsive design, providing a seamless user experience across various devices."
         ],
-        technologies: ["HTML", "CSS", "Javascript", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
+        technologies: ["Data Science", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
         githubLink: "https://github.com/aimxnaim/sentiment-analysis-approach-to-uni-student-mental-health"
     },
-];
-
-export const SMALL_PROJECTS = [
     {
         title: "Travelling Preferences Among Malaysian Citizens",
+        subtitle: "Data Science Project",
         description: "My data science project during my university life. The system is designed to help travellers identify and plan their next vacation by suggesting destinations that match their individual preferences. ",
         technologies: ["Python", "Recommendation System", "Data Cleaning", "Data Visualization"],
         githubLink: "https://github.com/aimxnaim/Travelling-Preferences-in-Malaysia-",
     },
     {
         title: "Website Portfolio",
+        subtitle: "Personal Portfolio Website",
         description: "My code for my website portfolio. Built using React, Tailwind CSS, Framer Motion and deployed on Vercel. Feel free to look.",
         technologies: ["HTML", "CSS", "Javascript", "React", "Tailwind CSS", "Node.js", "Vercel", "Framer Motion"],
         githubLink: "https://github.com/aimxnaim/Website-Portfolio"

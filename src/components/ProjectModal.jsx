@@ -52,7 +52,7 @@ const ProjectModal = ({ project, onClose }) => {
           <FaTimes />
         </button>
 
-        <div className="mb-4 flex items-start justify-between">
+        <div className="mb-4 flex items-start ">
           <h2 className="text-2xl font-semibold">{project.title}</h2>
           <div className="ml-4 flex items-center gap-3">
             {project.githubLink && (
@@ -87,6 +87,16 @@ const ProjectModal = ({ project, onClose }) => {
             />
           )}
 
+          {project.technologies && (
+            <div className="mt-3 my-6 flex flex-wrap gap-2">
+              {project.technologies.map((t, i) => (
+                <span key={i} className="text-sm bg-neutral-800 text-purple-400 px-2 py-1 rounded-lg border border-neutral-700">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+
           {isArrayDesc ? (
             <ul className="space-y-3 text-gray-300">
               {project.description.map((desc, i) => (
@@ -100,15 +110,7 @@ const ProjectModal = ({ project, onClose }) => {
             <p className="text-gray-300">{project.description}</p>
           )}
 
-          {project.technologies && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {project.technologies.map((t, i) => (
-                <span key={i} className="text-sm bg-neutral-800 text-purple-400 px-2 py-1 rounded-lg border border-neutral-700">
-                  {t}
-                </span>
-              ))}
-            </div>
-          )}
+         
         </div>
       </motion.div>
     </motion.div>

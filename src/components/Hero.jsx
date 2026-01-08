@@ -28,7 +28,7 @@ const floatingAnimation = {
 
 const Hero = () => {
     const [text] = useTypewriter({
-        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Programmer', 'Coder'],
+        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Coder', 'Tech Enthusiast'],
         loop: 0,
         deleteSpeed: 50,
         typeSpeed: 50,
