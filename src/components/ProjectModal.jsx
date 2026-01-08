@@ -78,7 +78,7 @@ const ProjectModal = ({ project, onClose }) => {
           </div>
         </div>
 
-        <div className="max-h-[80vh] overflow-y-auto pr-1">
+        <div className="max-h-[80vh] overflow-y-auto pr-1 scrollbar-modal">
           {project.image && (
             <img
               src={project.image}

@@ -35,3 +35,30 @@ img {
   background-size: 24px 24px, 48px 48px, auto, auto;
   background-blend-mode: normal, normal, screen, screen;
 }
+
+/* Custom scrollbar styling for modals and dark containers */
+.scrollbar-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-modal::-webkit-scrollbar-thumb {
+  background: #404854; /* neutral-700 */
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-modal::-webkit-scrollbar-thumb:hover {
+  background: #525866; /* neutral-600 */
+  background-clip: content-box;
+}
+
+/* Firefox scrollbar */
+.scrollbar-modal {
+  scrollbar-color: #404854 transparent;
+  scrollbar-width: thin;
+}
