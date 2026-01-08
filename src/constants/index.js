@@ -1,8 +1,8 @@
 import campVenture from "../assets/project/MapCampVenture.png";
 import gdgetuni from "../assets/project/gdgetuni.png";
 import sentiment from "../assets/project/sentiment_websites.png";
-import rytbank from "../assets/project/rytbank.jpg";
-import ey from "../assets/project/ey.jpg";
+import rytbank from "../assets/project/ryt-bank.png";
+import ey from "../assets/project/ey.png";
 
 export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. Driven by continuous learning and a collaborative spirit, I am committed to developing innovative solutions that elevate user experiences and drive business growth.`;
 
@@ -56,8 +56,10 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
     {
-        title: "Gadget Universe - E-commerce Project using React, MongoDB, Stripe and Redux Toolkit",
+        title: "Gadget Universe",
+        subtitle: "MERN Stack E-Commerce Website",
         image: gdgetuni,
+        featured: true,
         description: [
             "Developed a comprehensive eCommerce platform using the MERN stack (MongoDB, Express.js, React.js, Node.js), featuring robust functionalities for product management, user authentication, authorization, and order processing that deployed on Render.",
             "Integrated the Stripe API for secure and efficient payment processing using card during checkout. Utilized Redux Toolkit for efficient state management across the application and reducing boilerplate code.",
@@ -70,8 +72,10 @@ export const PROJECTS = [
         liveLink: "https://gadgetuniverse.onrender.com",
     },
     {
-        title: "CampVenture - Full stack websites using Node.js, Express, MongoDB and Bootstrap",
+        title: "CampVenture",
+        subtitle: "Full Stack Campground Web Application",
         image: campVenture,
+        featured: true,
         description: [
             "A website application where user can discover campgrounds through map, create, and review campgrounds, featuring secure user authentication with Passport.js and deployed the application on Heroku.",
             'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground and use Unsplash API to fetch and generate beautiful random campground images for the website.',
@@ -81,29 +85,33 @@ export const PROJECTS = [
         githubLink: "https://github.com/aimxnaim/CampVenture",
         liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },
-    {
-        title: "Sentiment Analysis Approach to University Student Mental Health",
+];
+
+export const SMALL_PROJECTS = [
+     {
+        title: "SereneMinds",
+        subtitle: "Sentiment Analysis Approach to University Student Mental Health",
         image: sentiment,
+        // featured: true,
         description: [
             "Designed and developed a mental health website using Python Flask, HTML, CSS, and JavaScript, providing a secure and anonymous platform for university students to express their thoughts and feelings.",
             "Implemented a sentiment-analysis algorithm using Logistic Regression in Python to analyze user input text and determine if they exhibit symptoms of a mental health problem.",
             "Utilized Plotly and D3.js to create interactive charts and graphs, enhancing data representation of the sentiment analysis on the SereneMinds dashboard.",
             "Applied Bootstrap and custom CSS to ensure a mobile-first, responsive design, providing a seamless user experience across various devices."
         ],
-        technologies: ["HTML", "CSS", "Javascript", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
-        githubLink: "https://github.com/aimxnaim/Sentiment-Analysis-Approach-to-University-Student-Mental-Health"
+        technologies: ["Data Science", "Python Flask", "Logistic Regression", "Sentiment Analysis", "Plotly", "D3.js", "Bootstrap"],
+        githubLink: "https://github.com/aimxnaim/sentiment-analysis-approach-to-uni-student-mental-health"
     },
-];
-
-export const SMALL_PROJECTS = [
     {
         title: "Travelling Preferences Among Malaysian Citizens",
+        subtitle: "Data Science Project",
         description: "My data science project during my university life. The system is designed to help travellers identify and plan their next vacation by suggesting destinations that match their individual preferences. ",
         technologies: ["Python", "Recommendation System", "Data Cleaning", "Data Visualization"],
         githubLink: "https://github.com/aimxnaim/Travelling-Preferences-in-Malaysia-",
     },
     {
         title: "Website Portfolio",
+        subtitle: "Personal Portfolio Website",
         description: "My code for my website portfolio. Built using React, Tailwind CSS, Framer Motion and deployed on Vercel. Feel free to look.",
         technologies: ["HTML", "CSS", "Javascript", "React", "Tailwind CSS", "Node.js", "Vercel", "Framer Motion"],
         githubLink: "https://github.com/aimxnaim/Website-Portfolio"

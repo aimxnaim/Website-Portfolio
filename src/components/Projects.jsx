@@ -1,142 +1,110 @@
-import { FaGithub } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaGithub, FaGlobe } from 'react-icons/fa';
+import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, SMALL_PROJECTS } from '../constants';
-import { motion } from "framer-motion";
-import { FaGlobe } from 'react-icons/fa';
+import ProjectModal from './ProjectModal';
 
+const cardVariants = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+};
 
 const Projects = () => {
+    const [selected, setSelected] = useState(null);
+
+    const renderCard = (project, index) => {
+        const isFeatured = project.featured;
+        const subtitle = project.subtitle;
+
+        return (
+            <motion.button
+                type="button"
+                variants={cardVariants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.35, delay: index * 0.03 }}
+                key={`${project.title}-${index}`}
+                onClick={() => setSelected(project)}
+                className={`relative w-full max-w-[360px] rounded-3xl border bg-neutral-900/80 px-6 pt-16 pb-8 shadow-lg text-center focus:outline-none focus:ring-2 focus:ring-purple-400/70 ${
+                    isFeatured ? "border-purple-500 shadow-purple-900/40 feature-pulse" : "border-neutral-800"
+                }`}
+            >
+                {/* {isFeatured && !compact && <span className="absolute inset-0 rounded-3xl border border-purple-400/40 pointer-events-none" aria-hidden />} */}
+
+                <div className="absolute top-3 left-0 right-0 z-10 px-4 mt-1">
+                    <div className="flex items-center">
+                        <span className="flex-1 h-px bg-neutral-700" aria-hidden />
+                        <div className="mx-3 px-4 py-2 rounded-xl bg-neutral-800/90 border border-purple-500/50 text-sm font-semibold text-neutral-50 shadow shadow-purple-900/30">
+                            {project.title}
+                        </div>
+                        <span className="flex-1 h-px bg-neutral-700" aria-hidden />
+                    </div>
+                </div>
+
+                <div className="mt-2 min-h-[78px] flex items-center justify-center">
+                    <p className="text-base text-neutral-200 leading-relaxed line-clamp-3">{subtitle}</p>
+                </div>
+
+                <div className="mt-5 flex justify-center gap-3 text-sm font-medium">
+                    {project.githubLink && (
+                        <a
+                            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-4 py-2 hover:border-purple-400 hover:text-purple-200 transition"
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FaGithub /> GitHub
+                        </a>
+                    )}
+                    { project.liveLink && (
+                        <a
+                            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-4 py-2 hover:border-purple-400 hover:text-purple-200 transition"
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FaGlobe /> Website
+                        </a>
+                    )}
+                </div>
+            </motion.button>
+        );
+    };
+
     return (
         <div className="pb-4">
-            <motion.h1
+            <motion.div
                 id='projects'
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
-                transition={{ duration: 0.5 }}
-                className="my-20 text-center text-4xl"
+                transition={{ duration: 0.6, delay: 0.05 }}
+                className="my-16 text-center flex flex-col items-center gap-3"
             >
-                Projects
-            </motion.h1>
+                <h1 className="text-5xl font-semibold bg-gradient-to-r from-purple-200 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(109,40,217,0.35)]">
+                    Projects
+                </h1>
+                <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
+            </motion.div>
 
-            <div>
-                {PROJECTS.map((project, index) => (
-                    <div key={index} className="my-20 mb-10 flex flex-wrap lg:justify-center">
-                        <motion.div
-                            whileInView={{ opacity: 1, x: 0 }}
-                            initial={{ opacity: 0, x: -100 }}
-                            transition={{ duration: 1 }}
-                            className="w-full lg:w-2/4"
-                        >
-                            <motion.img
-                                whileHover={{ scale: 1.035 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                                src={project.image}
-                                alt={project.title}
-                                className="mb-6 rounded-lg shadow-lg"
-                                width={600}
-                                height={250}
-                            />
-                        </motion.div>
-                        <motion.div
-                            whileInView={{ opacity: 1, x: 0 }}
-                            initial={{ opacity: 0, x: 100 }}
-                            transition={{ duration: 1 }}
-                            className="w-full max-w-xl lg:w-2/4"
-                        >
-                            <div className="flex justify-between items-center mb-4">
-                                <h6 className="font-semibold">
-                                    {project.title}
-                                </h6>
-                                <div className="flex space-x-4 ml-2">
-                                    <motion.a
-                                        whileHover={{ scale: 1.2 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        href={project.githubLink} // Add the GitHub link here
-                                    >
-                                        <FaGithub className="text-white" size={20} />
-                                    </motion.a>
-                                    {project.liveLink && (
-                                        <motion.a
-                                            href={project.liveLink} // Add the live site link here
-                                            whileHover={{ scale: 1.2 }}
-                                            whileTap={{ scale: 0.9 }}
-                                        >
-                                            <FaGlobe className="text-white" size={20} />
-                                        </motion.a>
-
-                                    )}
-                                </div>
-                            </div>
-                            <ul className="space-y-4 text-left text-gray-400 dark:text-gray-400">
-                                {project.description.map((desc, index) => (
-                                    <li key={index} className=" flex items-center space-x-3 rtl:space-x-reverse mb-2">
-                                        <svg className="flex-shrink-0 text-purple-600 dark:text-purple-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10 16 4-4-4-4" />
-                                        </svg>
-                                        <span>{desc}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className='flex flex-wrap mt-2'>
-                                {project.technologies.map((technology, index) => (
-                                    <span key={index} className="mr-2 mt-4 text-sm bg-neutral-900 text-purple-500 px-2 py-1 rounded-lg font-medium">
-                                        {technology}
-                                    </span>
-                                ))}
-                            </div>
-                        </motion.div>
+            <div className="max mx-auto px-4 flex flex-col items-center gap-12">
+                    <div className="w-full flex flex-wrap justify-center gap-12">
+                        {PROJECTS.map((p, i) => renderCard(p, i))}
                     </div>
-                ))}
+
+                    <h2 className="mt-4 text-center text-2xl">Small Projects</h2>
+                    <div className="w-full flex flex-wrap justify-center gap-12">
+                        {SMALL_PROJECTS.map((p, i) => renderCard(p, i))}
+                    </div>
             </div>
-            <div className="flex flex-wrap justify-center gap-8">
-                {SMALL_PROJECTS.map((project, index) => (
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 200, damping: 9 }}
-                        key={index}
-                        className="flex flex-col justify-between h-full lg:mt-14 lg:mb-14 relative max-w-sm border rounded-lg shadow bg-gray-800 border-gray-700"
-                    >
-                        <div className="p-5">
 
-                            <div className="flex justify-between items-center mb-4">
-                                <h6 className="mb-2 text-2xl font-bold tracking-tight text-white ">
-                                    {project.title}
-                                </h6>
-                                <div className="flex space-x-4 ml-2">
-                                    <motion.a
-                                        whileHover={{ scale: 1.2 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        href={project.githubLink} // Add the GitHub link here
-                                    >
-                                        <FaGithub className="text-white" size={20} />
-                                    </motion.a>
-                                    {project.liveLink && (
-                                        <motion.a
-                                            href={project.liveLink} // Add the live site link here
-                                            whileHover={{ scale: 1.2 }}
-                                            whileTap={{ scale: 0.9 }}
-                                        >
-                                            <FaGlobe className="text-white" size={20} />
-                                        </motion.a>
-
-                                    )}
-                                </div>
-                            </div>
-                            <div className="list-disc list-inside text-gray-400">
-                                {project.description}
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap justify-start items-center m-4 mb-2">
-                            {project.technologies.map((technology, index) => (
-                                <span key={index} className="m-2 mt-1 text-sm bg-neutral-900 text-purple-500 px-2 py-1 rounded-lg font-medium">
-                                    {technology}
-                                </span>
-                            ))}
-                        </div>
-                    </motion.div>
-
-
-                ))}
-            </div>
+            <AnimatePresence>
+                {selected && (
+                    <ProjectModal project={selected} onClose={() => setSelected(null)} />
+                )}
+            </AnimatePresence>
         </div>
     );
 };

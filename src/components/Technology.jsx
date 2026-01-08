@@ -25,14 +25,17 @@ const iconVariants = (duration) => ({
 const Technology = () => {
     return (
         <div className="border-b border-neutral-800 pb-24">
-            <motion.h1
+            <motion.div
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
-                transition={{ duration: 1.3, delay: 0.1 }}
-                className="my-20 text-center text-4xl"
+                transition={{ duration: 1.0, delay: 0.05 }}
+                className="my-16 text-center flex flex-col items-center gap-3"
             >
-                Technology
-            </motion.h1>
+                <h1 className="text-5xl font-semibold bg-gradient-to-r from-purple-200 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(109,40,217,0.35)]">
+                    Tech Stack
+                </h1>
+                <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
+            </motion.div>
             <motion.div
                 whileInView={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -100 }}
