@@ -56,8 +56,9 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
     {
-        title: "Gadget Universe - E-commerce Project using React, MongoDB, Stripe and Redux Toolkit",
+        title: "Gadget Universe",
         image: gdgetuni,
+        featured: true,
         description: [
             "Developed a comprehensive eCommerce platform using the MERN stack (MongoDB, Express.js, React.js, Node.js), featuring robust functionalities for product management, user authentication, authorization, and order processing that deployed on Render.",
             "Integrated the Stripe API for secure and efficient payment processing using card during checkout. Utilized Redux Toolkit for efficient state management across the application and reducing boilerplate code.",
@@ -70,8 +71,9 @@ export const PROJECTS = [
         liveLink: "https://gadgetuniverse.onrender.com",
     },
     {
-        title: "CampVenture - Full stack websites using Node.js, Express, MongoDB and Bootstrap",
+        title: "CampVenture",
         image: campVenture,
+        featured: true,
         description: [
             "A website application where user can discover campgrounds through map, create, and review campgrounds, featuring secure user authentication with Passport.js and deployed the application on Heroku.",
             'Integrated Mapbox for interactive maps and geolocation features, Cloudinary for multiple image uploads per campground and use Unsplash API to fetch and generate beautiful random campground images for the website.',
@@ -82,8 +84,9 @@ export const PROJECTS = [
         liveLink: "https://guarded-brook-77953-c2f2c375b2e1.herokuapp.com"
     },
     {
-        title: "Sentiment Analysis Approach to University Student Mental Health",
+        title: "SereneMinds - Sentiment Analysis Approach to University Student Mental Health",
         image: sentiment,
+        featured: true,
         description: [
             "Designed and developed a mental health website using Python Flask, HTML, CSS, and JavaScript, providing a secure and anonymous platform for university students to express their thoughts and feelings.",
             "Implemented a sentiment-analysis algorithm using Logistic Regression in Python to analyze user input text and determine if they exhibit symptoms of a mental health problem.",

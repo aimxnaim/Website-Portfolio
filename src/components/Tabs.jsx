@@ -7,14 +7,14 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 
 const tabs = [
-  { id: "education", label: "Education", icon: FaGraduationCap, component: Education },
-  { id: "tech", label: "Tech Stack", icon: FaCogs, component: Technology },
   { id: "experience", label: "Working Experience", icon: FaBriefcase, component: Experiences },
   { id: "projects", label: "Past Project", icon: FaFolderOpen, component: Projects },
+  { id: "education", label: "Education", icon: FaGraduationCap, component: Education },
+  { id: "tech", label: "Tech Stack", icon: FaCogs, component: Technology },
 ];
 
 const Tabs = () => {
-  const [active, setActive] = useState("education");
+  const [active, setActive] = useState("experience");
   const ActiveComponent = tabs.find((t) => t.id === active)?.component || Education;
 
   return (
@@ -29,13 +29,13 @@ const Tabs = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActive(id)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-colors ${
+                className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
                   isActive
-                    ? "bg-purple-600/20 text-purple-200 border border-purple-600"
-                    : "bg-neutral-900 text-neutral-300 border border-neutral-800"
+                    ? "bg-purple-600 text-white border border-purple-500 shadow-md shadow-purple-800/30"
+                    : "bg-neutral-800 text-neutral-200 border border-neutral-600 hover:bg-neutral-700 hover:text-white hover:border-neutral-500"
                 }`}
               >
-                <Icon className={isActive ? "text-purple-400" : "text-neutral-400"} />
+                <Icon className={isActive ? "text-white" : "text-neutral-300"} />
                 <span>{label}</span>
               </motion.button>
             );
@@ -43,7 +43,7 @@ const Tabs = () => {
         </div>
       </div>
 
-      <div className="relative mx-auto mt-6 w-full rounded-2xl border border-neutral-800 bg-black/20 p-4">
+      <div className="relative mx-auto mt-6 w-full rounded-2xl border border-neutral-700 bg-neutral-900/75 p-6 shadow-lg shadow-black/30 ring-1 ring-purple-500/10">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
