@@ -7,15 +7,15 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 
 const tabs = [
-  { id: "experience", label: "Working Experience", icon: FaBriefcase, component: Experiences },
+  { id: "workingExperience", label: "Working Experience", icon: FaBriefcase, component: Experiences },
   { id: "projects", label: "Past Project", icon: FaFolderOpen, component: Projects },
   { id: "education", label: "Education", icon: FaGraduationCap, component: Education },
   { id: "tech", label: "Tech Stack", icon: FaCogs, component: Technology },
 ];
 
 const Tabs = () => {
-  const [active, setActive] = useState("experience");
-  const ActiveComponent = tabs.find((t) => t.id === active)?.component || Education;
+  const [active, setActive] = useState("workingExperience");
+  const ActiveComponent = tabs.find((t) => t.id === active)?.component || Experiences;
 
   return (
     <div className="border-b border-neutral-900 pb-10">

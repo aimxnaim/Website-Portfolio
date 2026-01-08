@@ -64,15 +64,18 @@ const Projects = () => {
 
     return (
         <div className="pb-4">
-            <motion.h1
+            <motion.div
                 id='projects'
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
-                transition={{ duration: 0.5 }}
-                className="my-20 text-center text-4xl"
+                transition={{ duration: 0.6, delay: 0.05 }}
+                className="my-16 text-center flex flex-col items-center gap-3"
             >
-                Projects
-            </motion.h1>
+                <h1 className="text-5xl font-semibold bg-gradient-to-r from-purple-200 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(109,40,217,0.35)]">
+                    Projects
+                </h1>
+                <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
+            </motion.div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {PROJECTS.map((p, i) => renderCard(p, i))}
