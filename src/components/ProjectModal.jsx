@@ -6,21 +6,18 @@ import PropTypes from "prop-types";
 const backdrop = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
-  exit: { opacity: 0 },
+  exit:    { opacity: 0 },
 };
 
 const modal = {
-  initial: { opacity: 0, scale: 0.98, y: 8 },
-  animate: { opacity: 1, scale: 1, y: 0 },
-  exit: { opacity: 0, scale: 0.98, y: -6 },
+  initial: { opacity: 0, scale: 0.97, y: 12 },
+  animate: { opacity: 1, scale: 1,    y: 0 },
+  exit:    { opacity: 0, scale: 0.97, y: -8 },
 };
 
 const ProjectModal = ({ project, onClose }) => {
-  // Close on Esc key
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
@@ -35,102 +32,131 @@ const ProjectModal = ({ project, onClose }) => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
       onClick={onClose}
     >
       <motion.div
         variants={modal}
         transition={{ duration: 0.2 }}
-        className="relative mx-4 w-full max-w-3xl rounded-2xl border border-neutral-800 bg-neutral-900 p-6 text-neutral-200"
+        className="relative mx-auto w-full max-w-3xl rpg-panel text-neutral-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          aria-label="Close"
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-full border border-neutral-700 p-2 hover:bg-neutral-800"
-        >
-          <FaTimes />
-        </button>
+        {/* Modal chrome bar */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-gold-400/30 bg-gold-400/5">
+          <div className="flex items-center gap-3">
+            <span className="text-gold-400 text-base">📋</span>
+            <span className="pixel-font text-[8px] text-gold-400 tracking-widest">QUEST DETAILS</span>
+          </div>
+          <button
+            aria-label="Close"
+            onClick={onClose}
+            className="rpg-panel-dim p-2 text-neutral-400 hover:text-gold-400 hover:border-gold-400/50 transition-colors"
+          >
+            <FaTimes />
+          </button>
+        </div>
 
-        <div className="mb-4 flex items-start ">
-          <h2 className="text-2xl font-semibold">{project.title}</h2>
-          <div className="ml-4 flex items-center gap-3">
-            {project.githubLink && (
-              <a
-                href={project.githubLink}
-                className="rounded-full border border-neutral-700 p-2 hover:bg-neutral-800"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaGithub />
-              </a>
-            )}
-            {project.liveLink && (
-              <a
-                href={project.liveLink}
-                className="rounded-full border border-neutral-700 p-2 hover:bg-neutral-800"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaGlobe />
-              </a>
+        <div className="max-h-[80vh] overflow-y-auto scrollbar-modal p-6">
+          {/* Title + links */}
+          <div className="flex items-start justify-between gap-4 mb-5">
+            <div>
+              <h2 className="rpg-font text-4xl text-gold-400">{project.title}</h2>
+              {project.subtitle && (
+                <p className="rpg-font text-xl text-neutral-400 mt-1">{project.subtitle}</p>
+              )}
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {project.githubLink && (
+                <a
+                  href={project.githubLink}
+                  className="rpg-panel-dim p-2 text-neutral-400 hover:text-gold-400 hover:border-gold-400/50 transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                  title="GitHub"
+                >
+                  <FaGithub className="text-lg" />
+                </a>
+              )}
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  className="rpg-panel-dim p-2 text-neutral-400 hover:text-gold-400 hover:border-gold-400/50 transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                  title="Live Demo"
+                >
+                  <FaGlobe className="text-lg" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Screenshot */}
+          {project.image && (
+            <div className="mb-5 border-2 border-gold-400/20 p-1">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full"
+              />
+              <p className="pixel-font text-[6px] text-gold-400/40 text-center mt-1 pb-0.5">QUEST PREVIEW</p>
+            </div>
+          )}
+
+          {/* Technologies */}
+          {project.technologies && (
+            <div className="mb-5">
+              <p className="pixel-font text-[7px] text-gold-400/60 mb-2 tracking-widest">SKILLS USED</p>
+              <div className="flex flex-wrap gap-1.5">
+                {project.technologies.map((t, i) => (
+                  <span key={i} className="pixel-font text-[6px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30">
+                    +{t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Description */}
+          <div>
+            <p className="pixel-font text-[7px] text-gold-400/60 mb-3 tracking-widest">QUEST DESCRIPTION</p>
+            {isArrayDesc ? (
+              <ul className="space-y-3">
+                {project.description.map((desc, i) => (
+                  <li key={i} className="flex items-start gap-2 text-neutral-300">
+                    <span className="text-gold-400 mt-1 flex-shrink-0 text-xs">►</span>
+                    <span className="rpg-font text-lg leading-snug">{desc}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="rpg-font text-xl text-neutral-300 leading-relaxed">{project.description}</p>
             )}
           </div>
         </div>
 
-        <div className="max-h-[80vh] overflow-y-auto pr-1 scrollbar-modal">
-          {project.image && (
-            <img
-              src={project.image}
-              alt={project.title}
-              className="mb-4 w-full rounded-lg border border-neutral-800"
-            />
-          )}
-
-          {project.technologies && (
-            <div className="mt-3 my-6 flex flex-wrap gap-2">
-              {project.technologies.map((t, i) => (
-                <span key={i} className="text-sm bg-neutral-800 text-purple-400 px-2 py-1 rounded-lg border border-neutral-700">
-                  {t}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {isArrayDesc ? (
-            <ul className="space-y-3 text-gray-300">
-              {project.description.map((desc, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <svg className="mt-1 text-purple-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m10 16 4-4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  <span>{desc}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-300">{project.description}</p>
-          )}
-
-         
+        {/* Footer */}
+        <div className="px-5 py-3 border-t border-gold-400/20 flex justify-between items-center">
+          <span className="pixel-font text-[7px] text-neutral-600">ESC TO CLOSE</span>
+          <span className="blink pixel-font text-[7px] text-gold-400/60">▼</span>
         </div>
       </motion.div>
     </motion.div>
   );
 };
 
-export default ProjectModal;
-
 ProjectModal.propTypes = {
   project: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    image: PropTypes.any,
-    description: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]).isRequired,
-    technologies: PropTypes.arrayOf(PropTypes.string),
-    githubLink: PropTypes.string,
-    liveLink: PropTypes.string,
-    featured: PropTypes.bool,
+    title:       PropTypes.string.isRequired,
+    subtitle:    PropTypes.string,
+    image:       PropTypes.any,
+    description: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
+    technologies:PropTypes.arrayOf(PropTypes.string),
+    githubLink:  PropTypes.string,
+    liveLink:    PropTypes.string,
+    featured:    PropTypes.bool,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
+
+export default ProjectModal;

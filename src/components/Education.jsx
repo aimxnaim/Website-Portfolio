@@ -1,45 +1,78 @@
 import { EDUCATION } from "../constants";
 import { motion } from "framer-motion";
 
+const CHAPTER_ICONS = ['📖', '📜', '🎓'];
+const CHAPTER_LABELS = ['CHAPTER III', 'CHAPTER II', 'CHAPTER I'];
+
 const Education = () => {
   return (
     <div className="pb-4">
+      {/* Section header */}
       <motion.div
         whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 1, delay: 0.05 }}
-        className="my-12 text-center flex flex-col items-center gap-3"
+        initial={{ opacity: 0, y: -30 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="my-10 text-center flex flex-col items-center gap-3"
       >
-        <h1 className="text-5xl font-semibold bg-gradient-to-r from-purple-200 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(109,40,217,0.35)]">
-          Education
-        </h1>
-        <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
+        <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em]">◄ BACKSTORY ►</span>
+        <h1 className="rpg-font text-5xl lg:text-6xl text-gold-400 tracking-wider">ORIGIN STORY</h1>
+        <div className="h-0.5 w-32 bg-gold-400/40" />
       </motion.div>
 
-      {EDUCATION.map((education, index) => (
-        <div key={index} className="mb-8 flex flex-wrap lg:justify-center">
+      {/* Intro dialog */}
+      <motion.div
+        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 10 }}
+        transition={{ duration: 0.4 }}
+        viewport={{ once: true }}
+        className="dialog-box max-w-2xl mx-auto mb-8"
+      >
+        <p className="pixel-font text-[7px] text-gold-400/60 mb-2">NARRATOR</p>
+        <p className="rpg-font text-xl text-neutral-300 leading-relaxed">
+          Before becoming a Full Stack Developer, our hero walked a long road of knowledge and discipline...
+        </p>
+      </motion.div>
+
+      {/* Timeline chapters */}
+      <div className="max-w-2xl mx-auto flex flex-col gap-5">
+        {[...EDUCATION].reverse().map((education, index) => (
           <motion.div
+            key={index}
             whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -80 }}
-            transition={{ duration: 0.8 }}
-            className="w-full lg:w-1/4"
+            initial={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.5, delay: index * 0.12 }}
+            viewport={{ once: true }}
+            className="flex gap-4"
           >
-            <p className="mb-2 text-sm text-neutral-400">{education.year}</p>
+            {/* Chapter marker */}
+            <div className="flex flex-col items-center flex-shrink-0">
+              <div className="rpg-panel-sm w-12 h-12 flex items-center justify-center text-xl">
+                {CHAPTER_ICONS[index]}
+              </div>
+              {index < EDUCATION.length - 1 && (
+                <div className="w-px flex-1 bg-gold-400/20 mt-2" />
+              )}
+            </div>
+
+            {/* Chapter content */}
+            <div className="rpg-panel-dim p-4 flex-1 mb-2">
+              <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <span className="pixel-font text-[7px] text-gold-400/60">{CHAPTER_LABELS[index]}</span>
+                <span className="pixel-font text-[7px] text-neutral-500 border border-gold-400/20 bg-gold-400/5 px-2 py-1">
+                  {education.year}
+                </span>
+              </div>
+              <h6 className="rpg-font text-2xl text-gold-400 leading-tight">{education.degree}</h6>
+              <p className="pixel-font text-[8px] text-neutral-400 mt-1">{education.school}</p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-gold-400 text-xs">★</span>
+                <p className="rpg-font text-lg text-green-400">{education.description}</p>
+              </div>
+            </div>
           </motion.div>
-          <motion.div
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 80 }}
-            transition={{ duration: 0.8 }}
-            className="w-full max-w-xl lg:w-3/4"
-          >
-            <h6 className="mb-1 font-semibold">
-              {education.degree} - {" "}
-              <span className="text-sm text-purple-50">{education.school}</span>
-            </h6>
-            <p className="text-neutral-400">{education.description}</p>
-          </motion.div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
