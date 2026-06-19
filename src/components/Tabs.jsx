@@ -20,10 +20,10 @@ const Tabs = () => {
   return (
     <div className="border-b-2 border-gold-400/15 pb-12">
       {/* RPG Menu bar */}
-      <div className="mx-auto mb-6 w-full">
+      <div className="mx-auto my-6 w-full">
         {/* Menu label */}
         <div className="flex justify-center mb-4">
-          <span className="pixel-font text-[8px] text-gold-400/50 tracking-widest">◄ MAIN MENU ►</span>
+          <span className="pixel-font text-[8px] text-gold-400/50 tracking-widest mt-3">◄ MAIN MENU ►</span>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-2">

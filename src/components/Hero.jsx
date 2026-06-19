@@ -7,8 +7,8 @@ const fadeUp = (delay = 0) => ({
 })
 
 const STAT_ITEMS = [
-    { label: 'YRS EXP',   value: '2+',      icon: '⚔' },
-    { label: 'QUESTS',    value: '5+',       icon: '📜' },
+    { label: 'YEARS EXPERIENCE',   value: '2+',      icon: '⚔' },
+    { label: 'PROJECTS',    value: '5+',       icon: '📜' },
     { label: 'SKILLS',    value: 'DIVERSE',  icon: '✨' },
 ]
 
