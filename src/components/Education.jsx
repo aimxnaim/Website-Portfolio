@@ -1,8 +1,8 @@
 import { EDUCATION } from "../constants";
 import { motion } from "framer-motion";
 
-const CHAPTER_ICONS = ['📖', '📜', '🎓'];
-const CHAPTER_LABELS = ['CHAPTER III', 'CHAPTER II', 'CHAPTER I'];
+const CHAPTER_ICONS = ['📖', '📜', '🎓', '📌'];
+const CHAPTER_LABELS = ['CHAPTER III', 'CHAPTER II', 'CHAPTER I', 'CHAPTER IV'];
 
 const Education = () => {
   return (

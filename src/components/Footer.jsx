@@ -29,7 +29,7 @@ const Footer = () => {
 
                 {/* Copyright */}
                 <p className="pixel-font text-[7px] text-neutral-700 tracking-widest">
-                    © 2024 AIMAN NAIM · ALL RIGHTS RESERVED
+                    © 2026 AIMAN NAIM · ALL RIGHTS RESERVED
                 </p>
 
                 {/* Blink prompt */}

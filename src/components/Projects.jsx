@@ -24,7 +24,7 @@ const AchievementCard = ({ project, index, onOpen }) => {
             className={`relative w-full max-w-[340px] border-2 ${rarity.borderClass} ${rarity.bg} p-0 text-left focus:outline-none focus:ring-2 focus:ring-gold-400/50 ${project.featured ? 'feature-pulse' : ''}`}
         >
             {/* Achievement banner */}
-            <div className={`flex items-center justify-between px-4 py-2 border-b border-current/20`}>
+            <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-700/40">
                 <span className={`pixel-font text-[7px] ${rarity.color}`}>{rarity.label}</span>
                 <span className="pixel-font text-[7px] text-neutral-600">CLICK TO VIEW</span>
             </div>

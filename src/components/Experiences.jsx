@@ -50,7 +50,7 @@ const Experiences = () => {
                             style={isCurrent ? { borderColor: 'rgba(34,197,94,0.5)' } : {}}
                         >
                             {/* Quest header bar */}
-                            <div className={`flex items-center justify-between px-5 py-3 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/3'}`}>
+                            <div className={`flex items-center justify-between px-5 py-3 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/5'}`}>
                                 <div className="flex items-center gap-3">
                                     <span className={`pixel-font text-[7px] px-2 py-1 ${isCurrent ? 'badge-active' : 'badge-completed'}`}>
                                         {isCurrent ? '▶ ACTIVE' : '✓ CLEARED'}
