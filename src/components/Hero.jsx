@@ -14,7 +14,7 @@ const STAT_ITEMS = [
 
 const Hero = () => {
     const [text] = useTypewriter({
-        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Coder', 'Tech Enthusiast'],
+        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Coder', 'Programmer', 'Software Engineer', 'Tech Enthusiast'],
         loop: 0,
         deleteSpeed: 50,
         typeSpeed: 60,
