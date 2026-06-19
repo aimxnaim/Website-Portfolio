@@ -7,10 +7,10 @@ import Experiences from "./Experiences";
 import Projects from "./Projects";
 
 const tabs = [
-  { id: "workingExperience", label: "Working Experience", icon: FaBriefcase, component: Experiences },
-  { id: "projects", label: "Past Project", icon: FaFolderOpen, component: Projects },
-  { id: "education", label: "Education", icon: FaGraduationCap, component: Education },
-  { id: "tech", label: "Tech Stack", icon: FaCogs, component: Technology },
+  { id: "workingExperience", label: "QUEST LOG",      shortLabel: "QUESTS",  icon: FaBriefcase,    component: Experiences },
+  { id: "projects",          label: "ACHIEVEMENTS",   shortLabel: "ACHIEVE", icon: FaFolderOpen,   component: Projects },
+  { id: "education",         label: "ORIGIN STORY",   shortLabel: "ORIGIN",  icon: FaGraduationCap,component: Education },
+  { id: "tech",              label: "SKILL TREE",     shortLabel: "SKILLS",  icon: FaCogs,         component: Technology },
 ];
 
 const Tabs = () => {
@@ -18,39 +18,52 @@ const Tabs = () => {
   const ActiveComponent = tabs.find((t) => t.id === active)?.component || Experiences;
 
   return (
-    <div className="border-b border-neutral-900 pb-10">
-      <div className="mx-auto mb-6 w-full">
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          {tabs.map(({ id, label, icon: Icon }) => {
+    <div className="border-b-2 border-gold-400/15 pb-12">
+      {/* RPG Menu bar */}
+      <div className="mx-auto my-6 w-full">
+        {/* Menu label */}
+        <div className="flex justify-center mb-4">
+          <span className="pixel-font text-[8px] text-gold-400/50 tracking-widest mt-3">◄ MAIN MENU ►</span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {tabs.map(({ id, label, shortLabel, icon: Icon }) => {
             const isActive = id === active;
             return (
               <motion.button
                 key={id}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
                 onClick={() => setActive(id)}
-                className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
-                  isActive
-                    ? "bg-purple-600 text-white border border-purple-500 shadow-md shadow-purple-800/30"
-                    : "bg-neutral-800 text-neutral-200 border border-neutral-600 hover:bg-neutral-700 hover:text-white hover:border-neutral-500"
-                }`}
+                className={`rpg-menu-btn flex items-center gap-2 px-4 py-2.5 ${isActive ? 'active' : ''}`}
               >
-                <Icon className={isActive ? "text-white" : "text-neutral-300"} />
-                <span>{label}</span>
+                {isActive && <span className="text-rpg-bg text-xs">►</span>}
+                <Icon className={isActive ? "text-rpg-bg" : "text-neutral-500"} />
+                <span className="hidden sm:block">{label}</span>
+                <span className="sm:hidden">{shortLabel}</span>
               </motion.button>
             );
           })}
         </div>
       </div>
 
-      <div className="relative mx-auto mt-6 w-full rounded-2xl border border-neutral-700 bg-neutral-900/75 p-6 shadow-lg shadow-black/30 ring-1 ring-purple-500/10">
+      {/* Panel */}
+      <div className="rpg-panel mx-auto w-full p-6 shadow-xl">
+        {/* Panel chrome */}
+        <div className="flex items-center gap-2 mb-4 border-b border-gold-400/20 pb-3">
+          <span className="w-2 h-2 bg-gold-400 inline-block" />
+          <span className="pixel-font text-[8px] text-gold-400/70 tracking-widest">
+            {tabs.find(t => t.id === active)?.label}
+          </span>
+        </div>
+
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
           >
             <ActiveComponent />
           </motion.div>

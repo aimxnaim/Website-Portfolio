@@ -1,105 +1,122 @@
 import { EXPERIENCES } from "../constants"
 import { motion } from "framer-motion"
 
+const parseMonthYear = (str) => {
+    const [month, year] = str.split(" ");
+    return new Date(`${month} 1, ${year}`);
+};
+
+const formatDuration = (startStr, endStr) => {
+    const start = parseMonthYear(startStr);
+    const end = endStr.toLowerCase().includes("current") ? new Date() : parseMonthYear(endStr);
+    const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+    const yrs = Math.floor(months / 12);
+    const mos = months % 12;
+    const yrPart = yrs > 0 ? `${yrs}yr` : "";
+    const moPart = mos > 0 ? `${mos}mo` : "";
+    return `${yrPart}${yrPart && moPart ? " " : ""}${moPart}` || "0mo";
+};
+
 const Experiences = () => {
-    const parseMonthYear = (str) => {
-        const [month, year] = str.split(" ");
-        return new Date(`${month} 1, ${year}`);
-    };
-
-    const formatDuration = (startStr, endStr) => {
-        const start = parseMonthYear(startStr);
-        const end = endStr.toLowerCase().includes("current") ? new Date() : parseMonthYear(endStr);
-        const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
-        const yrs = Math.floor(months / 12);
-        const mos = months % 12;
-        const yrPart = yrs > 0 ? `${yrs} yr${yrs > 1 ? "s" : ""}` : "";
-        const moPart = mos > 0 ? `${mos} mo${mos > 1 ? "s" : ""}` : "";
-        return `${yrPart}${yrPart && moPart ? " " : ""}${moPart}` || "0 mos";
-    };
-
     return (
-        <div className="border-b border-neutral-900 pb-4">
+        <div className="pb-4">
+            {/* Section header */}
             <motion.div
-                id="experience"
                 whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -50 }}
+                initial={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="my-16 text-center flex flex-col items-center gap-3"
+                className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <h1 className="text-5xl font-semibold bg-gradient-to-r from-purple-200 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(109,40,217,0.35)]">
-                    Experience
-                </h1>
-                <div className="h-1 w-24 rounded-full bg-purple-500/70 shadow shadow-purple-500/40" />
+                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em]">◄ QUEST LOG ►</span>
+                <h1 className="rpg-font text-5xl lg:text-6xl text-gold-400 tracking-wider">QUEST LOG</h1>
+                <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
-            <div className="max-w-6xl mx-auto">
-                <div className="relative">
-                    {/* Vertical timeline spine */}
-                    <div className="absolute left-10 sm:left-12 top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500/60 via-purple-500/20 to-transparent rounded-full" aria-hidden />
-                    
-                    {EXPERIENCES.map((experience, index) => {
-                        const [start, end] = experience.year.split(" - ");
-                        const isCurrent = end.toLowerCase().includes("current");
-                        const duration = formatDuration(start, end);
-                        // const isLast = index === EXPERIENCES.length - 1;
-                        return (
-                            <div key={index} className="relative pb-16 pl-0">
-                                <div className="flex items-start gap-0">
-                                    {/* Company logo box - centered on timeline */}
-                                    <div className="relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-2 border-purple-500/40 bg-neutral-950 p-3 shadow-lg flex items-center justify-center overflow-hidden z-10">
+
+            <div className="max-w-4xl mx-auto flex flex-col gap-6">
+                {EXPERIENCES.map((experience, index) => {
+                    const [start, end] = experience.year.split(" - ");
+                    const isCurrent = end.toLowerCase().includes("current");
+                    const duration = formatDuration(start, end);
+
+                    return (
+                        <motion.div
+                            key={index}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, x: -40 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            viewport={{ once: true }}
+                            className={`rpg-panel-dim p-0 overflow-hidden ${isCurrent ? 'border-green-500/50' : ''}`}
+                            style={isCurrent ? { borderColor: 'rgba(34,197,94,0.5)' } : {}}
+                        >
+                            {/* Quest header bar */}
+                            <div className={`flex items-center justify-between px-5 py-3 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/5'}`}>
+                                <div className="flex items-center gap-3">
+                                    <span className={`pixel-font text-[7px] px-2 py-1 ${isCurrent ? 'badge-active' : 'badge-completed'}`}>
+                                        {isCurrent ? '▶ ACTIVE' : '✓ CLEARED'}
+                                    </span>
+                                    <span className="rpg-font text-xl text-neutral-300">{experience.year}</span>
+                                </div>
+                                <span className="pixel-font text-[7px] text-gold-400/60 bg-gold-400/10 border border-gold-400/25 px-2 py-1">
+                                    {duration}
+                                </span>
+                            </div>
+
+                            <div className="flex gap-4 p-5">
+                                {/* Company logo as "quest giver" */}
+                                <div className="flex-shrink-0">
+                                    <div className="rpg-panel-sm w-16 h-16 flex items-center justify-center p-2">
                                         <img
                                             src={experience.image}
                                             alt={experience.company}
                                             className="w-full h-full object-contain"
                                         />
                                     </div>
+                                    <p className="pixel-font text-[6px] text-gold-400/50 text-center mt-1 leading-tight">QUEST<br/>GIVER</p>
+                                </div>
 
-                                    {/* Connecting line from logo to card */}
-                                    <div className="relative flex-shrink-0 w-8 sm:w-12 h-20 sm:h-24 flex items-center">
-                                        <div className="w-full h-[2px] bg-gradient-to-r from-purple-500/50 to-purple-500/20" aria-hidden />
+                                {/* Quest details */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="mb-3">
+                                        <h6 className="rpg-font text-2xl text-gold-400">{experience.role}</h6>
+                                        <p className="pixel-font text-[8px] text-neutral-400 mt-0.5">{experience.company}</p>
                                     </div>
 
-                                    {/* Experience card */}
-                                    <div className="flex-1 flex flex-col gap-2 bg-neutral-900/60 rounded-2xl border border-purple-500/20 p-5 shadow-lg">
-                                <div className="flex items-center gap-3 flex-wrap">
-                                    <h6 className="font-semibold text-lg text-purple-100">
-                                        {experience.role} - {experience.company}
-                                    </h6>
-                                    {isCurrent && (
-                                        <span className="px-2.5 py-1 text-xs rounded-full bg-green-500/20 text-green-200 border border-green-500/40">Current</span>
-                                    )}
-                                    <span className="text-sm text-neutral-400">{duration}</span>
-                                </div>
-                                <div className="text-sm text-neutral-400">{experience.year}</div>
+                                    {/* Objectives */}
+                                    <div className="mb-4">
+                                        <p className="pixel-font text-[7px] text-gold-400/60 mb-2">OBJECTIVES</p>
+                                        <ul className="space-y-2">
+                                            {experience.description.map((desc, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-neutral-300">
+                                                    <span className="text-gold-400 mt-1 flex-shrink-0 text-xs">►</span>
+                                                    <span className="rpg-font text-lg leading-snug">{desc}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
 
-                                <ul className="my-2 space-y-2 text-neutral-300 list-none">
-                                    {experience.description.map((desc, idx) => (
-                                        <li key={idx} className="flex items-start gap-2">
-                                            <svg className="mt-1 text-purple-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m10 16 4-4-4-4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                                            <span>{desc}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="flex flex-wrap">
-                                    {experience.technologies.map((technology, idx) => (
-                                        <span
-                                            key={idx}
-                                            className="m-1 ml-0 text-sm px-3 py-1 rounded-full font-medium bg-purple-900/30 text-purple-100 border border-purple-500/40 shadow shadow-purple-900/20"
-                                        >
-                                            {technology}
-                                        </span>
-                                    ))}
-                                </div>
+                                    {/* Rewards */}
+                                    <div>
+                                        <p className="pixel-font text-[7px] text-gold-400/60 mb-2">SKILLS REWARDED</p>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {experience.technologies.map((tech, idx) => (
+                                                <span
+                                                    key={idx}
+                                                    className="pixel-font text-[6px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30"
+                                                >
+                                                    +{tech}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </motion.div>
+                    );
+                })}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Experiences
+export default Experiences;

@@ -1,115 +1,121 @@
-// import { HERO_CONTENT } from '../constants/index'
 import { motion } from "framer-motion"
 import { Cursor, useTypewriter } from 'react-simple-typewriter'
 
-const container = (delay) => ({
-    hidden: { opacity: 0, x: -100 },
-    visible: {
-        opacity: 1,
-        transition: {
-            delay: delay,
-            duration: 0.6,
-        },
-        x: 0,
-    }
+const fadeUp = (delay = 0) => ({
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { delay, duration: 0.6, ease: 'easeOut' } },
 })
 
-const floatingAnimation = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            ease: "easeOut"
-        }
-    }
-}
+const STAT_ITEMS = [
+    { label: 'YEARS EXPERIENCE',   value: '2+',      icon: '⚔' },
+    { label: 'PROJECTS',    value: '5+',       icon: '📜' },
+    { label: 'SKILLS',    value: 'DIVERSE',  icon: '✨' },
+]
 
 const Hero = () => {
     const [text] = useTypewriter({
-        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Coder', 'Tech Enthusiast'],
+        words: ['Full Stack Developer', 'Front End Developer', 'Back End Developer', 'Coder', 'Programmer', 'Software Engineer', 'Tech Enthusiast'],
         loop: 0,
         deleteSpeed: 50,
-        typeSpeed: 50,
+        typeSpeed: 60,
     })
+
     return (
-        <div className="border-b border-neutral-900 pb-4 lg:mb-35">
-            <div className="flex flex-wrap items-center justify-center">
-                <div className="w-full lg:w-3/4 flex justify-center">
-                    <div className="flex flex-col items-center gap-6">
-                        <motion.h1
-                            id='hero'
-                            variants={container(0.1)}
-                            initial="hidden"
-                            animate="visible"
-                            className="pb-4 text-6xl font-thin tracking-tight lg:mt-16 lg:text-8xl text-center"
-                        >
-                            Aiman Naim
-                        </motion.h1>
-                        
-                        <motion.div
-                            variants={container(0.5)}
-                            initial="hidden"
-                            animate="visible"
-                            className="h-20 flex items-center justify-center"
-                        >
-                            <span className="text-white text-4xl lg:text-6xl font-light mr-2">I&apos;m a </span>
-                            <span className="bg-gradient-to-r from-pink-300 via-slate-500 to-purple-500 bg-clip-text text-4xl lg:text-6xl font-light tracking-tight text-transparent">
-                                {text}
-                                <Cursor cursorColor='purple' />
-                            </span>
-                        </motion.div>
+        <div className="border-b-2 border-gold-400/15 pb-12 lg:mb-10">
+            {/* Section label */}
+            <motion.div
+                variants={fadeUp(0)}
+                initial="hidden"
+                animate="visible"
+                className="flex justify-center mb-6"
+            >
+                <span className="pixel-font text-[9px] text-gold-400/70 tracking-[0.3em] border border-gold-400/25 px-4 py-2 bg-gold-400/5">
+                    ◄ STATUS SCREEN ►
+                </span>
+            </motion.div>
 
-                        <motion.div
-                            variants={floatingAnimation}
-                            initial="hidden"
-                            animate="visible"
-                            className="flex gap-6 mt-8 mb-3"
-                        >
-                            <motion.div
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, delay: 0 }}
-                                className="text-center"
-                            >
-                                <div className="text-3xl font-bold text-purple-400">2+</div>
-                                <div className="text-sm text-neutral-400">Years Experience</div>
-                            </motion.div>
-                            <motion.div
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, delay: 0.2 }}
-                                className="text-center border-l border-r border-neutral-700 px-6"
-                            >
-                                <div className="text-3xl font-bold text-purple-400">5+</div>
-                                <div className="text-sm text-neutral-400">Projects</div>
-                            </motion.div>
-                            <motion.div
-                                animate={{ y: [0, -8, 0] }}
-                                transition={{ duration: 4, repeat: Infinity, delay: 0.4 }}
-                                className="text-center"
-                            >
-                                <div className="text-3xl font-bold text-purple-400">Tech Stack</div>
-                                <div className="text-sm text-neutral-400">Diverse & Modern</div>
-                            </motion.div>
-                        </motion.div>
+            {/* Main RPG panel */}
+            <motion.div
+                variants={fadeUp(0.1)}
+                initial="hidden"
+                animate="visible"
+                className="rpg-panel mx-auto max-w-3xl p-8 lg:p-12"
+            >
+                {/* Character name */}
+                <motion.h1
+                    variants={fadeUp(0.2)}
+                    initial="hidden"
+                    animate="visible"
+                    className="rpg-font text-center text-6xl lg:text-8xl text-gold-400 tracking-widest mb-2"
+                >
+                    AIMAN NAIM
+                </motion.h1>
 
-                        <motion.div
-                            variants={floatingAnimation}
-                            initial="hidden"
-                            animate="visible"
-                            transition={{ delay: 1 }}
-                            className="mt-12"
-                        >
-                            {/* <a
-                                href="#projects"
-                                className="inline-block px-8 py-3 rounded-full border border-purple-500 text-purple-400 hover:bg-purple-600/10 transition-colors"
-                            >
-                                Explore My Work
-                            </a> */}
-                        </motion.div>
-                    </div>
+                <motion.div
+                    variants={fadeUp(0.3)}
+                    initial="hidden"
+                    animate="visible"
+                    className="flex justify-center mb-8"
+                >
+                    <span className="pixel-font text-[8px] text-neutral-500 tracking-[0.2em]">CHARACTER NAME</span>
+                </motion.div>
+
+                {/* Divider */}
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="flex-1 h-px bg-gold-400/30" />
+                    <span className="text-gold-400/60 text-sm">⚔</span>
+                    <div className="flex-1 h-px bg-gold-400/30" />
                 </div>
-            </div>
+
+                {/* Class / typewriter */}
+                <motion.div
+                    variants={fadeUp(0.4)}
+                    initial="hidden"
+                    animate="visible"
+                    className="text-center mb-8"
+                >
+                    <p className="pixel-font text-[8px] text-neutral-500 tracking-widest mb-3">CLASS</p>
+                    <div className="rpg-font text-3xl lg:text-4xl flex items-center justify-center gap-2 flex-wrap">
+                        <span className="text-neutral-300">[ </span>
+                        <span className="text-gold-400">{text}</span>
+                        <Cursor cursorColor="#f0c040" />
+                        <span className="text-neutral-300"> ]</span>
+                    </div>
+                </motion.div>
+
+                {/* Stat blocks */}
+                <motion.div
+                    variants={fadeUp(0.5)}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-3 gap-3 mt-6"
+                >
+                    {STAT_ITEMS.map(({ label, value, icon }, i) => (
+                        <motion.div
+                            key={label}
+                            animate={{ y: [0, -6, 0] }}
+                            transition={{ duration: 3.5, repeat: Infinity, delay: i * 0.3 }}
+                            className="rpg-panel-dim p-4 text-center"
+                        >
+                            <div className="text-xl mb-1">{icon}</div>
+                            <div className="rpg-font text-2xl text-gold-400 leading-none">{value}</div>
+                            <div className="pixel-font text-[7px] text-neutral-500 mt-1 leading-relaxed">{label}</div>
+                        </motion.div>
+                    ))}
+                </motion.div>
+
+                {/* Scroll hint */}
+                <motion.div
+                    variants={fadeUp(0.8)}
+                    initial="hidden"
+                    animate="visible"
+                    className="flex justify-center mt-8"
+                >
+                    <span className="pixel-font text-[8px] text-neutral-600 tracking-widest">
+                        ▼ <span className="blink">SCROLL TO CONTINUE</span>
+                    </span>
+                </motion.div>
+            </motion.div>
         </div>
     )
 }
