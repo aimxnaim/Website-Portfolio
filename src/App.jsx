@@ -1,8 +1,5 @@
-import Footer from './components/Footer'
-import Hero from './components/Hero'
-import Navbar from './components/Navbar'
-import About from './components/About'
-import Tabs from './components/Tabs'
+import Sidebar from './components/Sidebar'
+import ContentPanel from './components/ContentPanel'
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
@@ -14,12 +11,11 @@ function App() {
           <div className="absolute inset-0 -z-10 h-full w-full bg-rpg" />
         </div>
 
-        <div className="container mx-auto px-6 lg:px-8">
-          <Navbar />
-          <Hero />
-          <About />
-          <Tabs />
-          <Footer />
+        <div className="container mx-auto px-6 lg:px-8 py-6">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            <Sidebar />
+            <ContentPanel />
+          </div>
           <Analytics />
         </div>
       </div>
