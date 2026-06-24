@@ -3,6 +3,29 @@ import { SiMongodb, SiRedux, SiJavascript, SiPostman } from "react-icons/si"
 import { FaNodeJs, FaBootstrap, FaGitAlt } from "react-icons/fa"
 import { BiLogoPostgresql } from "react-icons/bi"
 import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+
+const IGNORED_LANGS = new Set(['scminput', 'Plain text', 'Log', 'chatagent', 'Ignore', 'Properties', 'DotEnv'])
+
+function useCodeStats() {
+    const [data, setData] = useState({ langs: [], totalXp: 0, loading: true, error: false })
+
+    useEffect(() => {
+        fetch('https://codestats.net/api/users/aimxnaim')
+            .then(r => r.json())
+            .then(json => {
+                const langs = Object.entries(json.languages)
+                    .filter(([name]) => !IGNORED_LANGS.has(name))
+                    .map(([name, info]) => ({ name, xp: info.xps }))
+                    .sort((a, b) => b.xp - a.xp)
+                    .slice(0, 10)
+                setData({ langs, totalXp: json.total_xp, loading: false, error: false })
+            })
+            .catch(() => setData(d => ({ ...d, loading: false, error: true })))
+    }, [])
+
+    return data
+}
 
 const SKILLS = [
     { icon: RiReactjsLine,     color: 'text-cyan-400',    label: 'React',      type: 'WEAPON' },
@@ -24,6 +47,9 @@ const TYPE_COLORS = {
 }
 
 const Technology = () => {
+    const { langs, totalXp, loading, error } = useCodeStats()
+    const maxXp = langs[0]?.xp || 1
+
     return (
         <div className="pb-4">
             {/* Section header */}
@@ -86,6 +112,77 @@ const Technology = () => {
                     ))}
                 </div>
                 <p className="pixel-font text-[7px] text-neutral-600 mt-4 text-center">HOVER SLOT FOR DETAILS</p>
+            </motion.div>
+
+            {/* Code::Stats XP section */}
+            <motion.div
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="rpg-panel p-6 max-w-2xl mx-auto mt-6"
+            >
+                <div className="flex items-center justify-between mb-4">
+                    <p className="pixel-font text-[7px] text-gold-400/50 tracking-widest">LANGUAGE PROFICIENCY / LIVE</p>
+                    {!loading && !error && (
+                        <span className="pixel-font text-[7px] text-gold-400/70">
+                            TOTAL XP: {totalXp.toLocaleString()}
+                        </span>
+                    )}
+                </div>
+
+                {loading && (
+                    <p className="pixel-font text-[7px] text-neutral-500 text-center py-4 animate-pulse">
+                        LOADING STATS...
+                    </p>
+                )}
+
+                {error && (
+                    <p className="pixel-font text-[7px] text-red-400/60 text-center py-4">
+                        FAILED TO LOAD STATS
+                    </p>
+                )}
+
+                {!loading && !error && (
+                    <div className="flex flex-col gap-3">
+                        {langs.map(({ name, xp }, i) => {
+                            const pct = Math.round((xp / maxXp) * 100)
+                            return (
+                                <motion.div
+                                    key={name}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                                    viewport={{ once: true }}
+                                    className="flex items-center gap-3"
+                                >
+                                    <span className="pixel-font text-[7px] text-neutral-400 w-28 shrink-0 truncate">{name}</span>
+                                    <div className="flex-1 h-2 bg-neutral-800 border border-neutral-700 relative overflow-hidden">
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            whileInView={{ width: `${pct}%` }}
+                                            transition={{ duration: 0.8, delay: i * 0.05, ease: 'easeOut' }}
+                                            viewport={{ once: true }}
+                                            className="h-full bg-gold-400/70"
+                                        />
+                                    </div>
+                                    <span className="pixel-font text-[6px] text-gold-400/60 w-20 text-right shrink-0">
+                                        {xp.toLocaleString()} XP
+                                    </span>
+                                </motion.div>
+                            )
+                        })}
+                    </div>
+                )}
+
+                <a
+                    href="https://codestats.net/users/aimxnaim"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pixel-font text-[6px] text-neutral-600 hover:text-gold-400/60 transition-colors mt-4 block text-center"
+                >
+                    ► CODE::STATS PROFILE
+                </a>
             </motion.div>
         </div>
     )
