@@ -50,17 +50,15 @@ export default function useCodeStats() {
                 const dates = json.dates || {}
                 const dayValues = Object.values(dates)
                 const peak = dayValues.length ? Math.max(...dayValues) : 1
-                const sortedDays = Object.entries(dates).sort((a, b) => (a[0] < b[0] ? 1 : -1))
-
-                const toBar = (entry) =>
-                    entry ? { date: entry[0], xp: entry[1], pct: Math.round((entry[1] / peak) * 100) } : null
+                const totalXp = json.total_xp || 0
+                const newXp = json.new_xp || 0
 
                 setState({
                     langs,
                     machines,
-                    totalXp: json.total_xp || 0,
-                    hp: toBar(sortedDays[0]),
-                    mp: toBar(sortedDays[1]),
+                    totalXp,
+                    hp: { xp: totalXp, pct: 100 },
+                    mp: { xp: newXp, pct: Math.round(((newXp / peak) * 100)) },
                     loading: false,
                     error: false,
                 })
