@@ -33,7 +33,7 @@ const StatBar = ({ id, colorClass, bar }) => (
             />
         </div>
         <span className="text-neutral-500 text-[10px] w-14 text-right tabular-nums">
-            {bar ? `${bar.xp.toLocaleString()}` : "—"}
+            {bar ? `${bar.xp}` : "—"}
         </span>
     </div>
 )
@@ -105,9 +105,9 @@ const Sidebar = () => {
                     </p>
                 </div>
 
-                {/* HP / MP from Code::Stats daily XP */}
+                {/* HP / MP from Code::Stats */}
                 <div className="rpg-panel-dim p-3 flex flex-col gap-2">
-                    <p className="pixel-font text-[6px] text-gold-400/50 tracking-widest mb-1">DAILY XP / LIVE</p>
+                    <p className="pixel-font text-[6px] text-gold-400/50 tracking-widest mb-1">LIVE from <a href="https://codestats.net/users/aimxnaim" target="_blank" rel="noreferrer" className="text-gold-400 hover:underline">Code::Stats </a>· HP=TOTAL · MP=TODAY</p>
                     <StatBar id="HP" colorClass="text-red-400" bar={loading ? null : hp} />
                     <StatBar id="MP" colorClass="text-blue-400" bar={loading ? null : mp} />
                 </div>
@@ -167,7 +167,7 @@ const Sidebar = () => {
                 {/* Compact credits / footer */}
                 <div className="border-t border-gold-400/10 pt-4 flex flex-col items-center gap-1 text-center">
                     <p className="text-[11px] text-neutral-500">Built with React · Tailwind · Framer Motion</p>
-                    <p className="pixel-font text-[6px] text-neutral-600 tracking-widest">© 2026 AIMAN NAIM</p>
+                    <p className="pixel-font text-[6px] text-neutral-600 tracking-widest">© {new Date().getFullYear()} AIMAN NAIM</p>
                 </div>
             </div>
         </motion.aside>
