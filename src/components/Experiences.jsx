@@ -28,8 +28,8 @@ const Experiences = () => {
                 viewport={{ once: true }}
                 className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em]">◄ QUEST LOG ►</span>
-                <h1 className="rpg-font text-5xl lg:text-6xl text-gold-400 tracking-wider">QUEST LOG</h1>
+                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em] w-full">◄ QUEST LOG ►</span>
+                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">QUEST LOG</h1>
                 <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
 
@@ -50,7 +50,7 @@ const Experiences = () => {
                             style={isCurrent ? { borderColor: 'rgba(34,197,94,0.5)' } : {}}
                         >
                             {/* Quest header bar */}
-                            <div className={`flex items-center justify-between px-5 py-3 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/5'}`}>
+                            <div className={`flex flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-5 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/5'}`}>
                                 <div className="flex items-center gap-3">
                                     <span className={`pixel-font text-[7px] px-2 py-1 ${isCurrent ? 'badge-active' : 'badge-completed'}`}>
                                         {isCurrent ? '▶ ACTIVE' : '✓ CLEARED'}
@@ -62,7 +62,7 @@ const Experiences = () => {
                                 </span>
                             </div>
 
-                            <div className="flex gap-4 p-5">
+                            <div className="flex gap-4 p-4 sm:p-5">
                                 {/* Company logo as "quest giver" */}
                                 <div className="flex-shrink-0">
                                     <div className="rpg-panel-sm w-16 h-16 flex items-center justify-center p-2">

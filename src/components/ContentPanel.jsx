@@ -18,7 +18,7 @@ const ContentPanel = () => {
     const ActiveComponent = tabs.find((t) => t.id === active)?.component || CareerSection
 
     return (
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 w-full">
             {/* Top nav */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-6">
                 {tabs.map(({ id, label, shortLabel, icon: Icon }) => {
@@ -41,7 +41,7 @@ const ContentPanel = () => {
             </div>
 
             {/* Panel */}
-            <div className="rpg-panel w-full p-6 shadow-xl">
+            <div className="rpg-panel w-full p-4 sm:p-6 shadow-xl">
                 <div className="flex items-center gap-2 mb-4 border-b border-gold-400/20 pb-3">
                     <span className="w-2 h-2 bg-gold-400 inline-block" />
                     <span className="pixel-font text-[8px] text-gold-400/70 tracking-widest">

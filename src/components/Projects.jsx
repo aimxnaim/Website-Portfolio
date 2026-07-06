@@ -125,8 +125,8 @@ const Projects = () => {
                 viewport={{ once: true }}
                 className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em]">◄ TROPHY ROOM ►</span>
-                <h1 className="rpg-font text-5xl lg:text-6xl text-gold-400 tracking-wider">ACHIEVEMENTS</h1>
+                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em] w-full">◄ TROPHY ROOM ►</span>
+                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">ACHIEVEMENTS</h1>
                 <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
 

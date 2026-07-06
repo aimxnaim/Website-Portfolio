@@ -56,11 +56,11 @@ const ProjectModal = ({ project, onClose }) => {
           </button>
         </div>
 
-        <div className="max-h-[80vh] overflow-y-auto scrollbar-modal p-6">
+        <div className="max-h-[80vh] overflow-y-auto scrollbar-modal p-4 sm:p-6">
           {/* Title + links */}
           <div className="flex items-start justify-between gap-4 mb-5">
             <div>
-              <h2 className="rpg-font text-4xl text-gold-400">{project.title}</h2>
+              <h2 className="rpg-font text-3xl sm:text-4xl text-gold-400">{project.title}</h2>
               {project.subtitle && (
                 <p className="rpg-font text-xl text-neutral-400 mt-1">{project.subtitle}</p>
               )}

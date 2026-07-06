@@ -80,7 +80,7 @@ const Sidebar = () => {
             transition={{ duration: 0.5 }}
             className="w-full lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-6 lg:self-start"
         >
-            <div className="rpg-panel p-5 flex flex-col gap-5">
+            <div className="rpg-panel p-4 sm:p-5 flex flex-col gap-5">
                 {/* Portrait */}
                 <div className="relative mx-auto">
                     <div className="w-32 h-32 rounded-lg border border-gold-400/40 p-1 bg-rpg-panel overflow-hidden">
@@ -93,7 +93,7 @@ const Sidebar = () => {
 
                 {/* Name + meta + class */}
                 <div className="text-center flex flex-col gap-1.5">
-                    <h1 className="rpg-font text-4xl text-gold-400 tracking-wider leading-none">AIMAN NAIM</h1>
+                    <h1 className="rpg-font text-3xl sm:text-4xl text-gold-400 tracking-wider leading-none">AIMAN NAIM</h1>
                     <p className="text-xs text-neutral-400">
                         Kuala Lumpur <span className="text-gold-400/60">·</span> Age {liveAge()}
                     </p>
