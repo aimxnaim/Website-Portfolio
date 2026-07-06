@@ -8,6 +8,10 @@
   font-family: 'Inter', sans-serif;
 }
 
+html, body {
+  background-color: #080b12;
+}
+
 /* ── RPG Typography ── */
 .pixel-font {
   font-family: 'Press Start 2P', monospace;
