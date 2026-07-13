@@ -3,10 +3,13 @@ import gdgetuni from "../assets/project/gdgetuni.png";
 import sentiment from "../assets/project/sentiment_websites.png";
 import rytbank from "../assets/project/ryt-bank.png";
 import ey from "../assets/project/ey.png";
+import uitmLogo from "../assets/project/education/uitm-logo.png";
+import matricLogo from "../assets/project/education/matric-logo.png";
+import mrsmLogo from "../assets/project/education/mrsm-logo.png";
 
-export const HERO_CONTENT = `I am a recent graduate with a BSc in Computer Science (Hons.) with a first-class degree, passionate about full stack development and adept at crafting robust and scalable web applications. Driven by continuous learning and a collaborative spirit, I am committed to developing innovative solutions that elevate user experiences and drive business growth.`;
+export const HERO_CONTENT = `Full stack software engineer with hands-on experience building and maintaining production web applications, from designing reusable front-end libraries to developing secure, scalable backend systems. Driven by continuous learning and a genuine interest in solving real-world problems through clean, maintainable code.`;
 
-export const ABOUT_TEXT = `With nearly 2 years of hands-on programming experience during my university life, I thrive on the challenges of developing websites from scratch. I have honed my skills in front-end technologies like React.js, as well as back-end technologies including Node.js, Express.js, MongoDB, and PostgreSQL. `;
+export const ABOUT_TEXT = `I'm a Full Stack Developer at Ernst & Young, building secure compliance platforms with Angular, Node.js/Express, and TypeScript. I've designed reusable front-end libraries, delivered type-safe REST APIs with Prisma, and shipped full stack projects using the MERN stack — always with a focus on clean, maintainable code.`;
 
 export const EDUCATION = [
     {
@@ -14,18 +17,21 @@ export const EDUCATION = [
         degree: "BSc in Computer Science (Hons.)",
         school: "UiTM Jasin, Melaka",
         description: `CGPA: 3.53/4.00 (first-class degree).`,
+        logo: uitmLogo,
     },
     {
         year: "2018 - 2019",
         degree: "Matriculation",
         school: "Pahang Engineering Matriculation College",
-        description: `CGPA: 3.92/4.00`,
+        description: `CGPA: 3.93/4.00 (First Class Honours)`,
+        logo: matricLogo,
     },
     {
         year: "2017 - 2018",
         degree: "SPM",
         school: "MRSM Imtiaz YT Ketengah, Terengganu",
         description: `8A 2B+`,
+        logo: mrsmLogo,
     },
 ];
 export const EXPERIENCES = [
@@ -35,19 +41,21 @@ export const EXPERIENCES = [
         role: "Full Stack Developer",
         company: "Ernst & Young",
         description: [
-            `Currently engaged as a Full Stack Developer on a client project for CCOB Bank Negara, where I am responsible for the development, maintenance, and troubleshooting of CCOB’s web applications. Our tech stack includes Angular for frontend development; Node.js, Express, and Prisma for backend operations; Bootstrap for responsive design; GitHub for version control; JIRA for project management; Swagger for API documentation; and Jasmine as a testing framework.`
+            `Spearheading development of a dual-portal compliance submission platform for Malaysia's Consumer Credit Commission (CCC), built with Angular, Node.js/Express, and TypeScript.`,
+            `Designed and published two reusable Angular libraries — a dynamic form engine and view renderer — now powering 20+ regulatory submission forms in production.`,
+            `Implemented role-based access control, PDF generation, and email notification pipelines, and integrated Firebase Authentication with TOTP/MFA to strengthen account security.`
         ],
-        technologies: ["Angular", "Node.js", "Express", "Prisma", "Bootstrap", "GitHub", "JIRA", "Swagger", "Jasmine", "TypeScript", "Javascript", "Postman", "RESTful API"],
+        technologies: ["Angular", "Node.js", "Express", "TypeScript", "Prisma", "TSOA", "Firebase Auth", "GCP", "RBAC", "CI/CD", "JIRA", "RESTful API"],
     },
     {
         image : rytbank,
         year: "September 2023 - March 2024",
-        role: "Tech Intern",
+        role: "Tech Intern, Software Development Testing",
         company: "Ryt Bank",
         description: [
-            `Conducted user acceptance testing (UAT) on a digital banking application utilizing Jira for test case management and bug reporting. Identified and reported inconsistencies in functionalities like low-risk and high-risk transfer relevant to digital banking operations.`,
-            `Use Alibaba Cloud KMS to simulate data encryption by using two methods: Alibaba Cloud commandline interface (CLI) and SDK. In SDK mode, Flask, a microframework written in Python, is used to simulate a simple process of data encryption between server and client.`,
-            `Set up a typical web application on Alibaba Cloud by using Alibaba Cloud services such as Elastic Compute Service (ECS), ApsaraDB for RDS (RDS), Object Storage Service (OSS), Server Load Balancer (SLB).`
+            `Executed 50+ test cases via JIRA during UAT of a digital banking application, covering payment and transfer flows and reporting defects through to resolution.`,
+            `Simulated end-to-end data encryption workflows using Alibaba Cloud KMS via CLI and SDK, building a Python Flask microservice to demonstrate secure server-client data exchange.`,
+            `Provisioned and configured a web application environment on Alibaba Cloud using ECS, RDS, OSS, and SLB.`
         ],
         technologies: ["Digital Banking Experience", "Test Case Management", "Jira", "UAT Testing", "Python Flask", "ECS", "RDS", "OSS", "SLB", "Alibaba Cloud KMS"],
     },

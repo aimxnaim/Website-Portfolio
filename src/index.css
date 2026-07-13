@@ -107,6 +107,33 @@ html, body {
 }
 .blink { animation: blink 1s step-end infinite; }
 
+/* ── Timeline gem node ── */
+.timeline-gem {
+  width: 11px;
+  height: 11px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #f7d774, #f0c040);
+  box-shadow: 0 0 8px rgba(240, 192, 64, 0.55), 0 0 2px rgba(240, 192, 64, 0.9);
+  animation: gem-pulse 2s ease-in-out infinite;
+}
+.timeline-gem.is-goal {
+  background: linear-gradient(135deg, #6ee7a0, #22c55e);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.55), 0 0 2px rgba(34, 197, 94, 0.9);
+}
+@keyframes gem-pulse {
+  0%, 100% { transform: rotate(45deg) scale(1);   opacity: 0.85; }
+  50%      { transform: rotate(45deg) scale(1.25); opacity: 1; }
+}
+
+/* ── Timeline flowing line ── */
+.timeline-line {
+  width: 2px;
+  background-image: linear-gradient(to bottom, rgba(240,192,64,0.5), rgba(240,192,64,0.15));
+}
+.timeline-line.is-goal {
+  background-image: linear-gradient(to bottom, rgba(240,192,64,0.5), rgba(34,197,94,0.5));
+}
+
 /* ── Typing cursor ── */
 @keyframes cursor-blink {
   0%, 49% { border-right-color: #f0c040; }
@@ -180,7 +207,7 @@ html, body {
 .rpg-menu-btn {
   font-family: 'Press Start 2P', monospace;
   font-size: 9px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   transition: color 0.15s, background 0.15s;
   border: 2px solid transparent;
 }

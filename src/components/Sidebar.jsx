@@ -1,10 +1,8 @@
 import { useState } from "react"
-import PropTypes from "prop-types"
 import { motion } from "framer-motion"
 import { Cursor, useTypewriter } from "react-simple-typewriter"
 import { FaLinkedin, FaGithub, FaInstagram, FaThreads, FaDiscord, FaFilePdf } from "react-icons/fa6"
 import logo from "../assets/aiman.jpg"
-import useCodeStats from "../hooks/useCodeStats"
 
 const BIRTH_YEAR = 2001
 const BIRTH_MONTH = 12 // December (1-indexed)
@@ -21,31 +19,7 @@ const downloadResume = () => {
     link.click()
 }
 
-const StatBar = ({ id, colorClass, bar }) => (
-    <div className="flex items-center gap-2">
-        <span className={`pixel-font text-[7px] w-5 ${colorClass}`}>{id}</span>
-        <div className="stat-bar-track flex-1">
-            <motion.div
-                className={`stat-bar-fill ${id === "HP" ? "bar-hp" : "bar-mp"}`}
-                initial={{ width: 0 }}
-                animate={{ width: bar ? `${Math.max(bar.pct, 4)}%` : "0%" }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-            />
-        </div>
-        <span className="text-neutral-500 text-[10px] w-14 text-right tabular-nums">
-            {bar ? `${bar.xp}` : "—"}
-        </span>
-    </div>
-)
-
-StatBar.propTypes = {
-    id: PropTypes.string.isRequired,
-    colorClass: PropTypes.string.isRequired,
-    bar: PropTypes.shape({ xp: PropTypes.number, pct: PropTypes.number }),
-}
-
 const Sidebar = () => {
-    const { hp, mp, loading } = useCodeStats()
     const [copied, setCopied] = useState(false)
 
     const [klass] = useTypewriter({
@@ -86,7 +60,7 @@ const Sidebar = () => {
                     <div className="w-32 h-32 rounded-lg border border-gold-400/40 p-1 bg-rpg-panel overflow-hidden">
                         <img src={logo} alt="Aiman Naim" className="w-full h-full object-cover rounded-md" />
                     </div>
-                    <span className="absolute -bottom-1.5 -right-1.5 pixel-font text-[7px] bg-gold-400 text-rpg-bg px-1.5 py-0.5 rounded leading-none">
+                    <span className="absolute -bottom-1.5 -right-1.5 pixel-font text-[8px] bg-gold-400 text-rpg-bg px-1.5 py-0.5 rounded leading-none">
                         LV.{liveAge()}
                     </span>
                 </div>
@@ -105,13 +79,6 @@ const Sidebar = () => {
                     </p>
                 </div>
 
-                {/* HP / MP from Code::Stats */}
-                <div className="rpg-panel-dim p-3 flex flex-col gap-2">
-                    <p className="pixel-font text-[6px] text-gold-400/50 tracking-widest mb-1">LIVE from <a href="https://codestats.net/users/aimxnaim" target="_blank" rel="noreferrer" className="text-gold-400 hover:underline">Code::Stats </a>· HP=TOTAL · MP=TODAY</p>
-                    <StatBar id="HP" colorClass="text-red-400" bar={loading ? null : hp} />
-                    <StatBar id="MP" colorClass="text-blue-400" bar={loading ? null : mp} />
-                </div>
-
                 {/* Socials */}
                 <div className="grid grid-cols-3 gap-2">
                     {socials.map(({ Icon, label, href, title }) => (
@@ -126,7 +93,7 @@ const Sidebar = () => {
                             className="rpg-panel-dim p-2 flex flex-col items-center gap-1 text-neutral-400 hover:text-gold-400 hover:border-gold-400/60 transition-colors"
                         >
                             <Icon className="text-lg" />
-                            <span className="pixel-font text-[6px]">{label}</span>
+                            <span className="pixel-font text-[8px]">{label}</span>
                         </motion.a>
                     ))}
 
@@ -139,7 +106,7 @@ const Sidebar = () => {
                         className="rpg-panel-dim p-2 flex flex-col items-center gap-1 text-neutral-400 hover:text-gold-400 hover:border-gold-400/60 transition-colors"
                     >
                         <FaDiscord className="text-lg" />
-                        <span className="pixel-font text-[6px]">{copied ? "COPIED" : "DISCORD"}</span>
+                        <span className="pixel-font text-[8px]">{copied ? "COPIED" : "DISCORD"}</span>
                     </motion.button>
 
                     {/* Resume — download */}
@@ -151,13 +118,13 @@ const Sidebar = () => {
                         className="rpg-panel-sm p-2 flex flex-col items-center gap-1 text-gold-400 hover:bg-gold-400/10 transition-colors"
                     >
                         <FaFilePdf className="text-lg" />
-                        <span className="pixel-font text-[6px]">RESUME</span>
+                        <span className="pixel-font text-[8px]">RESUME</span>
                     </motion.button>
                 </div>
 
                 {/* Quote */}
                 <div className="dialog-box">
-                    <p className="pixel-font text-[7px] text-gold-400/60 tracking-widest mb-2">WORDS I LIVE BY</p>
+                    <p className="pixel-font text-[8px] text-gold-400/60 tracking-widest mb-2">WORDS I LIVE BY</p>
                     <p className="text-sm text-neutral-200 italic leading-relaxed">
                         “So surely with hardships comes ease”
                     </p>
@@ -167,7 +134,7 @@ const Sidebar = () => {
                 {/* Compact credits / footer */}
                 <div className="border-t border-gold-400/10 pt-4 flex flex-col items-center gap-1 text-center">
                     <p className="text-[11px] text-neutral-500">Built with React · Tailwind · Framer Motion</p>
-                    <p className="pixel-font text-[6px] text-neutral-600 tracking-widest">© {new Date().getFullYear()} AIMAN NAIM</p>
+                    <p className="pixel-font text-[8px] text-neutral-600 tracking-widest">© {new Date().getFullYear()} AIMAN NAIM</p>
                 </div>
             </div>
         </motion.aside>

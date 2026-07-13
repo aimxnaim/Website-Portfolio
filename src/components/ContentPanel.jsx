@@ -7,10 +7,10 @@ import Projects from "./Projects"
 import Uses from "./Uses"
 
 const tabs = [
-    { id: "career",    label: "QUEST LOG",    shortLabel: "CAREER",  icon: FaBriefcase,     component: CareerSection },
-    { id: "education", label: "ORIGIN STORY", shortLabel: "ORIGIN",  icon: FaGraduationCap, component: Education },
-    { id: "projects",  label: "ACHIEVEMENTS", shortLabel: "ACHIEVE", icon: FaFolderOpen,    component: Projects },
-    { id: "uses",      label: "EQUIPMENT",    shortLabel: "USES",    icon: FaCogs,          component: Uses },
+    { id: "career",    label: "CAREER",     shortLabel: "CAREER",  icon: FaBriefcase,     component: CareerSection },
+    { id: "education", label: "EDUCATION",  shortLabel: "EDU",     icon: FaGraduationCap, component: Education },
+    { id: "projects",  label: "PROJECTS",   shortLabel: "PROJECTS",icon: FaFolderOpen,    component: Projects },
+    { id: "uses",      label: "TECH STACK", shortLabel: "STACK",   icon: FaCogs,          component: Uses },
 ]
 
 const ContentPanel = () => {
@@ -44,7 +44,7 @@ const ContentPanel = () => {
             <div className="rpg-panel w-full p-4 sm:p-6 shadow-xl">
                 <div className="flex items-center gap-2 mb-4 border-b border-gold-400/20 pb-3">
                     <span className="w-2 h-2 bg-gold-400 inline-block" />
-                    <span className="pixel-font text-[8px] text-gold-400/70 tracking-widest">
+                    <span className="pixel-font text-[9px] text-gold-400/70 tracking-widest">
                         {tabs.find((t) => t.id === active)?.label}
                     </span>
                 </div>

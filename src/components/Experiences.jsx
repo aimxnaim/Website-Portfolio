@@ -28,8 +28,8 @@ const Experiences = () => {
                 viewport={{ once: true }}
                 className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em] w-full">◄ QUEST LOG ►</span>
-                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">QUEST LOG</h1>
+                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.15em] w-full">◄ CAREER ►</span>
+                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">CAREER</h1>
                 <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
 
@@ -52,57 +52,54 @@ const Experiences = () => {
                             {/* Quest header bar */}
                             <div className={`flex flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-5 border-b ${isCurrent ? 'border-green-500/30 bg-green-500/5' : 'border-gold-400/15 bg-gold-400/5'}`}>
                                 <div className="flex items-center gap-3">
-                                    <span className={`pixel-font text-[7px] px-2 py-1 ${isCurrent ? 'badge-active' : 'badge-completed'}`}>
-                                        {isCurrent ? '▶ ACTIVE' : '✓ CLEARED'}
+                                    <span className={`pixel-font text-[8px] px-2 py-1 ${isCurrent ? 'badge-active' : 'badge-completed'}`}>
+                                        {isCurrent ? '▶ CURRENT' : '✓ PAST'}
                                     </span>
                                     <span className="rpg-font text-xl text-neutral-300">{experience.year}</span>
                                 </div>
-                                <span className="pixel-font text-[7px] text-gold-400/60 bg-gold-400/10 border border-gold-400/25 px-2 py-1">
+                                <span className="pixel-font text-[8px] text-gold-400/60 bg-gold-400/10 border border-gold-400/25 px-2 py-1">
                                     {duration}
                                 </span>
                             </div>
 
-                            <div className="flex gap-4 p-4 sm:p-5">
-                                {/* Company logo as "quest giver" */}
+                            <div className="flex gap-3 sm:gap-4 p-4 sm:p-5">
+                                {/* Company logo */}
                                 <div className="flex-shrink-0">
-                                    <div className="rpg-panel-sm w-16 h-16 flex items-center justify-center p-2">
+                                    <div className="rpg-panel-sm w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center p-2">
                                         <img
                                             src={experience.image}
                                             alt={experience.company}
                                             className="w-full h-full object-contain"
                                         />
                                     </div>
-                                    <p className="pixel-font text-[6px] text-gold-400/50 text-center mt-1 leading-tight">QUEST<br/>GIVER</p>
                                 </div>
 
-                                {/* Quest details */}
+                                {/* Role details */}
                                 <div className="flex-1 min-w-0">
                                     <div className="mb-3">
-                                        <h6 className="rpg-font text-2xl text-gold-400">{experience.role}</h6>
-                                        <p className="pixel-font text-[8px] text-neutral-400 mt-0.5">{experience.company}</p>
+                                        <h6 className="rpg-font text-xl sm:text-2xl text-gold-400">{experience.role}</h6>
+                                        <p className="pixel-font text-[9px] text-neutral-400 mt-0.5">{experience.company}</p>
                                     </div>
 
-                                    {/* Objectives */}
                                     <div className="mb-4">
-                                        <p className="pixel-font text-[7px] text-gold-400/60 mb-2">OBJECTIVES</p>
                                         <ul className="space-y-2">
                                             {experience.description.map((desc, idx) => (
                                                 <li key={idx} className="flex items-start gap-2 text-neutral-300">
                                                     <span className="text-gold-400 mt-1 flex-shrink-0 text-xs">►</span>
-                                                    <span className="rpg-font text-lg leading-snug">{desc}</span>
+                                                    <span className="text-sm sm:text-base leading-relaxed">{desc}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     </div>
 
-                                    {/* Rewards */}
+                                    {/* Tech stack */}
                                     <div>
-                                        <p className="pixel-font text-[7px] text-gold-400/60 mb-2">SKILLS REWARDED</p>
+                                        <p className="pixel-font text-[8px] text-gold-400/60 mb-2">SKILLS USED</p>
                                         <div className="flex flex-wrap gap-1.5">
                                             {experience.technologies.map((tech, idx) => (
                                                 <span
                                                     key={idx}
-                                                    className="pixel-font text-[6px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30"
+                                                    className="pixel-font text-[8px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30"
                                                 >
                                                     +{tech}
                                                 </span>
