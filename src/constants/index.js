@@ -44,7 +44,7 @@ export const EXPERIENCES = [
     {
         image : rytbank,
         year: "September 2023 - March 2024",
-        role: "Tech Intern",
+        role: "Tech Intern, Software Development Testing",
         company: "Ryt Bank",
         description: [
             `Executed 50+ test cases via JIRA during UAT of a digital banking application, covering payment and transfer flows and reporting defects through to resolution.`,
