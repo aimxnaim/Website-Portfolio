@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { EDUCATION } from "../constants";
 import { motion } from "framer-motion";
 import { FaSchool, FaBookOpen, FaGraduationCap } from "react-icons/fa";
@@ -35,18 +36,36 @@ const Education = () => {
       </motion.div>
 
       {/* Timeline */}
-      <div className="max-w-2xl mx-auto flex flex-col gap-3 sm:gap-4">
+      <div className="max-w-2xl mx-auto grid grid-cols-[56px_1fr] sm:grid-cols-[64px_1fr] gap-x-3 sm:gap-x-4 gap-y-0">
         {[...EDUCATION].reverse().map((education, index) => {
           const isLast = index === EDUCATION.length - 1
           const Icon = STAGE_ICONS[index]
           return (
-            <motion.div key={index}>
+            <Fragment key={index}>
+              {/* Rail: logo/icon node + connecting line down to the next stage */}
+              <div className="flex flex-col items-center">
+                <div className="rpg-panel-sm w-14 h-14 flex items-center justify-center flex-shrink-0 overflow-hidden bg-white/5">
+                  {education.logo ? (
+                    <img src={education.logo} alt={education.school} className="w-full h-full object-contain p-1.5" />
+                  ) : (
+                    <Icon className="text-2xl text-gold-400/80" />
+                  )}
+                </div>
+                {!isLast && (
+                  <div className="flex-1 flex flex-col items-center py-1 min-h-[28px]">
+                    <div className="w-px flex-1 bg-gradient-to-b from-gold-400/40 to-gold-400/20" />
+                    <span className="text-gold-400/50 text-xs leading-none">▼</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Card */}
               <motion.div
                 whileInView={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.5, delay: index * 0.12 }}
                 viewport={{ once: true }}
-                className={`rpg-panel-dim p-0 overflow-hidden ${isLast ? 'border-green-500/50' : ''}`}
+                className={`rpg-panel-dim p-0 overflow-hidden mb-3 sm:mb-4 ${isLast ? 'border-green-500/50' : ''}`}
                 style={isLast ? { borderColor: 'rgba(34,197,94,0.5)' } : {}}
               >
                 {/* Header bar */}
@@ -60,31 +79,15 @@ const Education = () => {
                 </div>
 
                 {/* Body */}
-                <div className="flex gap-3 sm:gap-4 p-4 sm:p-5">
-                  <div className="flex-shrink-0">
-                    <div className="rpg-panel-sm w-14 h-14 flex items-center justify-center">
-                      <Icon className="text-2xl text-gold-400/80" />
-                    </div>
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <h6 className="rpg-font text-xl sm:text-2xl text-gold-400 leading-tight">{education.degree}</h6>
-                    <p className="pixel-font text-[9px] text-neutral-400 mt-1">{education.school}</p>
-                    <span className="inline-flex items-center gap-1.5 mt-3 pixel-font text-[8px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30">
-                      ★ {education.description}
-                    </span>
-                  </div>
+                <div className="p-4 sm:p-5">
+                  <h6 className="rpg-font text-xl sm:text-2xl text-gold-400 leading-tight">{education.degree}</h6>
+                  <p className="pixel-font text-[9px] text-neutral-400 mt-1">{education.school}</p>
+                  <span className="inline-flex items-center gap-1.5 mt-3 pixel-font text-[8px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30">
+                    ★ {education.description}
+                  </span>
                 </div>
               </motion.div>
-
-              {/* Flow connector to next stage */}
-              {!isLast && (
-                <div className="w-14 flex flex-col items-center py-1">
-                  <div className="w-px h-3 bg-gradient-to-b from-gold-400/40 to-gold-400/10" />
-                  <span className="text-gold-400/50 text-xs leading-none">▼</span>
-                </div>
-              )}
-            </motion.div>
+            </Fragment>
           )
         })}
       </div>
