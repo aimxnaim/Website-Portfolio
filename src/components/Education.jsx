@@ -36,7 +36,7 @@ const Education = () => {
       </motion.div>
 
       {/* Timeline */}
-      <div className="max-w-2xl mx-auto grid grid-cols-[56px_1fr] sm:grid-cols-[64px_1fr] gap-x-3 sm:gap-x-4 gap-y-0">
+      <div className="max-w-2xl mx-auto grid grid-cols-[68px_1fr] sm:grid-cols-[80px_1fr] gap-x-3 sm:gap-x-4 gap-y-0">
         {[...EDUCATION].reverse().map((education, index) => {
           const isLast = index === EDUCATION.length - 1
           const Icon = STAGE_ICONS[index]
@@ -44,11 +44,13 @@ const Education = () => {
             <Fragment key={index}>
               {/* Rail: logo/icon node + connecting line down to the next stage */}
               <div className="flex flex-col items-center">
-                <div className="rpg-panel-sm w-14 h-14 flex items-center justify-center flex-shrink-0">
+                <div className="rpg-panel-sm w-[68px] h-[68px] sm:w-20 sm:h-20 p-1.5 flex items-center justify-center flex-shrink-0">
                   {education.logo ? (
-                    <img src={education.logo} alt={education.school} className="w-full h-full object-contain p-1" />
+                    <div className="w-full h-full rounded bg-white flex items-center justify-center overflow-hidden">
+                      <img src={education.logo} alt={education.school} className="w-full h-full object-contain p-0.5" />
+                    </div>
                   ) : (
-                    <Icon className="text-2xl text-gold-400/80" />
+                    <Icon className="text-3xl text-gold-400/80" />
                   )}
                 </div>
                 {!isLast && (
