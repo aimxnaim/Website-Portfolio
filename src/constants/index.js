@@ -3,6 +3,9 @@ import gdgetuni from "../assets/project/gdgetuni.png";
 import sentiment from "../assets/project/sentiment_websites.png";
 import rytbank from "../assets/project/ryt-bank.png";
 import ey from "../assets/project/ey.png";
+import uitmLogo from "../assets/project/education/uitm-logo.png";
+import matricLogo from "../assets/project/education/matric-logo.png";
+import mrsmLogo from "../assets/project/education/mrsm-logo.png";
 
 export const HERO_CONTENT = `Full stack software engineer with hands-on experience building and maintaining production web applications, from designing reusable front-end libraries to developing secure, scalable backend systems. Driven by continuous learning and a genuine interest in solving real-world problems through clean, maintainable code.`;
 
@@ -14,18 +17,21 @@ export const EDUCATION = [
         degree: "BSc in Computer Science (Hons.)",
         school: "UiTM Jasin, Melaka",
         description: `CGPA: 3.53/4.00 (first-class degree).`,
+        logo: uitmLogo,
     },
     {
         year: "2018 - 2019",
         degree: "Matriculation",
         school: "Pahang Engineering Matriculation College",
         description: `CGPA: 3.93/4.00 (First Class Honours)`,
+        logo: matricLogo,
     },
     {
         year: "2017 - 2018",
         degree: "SPM",
         school: "MRSM Imtiaz YT Ketengah, Terengganu",
         description: `8A 2B+`,
+        logo: mrsmLogo,
     },
 ];
 export const EXPERIENCES = [
