@@ -5,9 +5,9 @@ import { PROJECTS, SMALL_PROJECTS } from '../constants';
 import ProjectModal from './ProjectModal';
 
 const RARITY = {
-    legendary: { label: '★★★ LEGENDARY', borderClass: 'rarity-legendary', color: 'text-gold-400', bg: 'bg-gold-400/5' },
-    rare:      { label: '★★  RARE',       borderClass: 'rarity-rare',      color: 'text-indigo-400', bg: 'bg-indigo-400/5' },
-    common:    { label: '★    COMMON',    borderClass: 'rarity-common',    color: 'text-neutral-400', bg: 'bg-neutral-800/30' },
+    legendary: { label: 'FEATURED', borderClass: 'rarity-legendary', color: 'text-gold-400', bg: 'bg-gold-400/5' },
+    rare:      { label: 'PROJECT',  borderClass: 'rarity-rare',      color: 'text-indigo-400', bg: 'bg-indigo-400/5' },
+    common:    { label: 'PROJECT',  borderClass: 'rarity-common',    color: 'text-neutral-400', bg: 'bg-neutral-800/30' },
 }
 
 const AchievementCard = ({ project, index, onOpen }) => {
@@ -25,8 +25,8 @@ const AchievementCard = ({ project, index, onOpen }) => {
         >
             {/* Achievement banner */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-700/40">
-                <span className={`pixel-font text-[7px] ${rarity.color}`}>{rarity.label}</span>
-                <span className="pixel-font text-[7px] text-neutral-600">CLICK TO VIEW</span>
+                <span className={`pixel-font text-[10px] ${rarity.color}`}>{rarity.label}</span>
+                <span className="pixel-font text-[10px] text-neutral-600">CLICK TO VIEW</span>
             </div>
 
             {/* Badge area */}
@@ -37,12 +37,11 @@ const AchievementCard = ({ project, index, onOpen }) => {
                         {project.featured ? '🏆' : '🎖'}
                     </div>
                     <div>
-                        <p className="pixel-font text-[7px] text-neutral-500 leading-tight">ACHIEVEMENT UNLOCKED</p>
-                        <h3 className="rpg-font text-xl text-neutral-100 leading-tight mt-0.5">{project.title}</h3>
+                        <h3 className="rpg-font text-xl text-neutral-100 leading-tight">{project.title}</h3>
                     </div>
                 </div>
 
-                <p className="rpg-font text-lg text-neutral-400 leading-snug mb-4 line-clamp-2">{project.subtitle}</p>
+                <p className="text-sm text-neutral-400 leading-snug mb-4 line-clamp-2">{project.subtitle}</p>
 
                 {/* Action links */}
                 <div className="flex gap-2 flex-wrap">
@@ -52,9 +51,9 @@ const AchievementCard = ({ project, index, onOpen }) => {
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="pixel-font text-[7px] flex items-center gap-1.5 px-3 py-1.5 border border-gold-400/30 text-gold-400/80 hover:bg-gold-400/10 hover:border-gold-400/60 transition-colors"
+                            className="pixel-font text-[10px] flex items-center gap-1.5 px-3 py-1.5 border border-gold-400/30 text-gold-400/80 hover:bg-gold-400/10 hover:border-gold-400/60 transition-colors"
                         >
-                            <FaGithub /> CODE
+                            <FaGithub /> GITHUB
                         </a>
                     )}
                     {project.liveLink && (
@@ -63,9 +62,9 @@ const AchievementCard = ({ project, index, onOpen }) => {
                             target="_blank"
                             rel="noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="pixel-font text-[7px] flex items-center gap-1.5 px-3 py-1.5 border border-gold-400/30 text-gold-400/80 hover:bg-gold-400/10 hover:border-gold-400/60 transition-colors"
+                            className="pixel-font text-[10px] flex items-center gap-1.5 px-3 py-1.5 border border-gold-400/30 text-gold-400/80 hover:bg-gold-400/10 hover:border-gold-400/60 transition-colors"
                         >
-                            <FaGlobe /> PLAY
+                            <FaGlobe /> LIVE DEMO
                         </a>
                     )}
                 </div>
@@ -84,28 +83,24 @@ const SmallCard = ({ project, index, onOpen }) => (
         onClick={() => onOpen(project)}
         className="relative w-full max-w-[340px] border-2 rarity-common bg-neutral-900/40 p-0 text-left focus:outline-none focus:ring-2 focus:ring-gold-400/30"
     >
-        <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-700/40">
-            <span className="pixel-font text-[7px] text-neutral-500">★    COMMON</span>
-            <span className="pixel-font text-[7px] text-neutral-600">CLICK TO VIEW</span>
+        <div className="flex items-center justify-end px-4 py-2 border-b border-neutral-700/40">
+            <span className="pixel-font text-[10px] text-neutral-600">CLICK TO VIEW</span>
         </div>
         <div className="px-5 pt-4 pb-4">
             <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 border border-neutral-700 flex items-center justify-center text-xl">🎮</div>
-                <div>
-                    <p className="pixel-font text-[7px] text-neutral-600">SIDE QUEST</p>
-                    <h3 className="rpg-font text-xl text-neutral-300 leading-tight mt-0.5">{project.title}</h3>
-                </div>
+                <h3 className="rpg-font text-xl text-neutral-300 leading-tight">{project.title}</h3>
             </div>
-            <p className="rpg-font text-lg text-neutral-500 line-clamp-2">{project.subtitle}</p>
+            <p className="text-sm text-neutral-500 line-clamp-2">{project.subtitle}</p>
             {project.githubLink && (
                 <a
                     href={project.githubLink}
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="pixel-font text-[7px] inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 border border-neutral-700 text-neutral-500 hover:border-gold-400/40 hover:text-gold-400/70 transition-colors"
+                    className="pixel-font text-[10px] inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 border border-neutral-700 text-neutral-500 hover:border-gold-400/40 hover:text-gold-400/70 transition-colors"
                 >
-                    <FaGithub /> CODE
+                    <FaGithub /> GITHUB
                 </a>
             )}
         </div>
@@ -125,15 +120,15 @@ const Projects = () => {
                 viewport={{ once: true }}
                 className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em] w-full">◄ TROPHY ROOM ►</span>
-                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">ACHIEVEMENTS</h1>
+                <span className="pixel-font text-[11px] text-gold-400/60 tracking-[0.15em] w-full">◄ PROJECTS ►</span>
+                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">PROJECTS</h1>
                 <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
 
             <div className="max-w-5xl mx-auto px-2 flex flex-col items-center gap-10">
-                {/* Legendary + Rare achievements */}
+                {/* Featured projects */}
                 <div>
-                    <p className="pixel-font text-[7px] text-gold-400/50 text-center mb-5 tracking-widest">MAIN QUESTS COMPLETED</p>
+                    <p className="pixel-font text-[10px] text-gold-400/50 text-center mb-5 tracking-widest">FEATURED PROJECTS</p>
                     <div className="flex flex-wrap justify-center gap-6">
                         {PROJECTS.map((p, i) => (
                             <AchievementCard key={p.title} project={p} index={i} onOpen={setSelected} />
@@ -141,9 +136,9 @@ const Projects = () => {
                     </div>
                 </div>
 
-                {/* Common achievements */}
+                {/* Other projects */}
                 <div>
-                    <p className="pixel-font text-[7px] text-neutral-600 text-center mb-5 tracking-widest">SIDE QUESTS COMPLETED</p>
+                    <p className="pixel-font text-[10px] text-neutral-600 text-center mb-5 tracking-widest">OTHER PROJECTS</p>
                     <div className="flex flex-wrap justify-center gap-6">
                         {SMALL_PROJECTS.map((p, i) => (
                             <SmallCard key={p.title} project={p} index={i} onOpen={setSelected} />

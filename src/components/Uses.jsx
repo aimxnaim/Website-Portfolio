@@ -44,7 +44,7 @@ const XpBars = ({ items, maxXp }) => (
                     viewport={{ once: true }}
                     className="flex items-center gap-3"
                 >
-                    <span className="pixel-font text-[7px] text-neutral-400 w-20 sm:w-28 shrink-0 truncate">{name}</span>
+                    <span className="pixel-font text-[10px] text-neutral-400 w-24 sm:w-32 shrink-0 truncate">{name}</span>
                     <div className="flex-1 h-2 bg-neutral-800 border border-neutral-700 relative overflow-hidden">
                         <motion.div
                             initial={{ width: 0 }}
@@ -54,7 +54,7 @@ const XpBars = ({ items, maxXp }) => (
                             className="h-full bg-gold-400/70"
                         />
                     </div>
-                    <span className="pixel-font text-[6px] text-gold-400/60 w-14 sm:w-20 text-right shrink-0">
+                    <span className="pixel-font text-[10px] text-gold-400/60 w-14 sm:w-20 text-right shrink-0">
                         {xp.toLocaleString()} XP
                     </span>
                 </motion.div>
@@ -74,12 +74,12 @@ XpBars.propTypes = {
 
 const StatsBlock = ({ title, items, loading, error }) => (
     <div>
-        <p className="pixel-font text-[7px] text-gold-400/50 mb-4 tracking-widest">{title}</p>
+        <p className="pixel-font text-[10px] text-gold-400/50 mb-4 tracking-widest">{title}</p>
         {loading && (
-            <p className="pixel-font text-[7px] text-neutral-500 text-center py-4 animate-pulse">LOADING STATS...</p>
+            <p className="pixel-font text-[10px] text-neutral-500 text-center py-4 animate-pulse">LOADING STATS...</p>
         )}
         {error && (
-            <p className="pixel-font text-[7px] text-red-400/60 text-center py-4">FAILED TO LOAD STATS</p>
+            <p className="pixel-font text-[10px] text-red-400/60 text-center py-4">FAILED TO LOAD STATS</p>
         )}
         {!loading && !error && items.length > 0 && (
             <XpBars items={items} maxXp={items[0].xp || 1} />
@@ -107,8 +107,8 @@ const Uses = () => {
                 viewport={{ once: true }}
                 className="my-10 text-center flex flex-col items-center gap-3"
             >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.3em] w-full">◄ EQUIPMENT SCREEN ►</span>
-                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">USES &amp; LOADOUT</h1>
+                <span className="pixel-font text-[11px] text-gold-400/60 tracking-[0.15em] w-full">◄ TECH STACK ►</span>
+                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">TECH STACK</h1>
                 <div className="h-0.5 w-32 bg-gold-400/40" />
             </motion.div>
 
@@ -121,7 +121,7 @@ const Uses = () => {
                     viewport={{ once: true }}
                     className="rpg-panel p-4 sm:p-6"
                 >
-                    <p className="pixel-font text-[7px] text-gold-400/50 tracking-widest mb-4">EQUIPPED TOOLS</p>
+                    <p className="pixel-font text-[10px] text-gold-400/50 tracking-widest mb-4">TOOLS I USE</p>
                     <div className="marquee">
                         <div className="marquee-track gap-3">
                             {[...TOOLS, ...TOOLS].map(({ icon: Icon, color, label }, i) => (
@@ -147,20 +147,20 @@ const Uses = () => {
                     className="rpg-panel p-4 sm:p-6 flex flex-col gap-8"
                 >
                     <div className="flex items-center justify-between flex-wrap gap-2">
-                        <p className="pixel-font text-[8px] text-gold-400/70 tracking-widest">CODE::STATS / LIVE</p>
+                        <p className="pixel-font text-[11px] text-gold-400/70 tracking-widest">CODE::STATS / LIVE</p>
                         {!loading && !error && (
-                            <span className="pixel-font text-[7px] text-gold-400/70">TOTAL XP: {totalXp.toLocaleString()}</span>
+                            <span className="pixel-font text-[10px] text-gold-400/70">TOTAL XP: {totalXp.toLocaleString()}</span>
                         )}
                     </div>
 
                     <StatsBlock title="LANGUAGE PROFICIENCY" items={langs} loading={loading} error={error} />
-                    <StatsBlock title="MACHINE XP" items={machines} loading={loading} error={error} />
+                    <StatsBlock title="TIME BY MACHINE" items={machines} loading={loading} error={error} />
 
                     <a
                         href="https://codestats.net/users/aimxnaim"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="pixel-font text-[6px] text-neutral-600 hover:text-gold-400/60 transition-colors text-center"
+                        className="pixel-font text-[10px] text-neutral-600 hover:text-gold-400/60 transition-colors text-center"
                     >
                         ► CODE::STATS PROFILE
                     </a>
@@ -174,7 +174,7 @@ const Uses = () => {
                     viewport={{ once: true }}
                     className="rpg-panel p-4 sm:p-6"
                 >
-                    <p className="pixel-font text-[7px] text-gold-400/50 mb-4 tracking-widest">GEAR / PHYSICAL LOADOUT</p>
+                    <p className="pixel-font text-[10px] text-gold-400/50 mb-4 tracking-widest">HARDWARE SETUP</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {GEAR.map(({ icon: Icon, label }) => (
                             <div key={label} className="inv-slot p-4 flex flex-col items-center gap-2">
