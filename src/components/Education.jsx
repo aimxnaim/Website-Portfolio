@@ -44,11 +44,9 @@ const Education = () => {
             <Fragment key={index}>
               {/* Rail: logo/icon node + connecting line down to the next stage */}
               <div className="flex flex-col items-center">
-                <div className="rpg-panel-sm w-14 h-14 p-1 flex items-center justify-center flex-shrink-0">
+                <div className="rpg-panel-sm w-14 h-14 flex items-center justify-center flex-shrink-0">
                   {education.logo ? (
-                    <div className="w-full h-full rounded bg-white flex items-center justify-center overflow-hidden">
-                      <img src={education.logo} alt={education.school} className="w-full h-full object-contain p-1" />
-                    </div>
+                    <img src={education.logo} alt={education.school} className="w-full h-full object-contain p-1" />
                   ) : (
                     <Icon className="text-2xl text-gold-400/80" />
                   )}
