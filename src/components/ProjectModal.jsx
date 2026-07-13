@@ -45,7 +45,7 @@ const ProjectModal = ({ project, onClose }) => {
         <div className="flex items-center justify-between px-5 py-3 border-b border-gold-400/30 bg-gold-400/5">
           <div className="flex items-center gap-3">
             <span className="text-gold-400 text-base">📋</span>
-            <span className="pixel-font text-[11px] text-gold-400 tracking-widest">PROJECT DETAILS</span>
+            <span className="pixel-font text-[9px] text-gold-400 tracking-widest">PROJECT DETAILS</span>
           </div>
           <button
             aria-label="Close"
@@ -99,17 +99,17 @@ const ProjectModal = ({ project, onClose }) => {
                 alt={project.title}
                 className="w-full"
               />
-              <p className="pixel-font text-[10px] text-gold-400/40 text-center mt-1 pb-0.5">PREVIEW</p>
+              <p className="pixel-font text-[8px] text-gold-400/40 text-center mt-1 pb-0.5">PREVIEW</p>
             </div>
           )}
 
           {/* Technologies */}
           {project.technologies && (
             <div className="mb-5">
-              <p className="pixel-font text-[10px] text-gold-400/60 mb-2 tracking-widest">SKILLS USED</p>
+              <p className="pixel-font text-[8px] text-gold-400/60 mb-2 tracking-widest">SKILLS USED</p>
               <div className="flex flex-wrap gap-1.5">
                 {project.technologies.map((t, i) => (
-                  <span key={i} className="pixel-font text-[10px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30">
+                  <span key={i} className="pixel-font text-[8px] px-2 py-1 text-green-300 bg-green-500/10 border border-green-500/30">
                     +{t}
                   </span>
                 ))}
@@ -119,7 +119,7 @@ const ProjectModal = ({ project, onClose }) => {
 
           {/* Description */}
           <div>
-            <p className="pixel-font text-[10px] text-gold-400/60 mb-3 tracking-widest">OVERVIEW</p>
+            <p className="pixel-font text-[8px] text-gold-400/60 mb-3 tracking-widest">OVERVIEW</p>
             {isArrayDesc ? (
               <ul className="space-y-3">
                 {project.description.map((desc, i) => (
@@ -137,8 +137,8 @@ const ProjectModal = ({ project, onClose }) => {
 
         {/* Footer */}
         <div className="px-5 py-3 border-t border-gold-400/20 flex justify-between items-center">
-          <span className="pixel-font text-[10px] text-neutral-600">ESC TO CLOSE</span>
-          <span className="blink pixel-font text-[10px] text-gold-400/60">▼</span>
+          <span className="pixel-font text-[8px] text-neutral-600">ESC TO CLOSE</span>
+          <span className="blink pixel-font text-[8px] text-gold-400/60">▼</span>
         </div>
       </motion.div>
     </motion.div>

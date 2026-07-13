@@ -179,8 +179,8 @@ html, body {
 /* ── RPG Menu tab cursor ── */
 .rpg-menu-btn {
   font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  letter-spacing: 0.03em;
+  font-size: 9px;
+  letter-spacing: 0.02em;
   transition: color 0.15s, background 0.15s;
   border: 2px solid transparent;
 }

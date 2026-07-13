@@ -14,7 +14,7 @@ const CareerSection = () => {
                 className="max-w-4xl mx-auto mt-6"
             >
                 <div className="dialog-box">
-                    <p className="pixel-font text-[10px] text-gold-400/60 tracking-widest mb-3">► ABOUT ME</p>
+                    <p className="pixel-font text-[8px] text-gold-400/60 tracking-widest mb-3">► ABOUT ME</p>
                     <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">{ABOUT_TEXT}</p>
                 </div>
             </motion.div>
