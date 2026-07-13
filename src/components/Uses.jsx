@@ -7,6 +7,29 @@ import { BiLogoPostgresql } from "react-icons/bi"
 import { FaLaptop, FaKeyboard, FaComputerMouse, FaHeadphones } from "react-icons/fa6"
 import useCodeStats from "../hooks/useCodeStats"
 
+const StatBar = ({ id, colorClass, bar }) => (
+    <div className="flex items-center gap-2">
+        <span className={`pixel-font text-[9px] w-5 ${colorClass}`}>{id}</span>
+        <div className="stat-bar-track flex-1">
+            <motion.div
+                className={`stat-bar-fill ${id === "HP" ? "bar-hp" : "bar-mp"}`}
+                initial={{ width: 0 }}
+                animate={{ width: bar ? `${Math.max(bar.pct, 4)}%` : "0%" }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+        </div>
+        <span className="text-neutral-500 text-[11px] w-16 text-right tabular-nums">
+            {bar ? bar.xp.toLocaleString() : "—"}
+        </span>
+    </div>
+)
+
+StatBar.propTypes = {
+    id: PropTypes.string.isRequired,
+    colorClass: PropTypes.string.isRequired,
+    bar: PropTypes.shape({ xp: PropTypes.number, pct: PropTypes.number }),
+}
+
 const TOOLS = [
     { icon: SiTypescript,     color: "text-blue-400",    label: "TypeScript" },
     { icon: SiJavascript,     color: "text-yellow-400",  label: "JavaScript" },
@@ -95,7 +118,7 @@ StatsBlock.propTypes = {
 }
 
 const Uses = () => {
-    const { langs, machines, totalXp, loading, error } = useCodeStats()
+    const { langs, machines, hp, mp, loading, error } = useCodeStats()
 
     return (
         <div className="pb-4">
@@ -146,11 +169,15 @@ const Uses = () => {
                     viewport={{ once: true }}
                     className="rpg-panel p-4 sm:p-6 flex flex-col gap-8"
                 >
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                        <p className="pixel-font text-[11px] text-gold-400/70 tracking-widest">CODE::STATS / LIVE</p>
-                        {!loading && !error && (
-                            <span className="pixel-font text-[10px] text-gold-400/70">TOTAL XP: {totalXp.toLocaleString()}</span>
-                        )}
+                    <div>
+                        <p className="pixel-font text-[11px] text-gold-400/70 tracking-widest mb-3">CODE::STATS / LIVE</p>
+                        <p className="text-[11px] text-neutral-500 mb-2">
+                            Live from <a href="https://codestats.net/users/aimxnaim" target="_blank" rel="noreferrer" className="text-gold-400 hover:underline">Code::Stats</a> — HP = all-time XP, MP = today&apos;s XP
+                        </p>
+                        <div className="flex flex-col gap-2">
+                            <StatBar id="HP" colorClass="text-red-400" bar={loading ? null : hp} />
+                            <StatBar id="MP" colorClass="text-blue-400" bar={loading ? null : mp} />
+                        </div>
                     </div>
 
                     <StatsBlock title="LANGUAGE PROFICIENCY" items={langs} loading={loading} error={error} />
