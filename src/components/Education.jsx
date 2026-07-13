@@ -52,9 +52,10 @@ const Education = () => {
                   )}
                 </div>
                 {!isLast && (
-                  <div className="flex-1 flex flex-col items-center py-1 min-h-[28px]">
-                    <div className="w-px flex-1 bg-gradient-to-b from-gold-400/40 to-gold-400/20" />
-                    <span className="text-gold-400/50 text-xs leading-none">▼</span>
+                  <div className="flex-1 flex flex-col items-center py-2 gap-1.5 min-h-[40px]">
+                    <div className={`timeline-line flex-1 ${index === 0 ? '' : ''}`} />
+                    <span className={`timeline-gem ${index === EDUCATION.length - 2 ? 'is-goal' : ''}`} />
+                    <div className={`timeline-line flex-1 ${index === EDUCATION.length - 2 ? 'is-goal' : ''}`} />
                   </div>
                 )}
               </div>
