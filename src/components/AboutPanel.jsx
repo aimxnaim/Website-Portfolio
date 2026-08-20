@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import useMediaQuery from "../hooks/useMediaQuery"
@@ -12,10 +12,18 @@ const DESKTOP_QUERY = "(min-width: 900px)"
 
 const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowRef }) => {
     const isDesktop = useMediaQuery(DESKTOP_QUERY)
+    const firstRun = useRef(true)
 
     // Text typed before narrowing the viewport would otherwise persist in
     // state with no visible field, and reappear if the viewport widens.
+    // Skip the mount run: `draft` is lifted into App so it survives a tab
+    // switch (AboutPanel unmounts/remounts on every switch), and without
+    // the guard this effect would wipe it right back out on remount.
     useEffect(() => {
+        if (firstRun.current) {
+            firstRun.current = false
+            return
+        }
         setDraft("")
     }, [isDesktop, setDraft])
 

@@ -162,7 +162,7 @@ const BootScreen = ({ onFinish, heroRef }) => {
                         {line.text}
                     </div>
                 ))}
-                <button type="button" onClick={finish} className="btn btn-ghost mt-5 text-xs">
+                <button type="button" onClick={finish} className="btn btn-ghost mt-5">
                     SKIP ▶
                 </button>
             </div>

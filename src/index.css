@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tailwind ships this as a core utility, but nothing in this codebase used
-   it before the taskbar's Discord copy-confirmation status region — add it
-   explicitly so that announcement doesn't depend on an unverified default. */
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
 /* ── Scrollbar (modal) ── */
 .scrollbar-modal::-webkit-scrollbar        { width: 8px; }
 .scrollbar-modal::-webkit-scrollbar-track  { background: transparent; }
@@ -25,7 +20,7 @@
 /* Only the taskbar is fixed; the ticker scrolls away with the page. One
    offset to manage, defined once and consumed by the shell's padding, by
    scroll anchoring, and by the rail's sticky top. */
-:root { --taskbar-h: 56px; --rail-top: 72px; }
+:root { --taskbar-h: 60px; --rail-top: 76px; }
 html { scroll-padding-top: var(--taskbar-h); }
 
 img { max-width: 100%; height: auto; }

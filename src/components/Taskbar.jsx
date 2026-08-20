@@ -83,7 +83,7 @@ const Taskbar = () => {
                         className="ml-1.5 sm:ml-2.5 inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-2.5 py-1.5 bg-acc-green text-[#1e1f29] border-2 border-term-outline shadow-[2px_2px_0_#000] hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0_#000] transition-transform"
                     >
                         <FaFilePdf aria-hidden="true" />
-                        RESUME
+                        <span className="hidden sm:inline">RESUME</span>
                     </button>
                 </div>
 

@@ -9,7 +9,7 @@ import { FaLaptop, FaKeyboard, FaComputerMouse, FaHeadphones } from "react-icons
 import useCodeStats from "../hooks/useCodeStats"
 import PixelWindow from "./PixelWindow"
 
-const BLOCK_LABEL = "font-pixel text-label text-term-muted tracking-[0.08em]"
+const BLOCK_LABEL = "font-pixel text-label text-term-muted"
 
 const TOOLS = [
     { icon: SiTypescript,     color: "text-blue-400",    label: "TypeScript" },

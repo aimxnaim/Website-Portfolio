@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import useTypewriter from "../hooks/useTypewriter"
 import useReducedMotion from "../hooks/useReducedMotion"
+import useMediaQuery from "../hooks/useMediaQuery"
 import { liveAge } from "../lib/clock"
 import { TAB_IDS, tabButtonId, tabPanelId } from "../lib/tabs"
 import logo from "../assets/aiman.jpg"
@@ -23,21 +24,23 @@ const NAV_META = {
 }
 
 const NAV_BASE =
-    "w-full font-mono text-xs px-3 py-2.5 border-2 border-term-outline shadow-[2px_2px_0_#000] flex items-center gap-2.5 text-left transition-colors"
+    "max-lg:w-auto max-lg:flex-shrink-0 max-lg:whitespace-nowrap lg:w-full font-mono text-xs px-3 py-2 border-2 border-term-outline shadow-[2px_2px_0_#000] flex items-center gap-2.5 text-left transition-colors"
 
 const Rail = ({ active, onTabChange }) => {
     const reduced = useReducedMotion()
     const btnRefs = useRef({})
+    const isDesktop = useMediaQuery("(min-width: 1024px)")
 
     const role = useTypewriter({ words: ROLE_WORDS, loop: true, enabled: !reduced })
 
     const handleKeyDown = (event, index) => {
         let nextIndex = null
 
-        // Vertical orientation: Up/Down, not the Left/Right the old
-        // horizontal tab strip used.
-        if (event.key === "ArrowDown") nextIndex = (index + 1) % TAB_IDS.length
-        else if (event.key === "ArrowUp") nextIndex = (index - 1 + TAB_IDS.length) % TAB_IDS.length
+        // Below `lg` the nav is a horizontal chip row (Left/Right); at `lg`
+        // it's a vertical stack (Up/Down). Both axes are accepted at every
+        // width so the handler doesn't need to branch on isDesktop.
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") nextIndex = (index + 1) % TAB_IDS.length
+        else if (event.key === "ArrowUp" || event.key === "ArrowLeft") nextIndex = (index - 1 + TAB_IDS.length) % TAB_IDS.length
         else if (event.key === "Home") nextIndex = 0
         else if (event.key === "End") nextIndex = TAB_IDS.length - 1
         else return
@@ -51,12 +54,12 @@ const Rail = ({ active, onTabChange }) => {
     return (
         <aside className="contents lg:flex lg:flex-col lg:gap-5 lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-[var(--rail-top)] lg:self-start">
             {/* Block 1 — identity */}
-            <PixelWindow title="profile.dat" className="w-full order-1 lg:order-none" innerClassName="p-4 sm:p-5 flex flex-col gap-5">
-                <div className="relative mx-auto w-32 h-32">
+            <PixelWindow title="profile.dat" className="w-full order-1 lg:order-none" innerClassName="p-3 sm:p-4 flex flex-col gap-4">
+                <div className="relative mx-auto w-24 h-24">
                     <img
                         src={logo}
                         alt="Aiman Naim"
-                        className="w-32 h-32 object-cover border-2 border-black"
+                        className="w-24 h-24 object-cover border-2 border-black"
                     />
                     <span className="absolute bottom-[-6px] right-[-6px] font-pixel text-label bg-acc-green text-[#1e1f29] border-2 border-term-outline px-1.5 py-0.5 leading-none">
                         LV.{liveAge()}
@@ -80,12 +83,12 @@ const Rail = ({ active, onTabChange }) => {
             {/* Block 2 — the site's only navigation. Its own window so Task 9
                 can make it sticky on mobile; nested inside the identity card
                 it would be confined to that card's box and scroll away. */}
-            <PixelWindow title="nav.sys" className="w-full order-2 lg:order-none sticky top-[var(--taskbar-h)] z-20 lg:static" innerClassName="p-3">
+            <PixelWindow size="sm" title="nav.sys" className="w-full order-2 lg:order-none sticky top-[var(--taskbar-h)] z-20 lg:static" innerClassName="p-2">
                 <nav
                     role="tablist"
                     aria-label="content sections"
-                    aria-orientation="vertical"
-                    className="flex flex-col gap-2"
+                    aria-orientation={isDesktop ? "vertical" : "horizontal"}
+                    className="flex max-lg:flex-row max-lg:overflow-x-auto lg:flex-col gap-1.5"
                 >
                     {TAB_IDS.map((id, index) => {
                         const { emoji, label } = NAV_META[id]
