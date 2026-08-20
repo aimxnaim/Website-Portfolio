@@ -17,7 +17,7 @@ const PixelWindow = ({
                     <span className="dot dot-red" aria-hidden="true" />
                     <span className="dot dot-amber" aria-hidden="true" />
                     <span className="dot dot-green" aria-hidden="true" />
-                    <span className="ml-1.5 font-mono text-[13px] text-term-muted">{title}</span>
+                    <span className="ml-1.5 font-mono text-xs text-term-muted">{title}</span>
                 </div>
             )}
             {children}

@@ -16,9 +16,9 @@ const Education = () => (
                 )}
                 <div>
                     <div className="font-mono text-xs text-acc-cyan">{edu.year}</div>
-                    <div className="font-mono text-[15px] font-bold text-term-text">{edu.degree}</div>
+                    <div className="font-mono text-sm font-bold text-term-text">{edu.degree}</div>
                     <div className="font-sans text-sm text-term-muted">{edu.school}</div>
-                    <div className="font-mono text-[13px] text-acc-purple">{edu.description}</div>
+                    <div className="font-mono text-xs text-acc-purple">{edu.description}</div>
                 </div>
             </div>
         ))}

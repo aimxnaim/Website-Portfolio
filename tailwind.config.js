@@ -29,6 +29,16 @@ export default {
         mono: ['"JetBrains Mono"', 'monospace'],
         sans: ['"Space Grotesk"', 'sans-serif'],
       },
+      // Raises the floor: nothing below 10px, and 10px only for the
+      // Press Start 2P eyebrow labels where the face reads as texture.
+      // Overriding here fixes every text-xs / text-sm call site at once.
+      fontSize: {
+        label: ['10px', { lineHeight: '1.6', letterSpacing: '0.08em' }],
+        xs:    ['13px', { lineHeight: '1.5' }],
+        sm:    ['15px', { lineHeight: '1.6' }],
+        base:  ['16px', { lineHeight: '1.7' }],
+        lg:    ['18px', { lineHeight: '1.6' }],
+      },
     },
   },
   plugins: [],

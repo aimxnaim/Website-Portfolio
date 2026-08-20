@@ -4,7 +4,7 @@ import useReducedMotion from "../hooks/useReducedMotion"
 
 const BOOT_LINES = [
     { text: "[ 0.0021 ] AIMAN.SYS kernel booting..." },
-    { text: "[ 0.1840 ] mounting /career /education /projects /stack ... OK" },
+    { text: "[ 0.1840 ] mounting /about /career /education /projects /stack ... OK" },
     { text: "[ 0.4020 ] loading profile: aiman naim ................ OK" },
     { text: "[ 0.6710 ] fetching codestats.net/api ................. WARN", warn: true },
     { text: "[ 0.9330 ] compiling portfolio.tsx ..................... OK" },
@@ -17,10 +17,14 @@ const LINE_INTERVAL_MS = 220
 const AUTO_DISMISS_MS = 4200
 const MORPH_MS = 500
 // Guard rail for the FLIP: if the computed scale ratio between the boot box
-// and the hero window is outside this range (hero not yet laid out, a
+// and the target window is outside this range (target not yet laid out, a
 // stale/zero rect, or some other measurement fluke), skip the transform and
 // let the plain opacity cross-fade (already on .boot-screen) carry the
-// hand-off instead of risking a jumpy or inverted scale.
+// hand-off instead of risking a jumpy or inverted scale. Below `lg` the
+// target can also be scrolled off screen (e.g. behind the nav/quote blocks
+// stacked ahead of it) — in that case the scale ratio can still look
+// perfectly stable, so `finish()` separately checks the rect's viewport
+// position before trusting the transform.
 const MIN_STABLE_SCALE = 0.05
 const MAX_STABLE_SCALE = 4
 
@@ -91,7 +95,15 @@ const BootScreen = ({ onFinish, heroRef }) => {
         ) {
             const scaleX = heroRect.width / bootRect.width
             const scaleY = heroRect.height / bootRect.height
+            // On-screen check: the scale ratio alone can look perfectly
+            // stable while the target sits below the fold (e.g. below `lg`,
+            // where the identity and nav blocks stack ahead of the About
+            // terminal). Without this, the boot box would translate far
+            // down/up off-screen while fading out instead of morphing onto
+            // something visible.
+            const onScreen = heroRect.top < window.innerHeight && heroRect.bottom > 0
             const stable =
+                onScreen &&
                 scaleX > MIN_STABLE_SCALE && scaleX < MAX_STABLE_SCALE &&
                 scaleY > MIN_STABLE_SCALE && scaleY < MAX_STABLE_SCALE
 
@@ -160,9 +172,10 @@ const BootScreen = ({ onFinish, heroRef }) => {
 
 BootScreen.propTypes = {
     onFinish: PropTypes.func.isRequired,
-    // Ref to Hero's PixelWindow wrapper (see Hero.jsx's `windowRef`), used
-    // to measure the FLIP target rect. Optional: if absent or not yet
-    // measurable, finish() falls back to the plain cross-fade.
+    // Ref to AboutPanel's PixelWindow wrapper (see AboutPanel.jsx's
+    // `windowRef`), used to measure the FLIP target rect. Optional: if
+    // absent or not yet measurable, finish() falls back to the plain
+    // cross-fade.
     heroRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({ current: PropTypes.any }),

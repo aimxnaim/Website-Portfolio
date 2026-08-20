@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Analytics } from "@vercel/analytics/react"
 import Backdrop from "./components/Backdrop"
-import useReducedMotion from "./hooks/useReducedMotion"
 import ScrollProgress from "./components/ScrollProgress"
-import Sidebar from "./components/Sidebar"
-import ContentPanel from "./components/ContentPanel"
 import Taskbar from "./components/Taskbar"
-import Hero from "./components/Hero"
-import BootScreen from "./components/BootScreen"
 import Ticker from "./components/Ticker"
-import Intro from "./components/Intro"
+import Rail from "./components/Rail"
+import ContentPanel from "./components/ContentPanel"
+import BootScreen from "./components/BootScreen"
+import useReducedMotion from "./hooks/useReducedMotion"
+import useTerminal from "./hooks/useTerminal"
+import { TAB_IDS } from "./lib/tabs"
 
 function App() {
-    const [activeTab, setActiveTab] = useState("career")
+    const [activeTab, setActiveTab] = useState(TAB_IDS[0])
     // Session-scoped: boot plays once per tab, not once per visit. A fresh
     // tab to the same URL re-plays it; a reload within the same tab does not.
     const [booted, setBooted] = useState(() => sessionStorage.getItem("boot-complete") === "1")
-    // Shared with BootScreen so it can measure the hero terminal's on-screen
-    // rect for the FLIP morph target.
-    const heroWindowRef = useRef(null)
+    // Shared with BootScreen so it can measure the About terminal's
+    // on-screen rect for the FLIP morph target.
+    const terminalWindowRef = useRef(null)
     const reduced = useReducedMotion()
 
     useEffect(() => {
@@ -26,29 +26,43 @@ function App() {
         return () => document.body.classList.remove("term-theme")
     }, [])
 
-    const goToTab = (id) => {
+    // Switching from a scrolled position in Projects to a short tab would
+    // otherwise land the viewer below the content, so every switch returns
+    // to the top. There is no longer anything to scroll *down* to — the
+    // rail keeps navigation on screen at all times.
+    const goToTab = useCallback((id) => {
         setActiveTab(id)
-        document.getElementById("main")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" })
-    }
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })
+    }, [reduced])
+
+    const terminal = useTerminal({ onNavigate: goToTab, started: booted })
 
     const handleBootFinish = useCallback(() => setBooted(true), [])
 
     return (
-        <div className="overflow-x-hidden antialiased selection:bg-acc-green/20 selection:text-acc-green">
+        <div className="overflow-x-clip antialiased selection:bg-acc-green/20 selection:text-acc-green">
             <ScrollProgress />
             <Backdrop />
-            <Taskbar onNavigate={goToTab} />
-            {!booted && <BootScreen heroRef={heroWindowRef} onFinish={handleBootFinish} />}
-            <Hero onNavigate={goToTab} started={booted} windowRef={heroWindowRef} />
-            <Ticker />
-            <Intro />
+            <Taskbar />
+            {!booted && <BootScreen heroRef={terminalWindowRef} onFinish={handleBootFinish} />}
 
-            <div id="main" className="container mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-                <div className="flex flex-col lg:flex-row gap-8 items-start">
-                    <Sidebar />
-                    <ContentPanel active={activeTab} onTabChange={setActiveTab} />
+            {/* Clears the fixed taskbar. The ticker sits in normal flow
+                directly beneath it and is allowed to scroll away. */}
+            <div className="pt-[var(--taskbar-h)]">
+                <Ticker />
+
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+                        <Rail active={activeTab} onTabChange={goToTab} />
+                        <div className="w-full min-w-0 order-3 lg:order-none lg:flex-1">
+                            <ContentPanel
+                                active={activeTab}
+                                terminal={{ ...terminal, windowRef: terminalWindowRef }}
+                            />
+                        </div>
+                    </div>
+                    <Analytics />
                 </div>
-                <Analytics />
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ import { FaLaptop, FaKeyboard, FaComputerMouse, FaHeadphones } from "react-icons
 import useCodeStats from "../hooks/useCodeStats"
 import PixelWindow from "./PixelWindow"
 
-const BLOCK_LABEL = "font-pixel text-[9px] text-term-muted tracking-[0.08em]"
+const BLOCK_LABEL = "font-pixel text-label text-term-muted tracking-[0.08em]"
 
 const TOOLS = [
     { icon: SiTypescript,     color: "text-blue-400",    label: "TypeScript" },
@@ -108,7 +108,7 @@ const Uses = () => {
                         {[...TOOLS, ...TOOLS].map(({ icon: Icon, color, label }, i) => (
                             <div
                                 key={`${label}-${i}`}
-                                className="font-mono text-[13px] px-4 py-2.5 bg-term-panel2 border-2 border-term-outline text-term-text whitespace-nowrap flex items-center gap-2 flex-shrink-0"
+                                className="font-mono text-xs px-4 py-2.5 bg-term-panel2 border-2 border-term-outline text-term-text whitespace-nowrap flex items-center gap-2 flex-shrink-0"
                             >
                                 <Icon className={`text-base ${color}`} />
                                 <span>{label}</span>

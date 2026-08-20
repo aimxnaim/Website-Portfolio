@@ -1,108 +1,61 @@
-import { useRef } from "react"
 import PropTypes from "prop-types"
 import { motion, AnimatePresence } from "framer-motion"
 import PixelWindow from "./PixelWindow"
+import AboutPanel from "./AboutPanel"
 import CareerSection from "./CareerSection"
 import Education from "./Education"
 import Projects from "./Projects"
 import Uses from "./Uses"
 import useReducedMotion from "../hooks/useReducedMotion"
+import { TAB_IDS, tabButtonId, tabPanelId } from "../lib/tabs"
 
-// CRITICAL: the tech-stack tab id is "stack", not "uses". Taskbar's NAV
-// array and terminalCommands' TABS array both key off "stack" — keep this
-// in sync or the taskbar link / terminal command will silently do nothing.
-const TABS = [
-    { id: "career",    emoji: "💼", label: "CAREER",    Component: CareerSection },
-    { id: "education", emoji: "🎓", label: "EDUCATION", Component: Education },
-    { id: "projects",  emoji: "📁", label: "PROJECTS",  Component: Projects },
-    { id: "stack",     emoji: "🛠", label: "STACK",      Component: Uses },
-]
-
-const TITLES = {
-    career: "aiman@root: ~/career.log",
-    education: "aiman@root: ~/education.log",
-    projects: "aiman@root: ~/projects",
-    stack: "aiman@root: ~/stack.log",
+// Keyed by id so it cannot drift out of order with TAB_IDS, which is the
+// single source of truth for both membership and order. The tech-stack id
+// is "stack", not "uses".
+const COMPONENTS = {
+    about:     AboutPanel,
+    career:    CareerSection,
+    education: Education,
+    projects:  Projects,
+    stack:     Uses,
 }
 
-const TAB_BASE =
-    "font-mono text-[13px] px-4 py-2.5 border-2 border-term-outline shadow-[2px_2px_0_#000] flex items-center gap-2 transition-colors"
+const TITLES = {
+    about:     "aiman@root: ~/about",
+    career:    "aiman@root: ~/career.log",
+    education: "aiman@root: ~/education.log",
+    projects:  "aiman@root: ~/projects",
+    stack:     "aiman@root: ~/stack.log",
+}
 
-const ContentPanel = ({ active, onTabChange }) => {
-    const btnRefs = useRef({})
+const ContentPanel = ({ active, terminal }) => {
     const reduced = useReducedMotion()
 
-    const activeTab = TABS.find((t) => t.id === active) || TABS[0]
-    const ActiveComponent = activeTab.Component
+    const activeId = TAB_IDS.includes(active) ? active : TAB_IDS[0]
+    const ActiveComponent = COMPONENTS[activeId]
 
-    const focusTabAt = (index) => {
-        const id = TABS[index].id
-        btnRefs.current[id]?.focus()
-    }
-
-    const handleKeyDown = (event, index) => {
-        let nextIndex = null
-
-        if (event.key === "ArrowRight") nextIndex = (index + 1) % TABS.length
-        else if (event.key === "ArrowLeft") nextIndex = (index - 1 + TABS.length) % TABS.length
-        else if (event.key === "Home") nextIndex = 0
-        else if (event.key === "End") nextIndex = TABS.length - 1
-        else return
-
-        event.preventDefault()
-        onTabChange(TABS[nextIndex].id)
-        focusTabAt(nextIndex)
-    }
+    // Only the About tab renders the terminal, so only it receives the
+    // lifted terminal state. Every other section takes no props.
+    const activeProps = activeId === "about" ? terminal : {}
 
     return (
         <div className="flex-1 min-w-0 w-full">
-            <div
-                role="tablist"
-                aria-label="content sections"
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-6"
-            >
-                {TABS.map(({ id, emoji, label }, index) => {
-                    const isActive = id === active
-                    return (
-                        <button
-                            key={id}
-                            ref={(el) => {
-                                btnRefs.current[id] = el
-                            }}
-                            type="button"
-                            role="tab"
-                            id={`tab-${id}`}
-                            aria-selected={isActive}
-                            aria-controls={isActive ? `panel-${id}` : undefined}
-                            tabIndex={isActive ? 0 : -1}
-                            onClick={() => onTabChange(id)}
-                            onKeyDown={(event) => handleKeyDown(event, index)}
-                            className={`${TAB_BASE} ${isActive ? "bg-acc-green text-[#1e1f29]" : "bg-term-panel2"}`}
-                        >
-                            <span className={isActive ? "" : "opacity-0"} aria-hidden="true">►</span>
-                            <span aria-hidden="true">{emoji}</span>
-                            <span>{label}</span>
-                        </button>
-                    )
-                })}
-            </div>
-
-            <PixelWindow title={TITLES[activeTab.id]} className="w-full">
+            <PixelWindow title={TITLES[activeId]} className="w-full">
                 <div
                     role="tabpanel"
-                    id={`panel-${activeTab.id}`}
-                    aria-labelledby={`tab-${activeTab.id}`}
+                    id={tabPanelId(activeId)}
+                    aria-labelledby={tabButtonId(activeId)}
                     className="p-4 sm:p-6"
                 >
                     <AnimatePresence mode="wait">
                         <motion.div
-                            key={activeTab.id}
+                            key={activeId}
                             initial={reduced ? false : { opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
                             transition={{ duration: reduced ? 0 : 0.2 }}
                         >
-                            <ActiveComponent />
+                            <ActiveComponent {...activeProps} />
                         </motion.div>
                     </AnimatePresence>
                 </div>
@@ -113,7 +66,8 @@ const ContentPanel = ({ active, onTabChange }) => {
 
 ContentPanel.propTypes = {
     active: PropTypes.string.isRequired,
-    onTabChange: PropTypes.func.isRequired,
+    // The full useTerminal() return plus windowRef. Spread into AboutPanel.
+    terminal: PropTypes.object.isRequired,
 }
 
 export default ContentPanel

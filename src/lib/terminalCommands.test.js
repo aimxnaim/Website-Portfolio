@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest"
 import { parseCommand, COMMANDS } from "./terminalCommands"
+import { TAB_IDS } from "./tabs"
 
 describe("parseCommand", () => {
-    it.each(["career", "education", "projects", "stack"])("maps %s to a tab", (id) => {
+    it.each(TAB_IDS)("maps %s to a tab", (id) => {
         expect(parseCommand(id)).toEqual({ type: "tab", payload: id })
     })
 
@@ -36,8 +37,8 @@ describe("parseCommand", () => {
 })
 
 describe("COMMANDS", () => {
-    it("has exactly seven entries", () => {
-        expect(COMMANDS.length).toBe(7)
+    it("covers every tab plus resume, clear and help", () => {
+        expect(COMMANDS.length).toBe(TAB_IDS.length + 3)
     })
 
     it.each(COMMANDS)("$name is a recognised command", ({ name }) => {

@@ -65,7 +65,7 @@ const ProjectModal = ({ project, onClose }) => {
               <span className="dot dot-red" aria-hidden="true" />
               <span className="dot dot-amber" aria-hidden="true" />
               <span className="dot dot-green" aria-hidden="true" />
-              <span className="ml-1.5 font-mono text-[13px] text-term-muted">project.details</span>
+              <span className="ml-1.5 font-mono text-xs text-term-muted">project.details</span>
             </div>
             <button
               type="button"
@@ -120,7 +120,7 @@ const ProjectModal = ({ project, onClose }) => {
             {/* Technologies */}
             {project.technologies && project.technologies.length > 0 && (
               <div className="mb-5">
-                <p className="font-pixel text-[9px] text-term-muted tracking-[0.08em] mb-2">SKILLS USED</p>
+                <p className="font-pixel text-label text-term-muted tracking-[0.08em] mb-2">SKILLS USED</p>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((t) => (
                     <span
@@ -136,7 +136,7 @@ const ProjectModal = ({ project, onClose }) => {
 
             {/* Description */}
             <div>
-              <p className="font-pixel text-[9px] text-term-muted tracking-[0.08em] mb-3">OVERVIEW</p>
+              <p className="font-pixel text-label text-term-muted tracking-[0.08em] mb-3">OVERVIEW</p>
               <ul className="space-y-3">
                 {bullets.map((desc) => (
                   <li key={desc} className="flex items-start gap-2">

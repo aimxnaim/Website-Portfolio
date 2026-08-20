@@ -21,9 +21,9 @@ const ProcessRow = ({ pid, name, badge, sub, bullets = [], tags = [], links = []
                         <img src={image} alt={imageAlt || ""} className="w-full h-full object-contain" />
                     </span>
                 )}
-                <span className="font-mono text-[15px] font-bold text-term-text">{name}</span>
+                <span className="font-mono text-sm font-bold text-term-text">{name}</span>
                 {badge && (
-                    <span className={`font-mono text-[11px] px-2 py-0.5 border-2 border-term-outline ${BADGE_TONE[badge.tone]}`}>
+                    <span className={`font-mono text-xs px-2 py-0.5 border-2 border-term-outline ${BADGE_TONE[badge.tone]}`}>
                         {badge.label}
                     </span>
                 )}
