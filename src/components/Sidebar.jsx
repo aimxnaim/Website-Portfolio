@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Cursor, useTypewriter } from "react-simple-typewriter"
 import { FaLinkedin, FaGithub, FaInstagram, FaThreads, FaDiscord, FaFilePdf } from "react-icons/fa6"
+import PixelWindow from "./PixelWindow"
+import useTypewriter from "../hooks/useTypewriter"
+import useReducedMotion from "../hooks/useReducedMotion"
+import { liveAge } from "../lib/clock"
 import logo from "../assets/aiman.jpg"
 
-const BIRTH_YEAR = 2001
-const BIRTH_MONTH = 12 // December (1-indexed)
-
-const liveAge = () => {
-    const now = new Date()
-    return now.getFullYear() - BIRTH_YEAR - (now.getMonth() + 1 < BIRTH_MONTH ? 1 : 0)
-}
+const ROLE_WORDS = [
+    "Full Stack Developer", "Front End Developer", "Back End Developer",
+    "Coder", "Programmer", "Software Engineer", "Tech Enthusiast",
+]
 
 const downloadResume = () => {
     const link = document.createElement("a")
@@ -19,15 +19,14 @@ const downloadResume = () => {
     link.click()
 }
 
+const SOCIAL_CLASS =
+    "bg-term-panel2 border-2 border-term-outline shadow-[2px_2px_0_#000] p-2 flex flex-col items-center gap-1 text-term-muted transition-colors hover:text-acc-green hover:border-acc-green hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0_#000]"
+
 const Sidebar = () => {
     const [copied, setCopied] = useState(false)
+    const reduced = useReducedMotion()
 
-    const [klass] = useTypewriter({
-        words: ["Full Stack Developer", "Front End Developer", "Back End Developer", "Coder", "Programmer", "Software Engineer", "Tech Enthusiast"],
-        loop: 0,
-        deleteSpeed: 50,
-        typeSpeed: 60,
-    })
+    const role = useTypewriter({ words: ROLE_WORDS, loop: true, enabled: !reduced })
 
     const copyDiscord = async () => {
         try {
@@ -49,94 +48,92 @@ const Sidebar = () => {
 
     return (
         <motion.aside
-            initial={{ opacity: 0, x: -30 }}
+            initial={reduced ? false : { opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: reduced ? 0 : 0.5 }}
             className="w-full lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-6 lg:self-start"
         >
-            <div className="rpg-panel p-4 sm:p-5 flex flex-col gap-5">
+            <PixelWindow title="profile.dat" className="w-full" innerClassName="p-4 sm:p-5 flex flex-col gap-5">
                 {/* Portrait */}
-                <div className="relative mx-auto">
-                    <div className="w-32 h-32 rounded-lg border border-gold-400/40 p-1 bg-rpg-panel overflow-hidden">
-                        <img src={logo} alt="Aiman Naim" className="w-full h-full object-cover rounded-md" />
-                    </div>
-                    <span className="absolute -bottom-1.5 -right-1.5 pixel-font text-[8px] bg-gold-400 text-rpg-bg px-1.5 py-0.5 rounded leading-none">
+                <div className="relative mx-auto w-32 h-32">
+                    <img
+                        src={logo}
+                        alt="Aiman Naim"
+                        className="w-32 h-32 object-cover border-2 border-black"
+                    />
+                    <span className="absolute bottom-[-6px] right-[-6px] font-pixel text-[8px] bg-acc-green text-[#1e1f29] border-2 border-term-outline px-1.5 py-0.5 leading-none">
                         LV.{liveAge()}
                     </span>
                 </div>
 
                 {/* Name + meta + class */}
                 <div className="text-center flex flex-col gap-1.5">
-                    <h1 className="rpg-font text-3xl sm:text-4xl text-gold-400 tracking-wider leading-none">AIMAN NAIM</h1>
-                    <p className="text-xs text-neutral-400">
-                        Kuala Lumpur <span className="text-gold-400/60">·</span> Age {liveAge()}
+                    <h1 className="font-pixel text-[19px] text-term-text tracking-wider leading-relaxed">AIMAN NAIM</h1>
+                    <p className="font-mono text-xs text-term-muted">
+                        Kuala Lumpur <span className="text-acc-purple">·</span> Age {liveAge()}
                     </p>
-                    <p className="rpg-font text-xl text-neutral-300 mt-1">
-                        <span className="text-neutral-500">[ </span>
-                        <span className="text-gold-400">{klass}</span>
-                        <Cursor cursorColor="#f0c040" />
-                        <span className="text-neutral-500"> ]</span>
+                    <p className="font-mono text-sm text-acc-purple mt-1">
+                        <span className="text-term-muted">[ </span>
+                        <span>{role}</span>
+                        <span className="term-cursor" aria-hidden="true" />
+                        <span className="text-term-muted"> ]</span>
                     </p>
                 </div>
 
                 {/* Socials */}
                 <div className="grid grid-cols-3 gap-2">
                     {socials.map(({ Icon, label, href, title }) => (
-                        <motion.a
+                        <a
                             key={label}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
                             href={href}
                             target="_blank"
                             rel="noreferrer"
                             title={title}
-                            className="rpg-panel-dim p-2 flex flex-col items-center gap-1 text-neutral-400 hover:text-gold-400 hover:border-gold-400/60 transition-colors"
+                            className={SOCIAL_CLASS}
                         >
                             <Icon className="text-lg" />
-                            <span className="pixel-font text-[8px]">{label}</span>
-                        </motion.a>
+                            <span className="font-pixel text-[8px]">{label}</span>
+                        </a>
                     ))}
 
                     {/* Discord — copy username */}
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                    <button
+                        type="button"
                         onClick={copyDiscord}
                         title="Copy Discord username (mxxn512)"
-                        className="rpg-panel-dim p-2 flex flex-col items-center gap-1 text-neutral-400 hover:text-gold-400 hover:border-gold-400/60 transition-colors"
+                        className={SOCIAL_CLASS}
                     >
                         <FaDiscord className="text-lg" />
-                        <span className="pixel-font text-[8px]">{copied ? "COPIED" : "DISCORD"}</span>
-                    </motion.button>
+                        <span className="font-pixel text-[8px]">{copied ? "COPIED" : "DISCORD"}</span>
+                    </button>
 
                     {/* Resume — download */}
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                    <button
+                        type="button"
                         onClick={downloadResume}
                         title="Download Resume"
-                        className="rpg-panel-sm p-2 flex flex-col items-center gap-1 text-gold-400 hover:bg-gold-400/10 transition-colors"
+                        className={`${SOCIAL_CLASS} bg-acc-green/10 text-acc-green`}
                     >
                         <FaFilePdf className="text-lg" />
-                        <span className="pixel-font text-[8px]">RESUME</span>
-                    </motion.button>
+                        <span className="font-pixel text-[8px]">RESUME</span>
+                    </button>
                 </div>
 
                 {/* Quote */}
-                <div className="dialog-box">
-                    <p className="pixel-font text-[8px] text-gold-400/60 tracking-widest mb-2">WORDS I LIVE BY</p>
-                    <p className="text-sm text-neutral-200 italic leading-relaxed">
+                <div className="border-l-[3px] border-acc-purple bg-term-panel2 px-3.5 py-3">
+                    <p className="font-pixel text-[8px] text-acc-purple tracking-widest mb-2">WORDS I LIVE BY</p>
+                    <p className="font-sans text-sm italic text-term-text leading-relaxed">
                         “So surely with hardships comes ease”
                     </p>
-                    <p className="text-[11px] text-neutral-500 mt-2">— Surah Ash-Sharh, Ayat 5</p>
+                    <p className="font-mono text-[11px] text-term-muted mt-2">— Surah Ash-Sharh, Ayat 5</p>
                 </div>
 
                 {/* Compact credits / footer */}
-                <div className="border-t border-gold-400/10 pt-4 flex flex-col items-center gap-1 text-center">
-                    <p className="text-[11px] text-neutral-500">Built with React · Tailwind · Framer Motion</p>
-                    <p className="pixel-font text-[8px] text-neutral-600 tracking-widest">© {new Date().getFullYear()} AIMAN NAIM</p>
+                <div className="border-t border-white/10 pt-3.5 flex flex-col items-center gap-1 text-center">
+                    <p className="font-mono text-[10px] text-term-muted">Built with React, Tailwind & Vite — pixel/terminal edition</p>
+                    <p className="font-pixel text-[8px] text-term-muted tracking-widest">© {new Date().getFullYear()} AIMAN NAIM</p>
                 </div>
-            </div>
+            </PixelWindow>
         </motion.aside>
     )
 }

@@ -1,28 +1,29 @@
-import { motion } from "framer-motion"
-import { ABOUT_TEXT } from "../constants"
-import Experiences from "./Experiences"
+import { EXPERIENCES } from "../constants"
+import ProcessRow from "./ProcessRow"
+import { pidFor } from "../lib/pid"
 
-const CareerSection = () => {
-    return (
-        <div className="pb-4">
-            {/* About me intro */}
-            <motion.div
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="max-w-4xl mx-auto mt-6"
-            >
-                <div className="dialog-box">
-                    <p className="pixel-font text-[8px] text-gold-400/60 tracking-widest mb-3">► ABOUT ME</p>
-                    <p className="text-sm sm:text-base text-neutral-300 leading-relaxed">{ABOUT_TEXT}</p>
-                </div>
-            </motion.div>
-
-            {/* Career timeline */}
-            <Experiences />
-        </div>
-    )
-}
+const CareerSection = () => (
+    <div className="flex flex-col gap-4">
+        {EXPERIENCES.map((exp, i) => {
+            const isCurrent = exp.year.toLowerCase().includes("current")
+            const bullets = Array.isArray(exp.description) ? exp.description : [exp.description]
+            return (
+                <ProcessRow
+                    key={exp.company}
+                    pid={pidFor(i)}
+                    name={exp.company}
+                    badge={isCurrent
+                        ? { label: "RUNNING", tone: "running" }
+                        : { label: "COMPLETED", tone: "stable" }}
+                    sub={`${exp.role} — ${exp.year.replace(" - ", " · ")}`}
+                    bullets={bullets}
+                    tags={exp.technologies}
+                    image={exp.image}
+                    imageAlt={exp.company}
+                />
+            )
+        })}
+    </div>
+)
 
 export default CareerSection

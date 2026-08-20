@@ -1,274 +1,209 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  font-family: 'Inter', sans-serif;
-}
-
-html, body {
-  background-color: #080b12;
-}
-
-/* ── RPG Typography ── */
-.pixel-font {
-  font-family: 'Press Start 2P', monospace;
-}
-
-.rpg-font {
-  font-family: 'VT323', monospace;
-}
-
-/* ── RPG Background ── */
-.bg-rpg {
-  background-color: #080b12;
-  background-image:
-    linear-gradient(rgba(240, 192, 64, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(240, 192, 64, 0.025) 1px, transparent 1px),
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,192,64,0.06), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(34,197,94,0.04), transparent 70%);
-  background-size: 32px 32px, 32px 32px, auto, auto;
-}
-
-/* ── RPG Panel (soft gold-accented box) ── */
-.rpg-panel {
-  border: 1px solid rgba(240, 192, 64, 0.22);
-  border-radius: 6px;
-  background: rgba(13, 17, 26, 0.92);
-  box-shadow:
-    0 1px 0 rgba(240, 192, 64, 0.05) inset,
-    0 8px 28px rgba(0, 0, 0, 0.45);
-}
-
-.rpg-panel-sm {
-  border: 1px solid rgba(240, 192, 64, 0.2);
-  border-radius: 5px;
-  background: rgba(13, 17, 26, 0.92);
-}
-
-.rpg-panel-dim {
-  border: 1px solid rgba(240, 192, 64, 0.12);
-  border-radius: 5px;
-  background: rgba(13, 17, 26, 0.6);
-}
-
-/* ── Stat Bars ── */
-.stat-bar-track {
-  height: 10px;
-  background: #111827;
-  border: 2px solid #1f2a3c;
-  overflow: hidden;
-}
-
-.stat-bar-fill {
-  height: 100%;
-  transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.bar-hp   { background: linear-gradient(90deg, #ef4444, #f87171); }
-.bar-mp   { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-.bar-exp  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-.bar-str  { background: linear-gradient(90deg, #ef4444, #f87171); }
-.bar-int  { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-.bar-dex  { background: linear-gradient(90deg, #22c55e, #4ade80); }
-.bar-wis  { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-.bar-cha  { background: linear-gradient(90deg, #ec4899, #f472b6); }
-.bar-lck  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-
-/* ── Marquee (looping tool belt) ── */
-.marquee {
-  overflow: hidden;
-  position: relative;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 28s linear infinite;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee-scroll {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-/* ── Blink animation ── */
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-.blink { animation: blink 1s step-end infinite; }
-
-/* ── Timeline gem node ── */
-.timeline-gem {
-  width: 11px;
-  height: 11px;
-  transform: rotate(45deg);
-  background: linear-gradient(135deg, #f7d774, #f0c040);
-  box-shadow: 0 0 8px rgba(240, 192, 64, 0.55), 0 0 2px rgba(240, 192, 64, 0.9);
-  animation: gem-pulse 2s ease-in-out infinite;
-}
-.timeline-gem.is-goal {
-  background: linear-gradient(135deg, #6ee7a0, #22c55e);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.55), 0 0 2px rgba(34, 197, 94, 0.9);
-}
-@keyframes gem-pulse {
-  0%, 100% { transform: rotate(45deg) scale(1);   opacity: 0.85; }
-  50%      { transform: rotate(45deg) scale(1.25); opacity: 1; }
-}
-
-/* ── Timeline flowing line ── */
-.timeline-line {
-  width: 2px;
-  background-image: linear-gradient(to bottom, rgba(240,192,64,0.5), rgba(240,192,64,0.15));
-}
-.timeline-line.is-goal {
-  background-image: linear-gradient(to bottom, rgba(240,192,64,0.5), rgba(34,197,94,0.5));
-}
-
-/* ── Typing cursor ── */
-@keyframes cursor-blink {
-  0%, 49% { border-right-color: #f0c040; }
-  50%, 100% { border-right-color: transparent; }
-}
-
-/* ── Dialog box (RPG speech/info box) ── */
-.dialog-box {
-  position: relative;
-  border: 1px solid rgba(240, 192, 64, 0.28);
-  border-left: 3px solid rgba(240, 192, 64, 0.6);
-  border-radius: 6px;
-  background: rgba(13, 17, 26, 0.85);
-  padding: 1rem 1.5rem 2rem;
-}
-
-.dialog-box::after {
-  content: '▼';
-  position: absolute;
-  bottom: 8px;
-  right: 14px;
-  color: rgba(240, 192, 64, 0.7);
-  font-size: 11px;
-  animation: blink 1s step-end infinite;
-  font-family: monospace;
-}
-
-/* ── Inventory slot ── */
-.inv-slot {
-  border: 2px solid #1f2a3c;
-  background: #0d111a;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  position: relative;
-}
-
-.inv-slot:hover {
-  border-color: #f0c040;
-  background: rgba(240, 192, 64, 0.05);
-  box-shadow: 0 0 12px rgba(240, 192, 64, 0.2);
-}
-
-/* ── Quest badges ── */
-.badge-active {
-  background: rgba(34, 197, 94, 0.15);
-  border: 1px solid rgba(34, 197, 94, 0.5);
-  color: #86efac;
-}
-
-.badge-completed {
-  background: rgba(100, 116, 139, 0.15);
-  border: 1px solid rgba(100, 116, 139, 0.4);
-  color: #94a3b8;
-}
-
-/* ── Achievement rarity ── */
-.rarity-legendary {
-  border-color: #f0c040 !important;
-  box-shadow: 0 0 20px rgba(240, 192, 64, 0.25), 0 0 60px rgba(240, 192, 64, 0.08);
-}
-
-.rarity-rare {
-  border-color: #818cf8 !important;
-  box-shadow: 0 0 16px rgba(129, 140, 248, 0.2);
-}
-
-.rarity-common {
-  border-color: #374151 !important;
-}
-
-/* ── RPG Menu tab cursor ── */
-.rpg-menu-btn {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  letter-spacing: 0.02em;
-  transition: color 0.15s, background 0.15s;
-  border: 2px solid transparent;
-}
-
-.rpg-menu-btn.active {
-  color: #080b12;
-  background: #f0c040;
-  border-color: #f0c040;
-}
-
-.rpg-menu-btn:not(.active) {
-  color: #94a3b8;
-  background: rgba(240, 192, 64, 0.05);
-  border-color: rgba(240, 192, 64, 0.2);
-}
-
-.rpg-menu-btn:not(.active):hover {
-  color: #f0c040;
-  border-color: rgba(240, 192, 64, 0.5);
-  background: rgba(240, 192, 64, 0.08);
-}
-
-/* ── Feature pulse (kept for compatibility, now gold) ── */
-.feature-pulse {
-  position: relative;
-}
-
-.feature-pulse::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 0;
-  border: 2px solid rgba(240, 192, 64, 0.4);
-  filter: blur(6px);
-  animation: pulse-ring 2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes pulse-ring {
-  0%   { opacity: 0.4; transform: scale(0.98); }
-  50%  { opacity: 0.1; transform: scale(1.03); }
-  100% { opacity: 0;   transform: scale(1.06); }
-}
 
 /* ── Scrollbar (modal) ── */
 .scrollbar-modal::-webkit-scrollbar        { width: 8px; }
 .scrollbar-modal::-webkit-scrollbar-track  { background: transparent; }
 .scrollbar-modal::-webkit-scrollbar-thumb  {
-  background: #1f2a3c;
+  background: #44475a;
   border-radius: 0;
   border: 2px solid transparent;
   background-clip: content-box;
 }
-.scrollbar-modal::-webkit-scrollbar-thumb:hover { background: #2d3e54; background-clip: content-box; }
-.scrollbar-modal { scrollbar-color: #1f2a3c transparent; scrollbar-width: thin; }
+.scrollbar-modal::-webkit-scrollbar-thumb:hover { background: #6272a4; background-clip: content-box; }
+.scrollbar-modal { scrollbar-color: #44475a transparent; scrollbar-width: thin; }
 
 /* ── Layout ── */
 .container { max-width: 1400px; }
+
+/* Taskbar is fixed and ~48.6px tall; offset scroll targets so anchored
+   sections (and #main) don't land underneath it. */
+html { scroll-padding-top: 72px; }
 
 img { max-width: 100%; height: auto; }
 
 @media (min-width: 1024px) {
   h1 { font-size: 4rem; }
+}
+
+/* ══ TERMINAL/OS THEME ══ */
+
+:root {
+  --pf-step: 8px;
+  --pf-border: 4px;
+}
+
+/* Notched-corner window frame */
+.pf-outer {
+  background: #000000;
+  padding: var(--pf-border);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5);
+  clip-path: polygon(
+    0 var(--pf-step), var(--pf-step) var(--pf-step), var(--pf-step) 0,
+    calc(100% - var(--pf-step)) 0, calc(100% - var(--pf-step)) var(--pf-step), 100% var(--pf-step),
+    100% calc(100% - var(--pf-step)), calc(100% - var(--pf-step)) calc(100% - var(--pf-step)), calc(100% - var(--pf-step)) 100%,
+    var(--pf-step) 100%, var(--pf-step) calc(100% - var(--pf-step)), 0 calc(100% - var(--pf-step))
+  );
+}
+
+.pf-inner { background: #2d2f3d; height: 100%; }
+.pf-sm { --pf-step: 5px; --pf-border: 3px; }
+.pf-lg { --pf-step: 10px; --pf-border: 5px; }
+
+/* Hero terminal only — the one animated glow on the page */
+.term-glow {
+  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5));
+  box-shadow: none;
+  animation: term-glow 4s ease-in-out infinite;
+}
+@keyframes term-glow {
+  0%, 100% { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 0 rgba(80,250,123,0)); }
+  50%      { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(80,250,123,0.28)); }
+}
+
+.win-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 14px;
+  background: #44475a;
+  border-bottom: 3px solid #000000;
+}
+.dot { width: 11px; height: 11px; border: 2px solid #000000; }
+.dot-red { background: #ff5f56; }
+.dot-amber { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+/* Chunky buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; font-weight: 600;
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+}
+.btn:hover  { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000000; }
+.btn:active { transform: translate(2px, 2px);   box-shadow: 1px 1px 0 #000000; }
+.btn-primary { background: #50fa7b; color: #1e1f29; }
+.btn-ghost   { background: #44475a; color: #f8f8f2; }
+
+/* Focus ring */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid #bd93f9;
+  outline-offset: 3px;
+}
+
+@keyframes term-blink { 50% { opacity: 0; } }
+.term-cursor {
+  display: inline-block; width: 9px; height: 16px;
+  background: #50fa7b; margin-left: 2px; vertical-align: middle;
+  animation: term-blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-glow, .term-cursor { animation: none; }
+}
+
+/* Boot screen (Task 8) — fullscreen kernel-boot overlay that FLIP-morphs
+   into the hero terminal. See BootScreen.jsx for the transform math. */
+.boot-screen {
+  position: fixed; inset: 0; z-index: 200; background: #1e1f29;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  transition: opacity 0.5s ease;
+}
+.boot-screen.is-hiding { opacity: 0; pointer-events: none; }
+.boot-box {
+  width: 100%; max-width: 620px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #50fa7b;
+  transition: transform 0.5s ease;
+  transform-origin: center center;
+  will-change: transform;
+}
+.boot-box .boot-line { margin-bottom: 6px; opacity: 0.92; white-space: pre-wrap; }
+.boot-box .boot-line.is-warn { color: #ffb86c; }
+body.boot-active { overflow: hidden; height: 100vh; }
+
+/* Grid + scanlines, painted on body pseudo-elements */
+body.term-theme {
+  background: #282a36;
+  color: #f8f8f2;
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.6;
+}
+body.term-theme::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(189,147,249,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(189,147,249,0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+body.term-theme::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 55;
+  opacity: 0.45;
+  background: repeating-linear-gradient(
+    to bottom, rgba(0,0,0,0.16) 0px, rgba(0,0,0,0.16) 1px, transparent 2px, transparent 3px
+  );
+}
+
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; bottom: -20px; width: 7px; height: 7px;
+  border-radius: 50%; opacity: 0; animation: drift linear infinite;
+}
+@keyframes drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.8; }
+  100% { transform: translateY(-110vh) translateX(24px); opacity: 0; }
+}
+
+.progress-track { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: #000; z-index: 100; pointer-events: none; }
+.progress-fill  { height: 100%; width: 0%; background: repeating-linear-gradient(45deg, #50fa7b 0 8px, #bd93f9 8px 16px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .particles { display: none; }
+}
+
+.taskbar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(40, 42, 54, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 3px solid #000000;
+  padding: 10px 20px;
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #50fa7b; box-shadow: 0 0 6px #50fa7b;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+@keyframes status-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }
+
+.term-line { margin-bottom: 6px; color: #9aa5ce; font-size: 15px; font-family: 'JetBrains Mono', monospace; }
+.term-line .term-prompt { color: #50fa7b; }
+.term-line.term-result { color: #f8f8f2; }
+.term-line.term-error  { color: #ff5555; }
+
+/* Ticker (Task 9) — scrolling system.log strip below the hero. */
+.ticker { width: 100%; overflow: hidden; background: #44475a; border-top: 3px solid #000; border-bottom: 3px solid #000; position: relative; z-index: 1; }
+.ticker-label { position: absolute; top: 0; left: 0; bottom: 0; display: flex; align-items: center; padding: 0 14px; background: #000; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #50fa7b; z-index: 2; }
+.ticker-track { display: flex; width: max-content; animation: ticker-marquee 28s linear infinite; padding-left: 140px; }
+.ticker-track span { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #9aa5ce; padding: 14px 0; white-space: nowrap; }
+@keyframes ticker-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+
+/* Tech stack tab (Task 15) — tools marquee + stat bars */
+.tools-marquee { overflow: hidden; }
+.tools-track { display: flex; gap: 10px; width: max-content; animation: tools-marquee 22s linear infinite; }
+.tools-marquee:hover .tools-track { animation-play-state: paused; }
+@keyframes tools-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.stat-track { flex: 1; height: 10px; background: #44475a; border: 2px solid #000; position: relative; overflow: hidden; }
+.stat-fill  { height: 100%; background: #50fa7b; width: 0%; transition: width 1s ease; }
+.stat-fill.is-hp { background: #ff5555; }
+.stat-fill.is-mp { background: #8be9fd; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tools-track { animation: none; }
 }

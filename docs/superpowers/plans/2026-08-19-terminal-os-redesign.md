@@ -23,7 +23,7 @@
 - **The easter-egg game is OUT OF SCOPE.** Do not port the `#game` section, the JS at reference lines 1010–1160, or the `.game-*` / `.char-*` / `#gameCanvas` CSS.
 - **Assets come from files, not base64:** `src/assets/aiman.jpg`, `public/Aiman_Naim_Resume.pdf`.
 - **`src/hooks/useCodeStats.js` must not be modified.** It already returns exactly what the stack tab needs.
-- **Lint gate:** `npm run lint` runs with `--max-warnings 0`. Every commit must pass it.
+- **Lint gate (amended, ruling T1-1):** `npm run lint` runs with `--max-warnings 0`, but the branch does **not** start clean — `src/components/Projects.jsx` carries 19 pre-existing `react/prop-types` errors inherited from `main`. The gate is therefore: **introduce no NEW lint errors.** Verify by comparing the error count and file list against the previous task, not by expecting exit code 0. Task 13 rewrites `Projects.jsx` around `ProcessRow` (which declares propTypes), which should clear the debt; Task 16 verifies lint exits clean at that point.
 
 ## Tailwind token naming
 
@@ -90,7 +90,7 @@ Adds Vitest, then lays the new palette, fonts, and pixel-window primitives *alon
 
 **Interfaces:**
 - Consumes: nothing
-- Produces: Tailwind classes `bg-term-bg`, `text-acc-green`, `font-pixel`, `font-mono`, `font-sans` (see token table above). CSS classes `.pf-outer`, `.pf-inner`, `.pf-sm`, `.pf-lg`, `.win-bar`, `.dot`, `.btn`, `.btn-primary`, `.btn-ghost`, `.reveal`, `.term-glow`. `formatClock(date) -> "HH:MM:SS"`, `liveAge(now?) -> number`.
+- Produces: Tailwind classes `bg-term-bg`, `text-acc-green`, `font-pixel`, `font-mono`, `font-sans` (see token table above). CSS classes `.pf-outer`, `.pf-inner`, `.pf-sm`, `.pf-lg`, `.win-bar`, `.dot`, `.btn`, `.btn-primary`, `.btn-ghost`, `.term-glow`, `.term-cursor`. `formatClock(date) -> "HH:MM:SS"`, `liveAge(now?) -> number`.
 
 - [ ] **Step 1: Install Vitest**
 
@@ -280,10 +280,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   outline-offset: 3px;
 }
 
-/* Scroll reveal */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
-.reveal.in-view { opacity: 1; transform: translateY(0); }
-
 @keyframes term-blink { 50% { opacity: 0; } }
 .term-cursor {
   display: inline-block; width: 9px; height: 16px;
@@ -293,9 +289,16 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .term-glow, .term-cursor { animation: none; }
-  .reveal { opacity: 1; transform: none; transition: none; }
 }
 ```
+
+**Scroll reveal note (pre-flight ruling P-2):** the reference mockup uses a
+`.reveal` / `.in-view` CSS pair driven by an IntersectionObserver. This plan
+does **not** port it. Scroll reveals use framer-motion's `whileInView`
+instead — already a dependency, and already this repo's established pattern
+in `Experiences.jsx`, `Projects.jsx`, and `Education.jsx`. Do not add a
+`.reveal` class: without an observer to add `.in-view`, `opacity: 0` content
+would be permanently invisible.
 
 - [ ] **Step 10: Verify nothing broke**
 
@@ -324,6 +327,12 @@ git commit -m "feat: add terminal theme tokens, pixel-window primitives, and vit
 - Produces:
   - `useReducedMotion() -> boolean` — reactive, updates if the OS setting changes mid-session.
   - `useTypewriter({ words, typeSpeed, deleteSpeed, holdMs, loop, enabled }) -> string` — returns the currently-visible substring. With `loop: true` it cycles words forever (sidebar role line). With `loop: false` it types `words[0]` once and stops. When `enabled` is `false` it immediately returns the full `words[0]`.
+
+**Caller contract (pre-flight ruling P-4):** `words` appears in the effect's
+dependency array, so it **must be a stable reference** — a module-scope
+constant or a `useMemo` result. Passing an inline array literal
+(`words={["a", "b"]}`) creates a new reference every render and restarts the
+typing loop forever. Add this as a JSDoc warning on the hook.
 
 - [ ] **Step 1: Write `useReducedMotion`**
 
@@ -711,7 +720,7 @@ body.term-theme::after {
   100% { transform: translateY(-110vh) translateX(24px); opacity: 0; }
 }
 
-.progress-track { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: #000; z-index: 100; }
+.progress-track { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: #000; z-index: 100; pointer-events: none; }
 .progress-fill  { height: 100%; width: 0%; background: repeating-linear-gradient(45deg, #50fa7b 0 8px, #bd93f9 8px 16px); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1029,6 +1038,7 @@ Append to `src/index.css`:
 .term-line { margin-bottom: 6px; color: #9aa5ce; font-size: 15px; font-family: 'JetBrains Mono', monospace; }
 .term-line .term-prompt { color: #50fa7b; }
 .term-line.term-result { color: #f8f8f2; }
+.term-line.term-error  { color: #ff5555; }
 ```
 
 - [ ] **Step 2: Write `Hero`**
@@ -1094,11 +1104,10 @@ const Hero = ({ onNavigate }) => {
                             AIMAN NAIM
                         </div>
                         <div className="font-mono text-[15px] text-acc-purple mb-5 tracking-[0.04em]">
-                            // full stack software engineer
+                            {"// full stack software engineer"}
                         </div>
 
                         {lines.map((line, i) => (
-                            // eslint-disable-next-line react/no-array-index-key
                             <div key={i}>
                                 <div className="term-line"><span className="term-prompt">{line.prompt}</span></div>
                                 {line.result && <div className="term-line term-result">{line.result}</div>}
@@ -1134,7 +1143,8 @@ export default Hero
 
 **Implementer notes:**
 - The rhythm to preserve: prompt types at 24ms/char → 160ms pause → result appears whole → 280ms pause → next line. These values are lifted from the reference and read well; don't tune them without looking.
-- Array indices are safe as React keys here because the list is append-only and fixed-length — entries are never reordered, inserted, or removed. The eslint disable comment is deliberate.
+- Array indices are safe as React keys here because the list is append-only and fixed-length — entries are never reordered, inserted, or removed. Do **not** add an `eslint-disable` for `react/no-array-index-key`: that rule is not enabled in this repo's `.eslintrc.cjs`, and the lint script runs `--report-unused-disable-directives`, so an unused disable directive is itself an error under `--max-warnings 0`.
+- The subtitle must be written as `{"// full stack software engineer"}`, not as bare text. JSX does not treat `//` as a comment in a text position, and `react/jsx-no-comment-textnodes` flags it.
 - The `cancelled` flag guards against the effect being torn down mid-sequence (React 18 StrictMode double-invokes effects in dev, so without it you get two interleaved typing loops).
 
 - [ ] **Step 3: Mount it**
@@ -1285,7 +1295,8 @@ const runCommand = (raw) => {
 }
 ```
 
-- Render `history` after the scripted lines. Results containing `\n` need `whitespace-pre-wrap` so `help` output keeps its columns. Unknown-command results get `text-acc-red`.
+- Render `history` after the scripted lines. Results containing `\n` need `whitespace-pre-wrap` so `help` output keeps its columns.
+- **Unknown-command results must use the `.term-error` CLASS, not the `text-acc-red` Tailwind utility.** A Tailwind colour utility is specificity (0,1,0) and is emitted at `@tailwind utilities` near the top of the stylesheet; `.term-line.term-result` is (0,2,0) and defined later in `index.css`, so it wins on both specificity and source order and the error text renders plain white. Verified against the built CSS. Use `className="term-line term-error whitespace-pre-wrap"` — do not combine it with `term-result`.
 - Replace the static `done &&` cursor block with the input form:
 
 ```jsx
@@ -1305,7 +1316,7 @@ const runCommand = (raw) => {
 )}
 ```
 
-- **Mobile:** below `640px` render command chips instead of the input, so the OS keyboard never covers the content. Use a `matchMedia("(min-width: 640px)")` check (same pattern as `useReducedMotion`) rather than CSS alone, so the input is not merely hidden but absent from the DOM:
+- **Mobile:** below `640px` render command chips instead of the input, so the OS keyboard never covers the content. Use a `matchMedia("(min-width: 640px)")` check (same pattern as `useReducedMotion`) rather than CSS alone, so the input is not merely hidden but absent from the DOM. **Render them as a single either/or — `{isDesktop ? <form.../> : <chips.../>}` — NOT as a form plus a `sm:hidden` chip row.** A `sm:hidden` class only hides the chips on desktop; it leaves the input in the DOM at every width, which is the exact failure being avoided. The snippet below shows the chips only; wire it as the else-branch:
 
 ```jsx
 <div className="flex flex-wrap gap-2 mt-2 sm:hidden">
@@ -1430,7 +1441,7 @@ const BootScreen = ({ onFinish }) => {
             window.removeEventListener("pointerdown", finish)
             clearTimeout(auto)
         }
-    })
+    }, [reduced, onFinish])
 
     if (reduced) return null
 
@@ -1452,6 +1463,14 @@ BootScreen.propTypes = { onFinish: PropTypes.func.isRequired }
 
 export default BootScreen
 ```
+
+**Effect dependencies matter here.** The listener effect MUST have a dependency
+array. Without one it re-runs on every render — and since `setShown` fires seven
+times during boot, that means tearing down and re-registering the window
+listeners seven times AND restarting the 4.2s auto-dismiss timer each tick, so
+the boot would never auto-dismiss on schedule. `finish` must also be stable
+(wrap in `useCallback`) or guarded against double-firing, since all four dismiss
+paths converge on it.
 
 - [ ] **Step 3: Gate it in `App.jsx`**
 
@@ -1657,6 +1676,15 @@ git commit -m "feat: restyle sidebar for terminal theme"
 - [ ] **Step 1: Rewrite the component**
 
 - Remove the internal `useState`; the active tab is now controlled via the `active` prop, with `onTabChange` to update it. This is what lets the taskbar, the hero terminal, and the tab bar all drive the same state.
+
+- **CRITICAL — the tech-stack tab id must be `"stack"`, not `"uses"`.** The
+  pre-redesign `ContentPanel` used `id: "uses"` for that tab. Every piece of new
+  code uses `"stack"`: `Taskbar`'s `NAV` array (Task 5), `parseCommand`'s `TABS`
+  (Task 7), and the `TITLES` map below. If you carry the legacy `"uses"` id
+  forward when rewriting, the taskbar's `stack` link and the terminal's `stack`
+  command will both silently match no panel and do nothing — no error, no
+  console warning. The component file stays named `Uses.jsx`; only the tab id
+  changes.
 - Tab bar: four buttons, `font-mono text-[13px] px-4 py-2.5 bg-term-panel2 border-2 border-term-outline shadow-[2px_2px_0_#000]`. Active gets `bg-acc-green text-[#1e1f29]` and shows a `►` marker; inactive shows the marker at `opacity-0` so widths do not shift.
 - Keep the existing emoji + `react-icons` labels: 💼 CAREER, 🎓 EDUCATION, 📁 PROJECTS, 🛠 STACK.
 - Wrap the panel in `<PixelWindow>` with a **per-tab title**:

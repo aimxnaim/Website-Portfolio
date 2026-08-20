@@ -7,22 +7,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        gold: {
-          300: '#fde68a',
-          400: '#f0c040',
-          500: '#d4a017',
-          600: '#b8860b',
+        term: {
+          bg:      '#282a36',
+          panel:   '#2d2f3d',
+          panel2:  '#44475a',
+          outline: '#000000',
+          text:    '#f8f8f2',
+          muted:   '#9aa5ce',
         },
-        rpg: {
-          bg:     '#080b12',
-          panel:  '#0d111a',
-          border: '#1f2a3c',
-          dim:    '#64748b',
+        acc: {
+          green:  '#50fa7b',
+          purple: '#bd93f9',
+          cyan:   '#8be9fd',
+          pink:   '#ff79c6',
+          orange: '#ffb86c',
+          red:    '#ff5555',
         },
       },
       fontFamily: {
         pixel: ['"Press Start 2P"', 'monospace'],
-        rpg:   ['"VT323"', 'monospace'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['"Space Grotesk"', 'sans-serif'],
       },
     },
   },

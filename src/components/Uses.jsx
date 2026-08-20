@@ -1,34 +1,15 @@
 import PropTypes from "prop-types"
 import { motion } from "framer-motion"
+import useReducedMotion from "../hooks/useReducedMotion"
 import { RiReactjsLine } from "react-icons/ri"
 import { SiMongodb, SiRedux, SiJavascript, SiPostman, SiTypescript, SiGooglecloud } from "react-icons/si"
 import { FaNodeJs, FaBootstrap, FaGitAlt, FaDocker, FaGithub, FaAngular } from "react-icons/fa"
 import { BiLogoPostgresql } from "react-icons/bi"
 import { FaLaptop, FaKeyboard, FaComputerMouse, FaHeadphones } from "react-icons/fa6"
 import useCodeStats from "../hooks/useCodeStats"
+import PixelWindow from "./PixelWindow"
 
-const StatBar = ({ id, colorClass, bar }) => (
-    <div className="flex items-center gap-2">
-        <span className={`pixel-font text-[9px] w-5 ${colorClass}`}>{id}</span>
-        <div className="stat-bar-track flex-1">
-            <motion.div
-                className={`stat-bar-fill ${id === "HP" ? "bar-hp" : "bar-mp"}`}
-                initial={{ width: 0 }}
-                animate={{ width: bar ? `${Math.max(bar.pct, 4)}%` : "0%" }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-            />
-        </div>
-        <span className="text-neutral-500 text-[11px] w-16 text-right tabular-nums">
-            {bar ? bar.xp.toLocaleString() : "—"}
-        </span>
-    </div>
-)
-
-StatBar.propTypes = {
-    id: PropTypes.string.isRequired,
-    colorClass: PropTypes.string.isRequired,
-    bar: PropTypes.shape({ xp: PropTypes.number, pct: PropTypes.number }),
-}
+const BLOCK_LABEL = "font-pixel text-[9px] text-term-muted tracking-[0.08em]"
 
 const TOOLS = [
     { icon: SiTypescript,     color: "text-blue-400",    label: "TypeScript" },
@@ -54,64 +35,61 @@ const GEAR = [
     { icon: FaComputerMouse, label: "Razer DeathAdder" },
 ]
 
-const XpBars = ({ items, maxXp }) => (
-    <div className="flex flex-col gap-3">
-        {items.map(({ name, xp }, i) => {
-            const pct = Math.round((xp / maxXp) * 100)
-            return (
+// Single row: 120px name column, .stat-track fill bar, right-aligned 76px XP column.
+const StatBar = ({ label, xp, pct, tone }) => {
+    const reduced = useReducedMotion()
+    const width = `${Math.max(pct, 3)}%`
+
+    return (
+        <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-term-muted w-[120px] shrink-0 truncate">{label}</span>
+            <div className="stat-track">
                 <motion.div
-                    key={name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.05 }}
-                    viewport={{ once: true }}
-                    className="flex items-center gap-3"
-                >
-                    <span className="pixel-font text-[8px] text-neutral-400 w-24 sm:w-32 shrink-0 truncate">{name}</span>
-                    <div className="flex-1 h-2 bg-neutral-800 border border-neutral-700 relative overflow-hidden">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${pct}%` }}
-                            transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
-                            viewport={{ once: true }}
-                            className="h-full bg-gold-400/70"
-                        />
-                    </div>
-                    <span className="pixel-font text-[8px] text-gold-400/60 w-14 sm:w-20 text-right shrink-0">
-                        {xp.toLocaleString()} XP
-                    </span>
-                </motion.div>
-            )
-        })}
-    </div>
-)
+                    className={`stat-fill ${tone === "hp" ? "is-hp" : tone === "mp" ? "is-mp" : ""}`}
+                    initial={reduced ? false : { width: 0 }}
+                    animate={{ width }}
+                    transition={{ duration: reduced ? 0 : 1, ease: "easeOut" }}
+                />
+            </div>
+            <span className="font-mono text-xs text-term-muted w-[76px] text-right shrink-0 tabular-nums">
+                {xp.toLocaleString()} XP
+            </span>
+        </div>
+    )
+}
+
+StatBar.propTypes = {
+    label: PropTypes.string.isRequired,
+    xp: PropTypes.number.isRequired,
+    pct: PropTypes.number.isRequired,
+    tone: PropTypes.oneOf(["hp", "mp"]),
+}
 
 const xpItemShape = PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, xp: PropTypes.number })
 )
 
-XpBars.propTypes = {
-    items: xpItemShape.isRequired,
-    maxXp: PropTypes.number.isRequired,
+// Language / machine XP bars — width relative to the top entry's XP.
+const StatsBlock = ({ items, loading, error }) => {
+    if (loading) return <p className="font-mono text-xs text-term-muted">LOADING STATS...</p>
+    if (error) return <p className="font-mono text-xs text-acc-red">COULD NOT REACH CODESTATS.NET</p>
+    if (items.length === 0) return <p className="font-mono text-xs text-term-muted">NO DATA</p>
+
+    return (
+        <div className="flex flex-col gap-2">
+            {items.map(({ name, xp }) => (
+                <StatBar
+                    key={name}
+                    label={name}
+                    xp={xp}
+                    pct={items[0].xp > 0 ? Math.max(Math.round((xp / items[0].xp) * 100), 3) : 3}
+                />
+            ))}
+        </div>
+    )
 }
 
-const StatsBlock = ({ title, items, loading, error }) => (
-    <div>
-        <p className="pixel-font text-[8px] text-gold-400/50 mb-4 tracking-widest">{title}</p>
-        {loading && (
-            <p className="pixel-font text-[8px] text-neutral-500 text-center py-4 animate-pulse">LOADING STATS...</p>
-        )}
-        {error && (
-            <p className="pixel-font text-[8px] text-red-400/60 text-center py-4">FAILED TO LOAD STATS</p>
-        )}
-        {!loading && !error && items.length > 0 && (
-            <XpBars items={items} maxXp={items[0].xp || 1} />
-        )}
-    </div>
-)
-
 StatsBlock.propTypes = {
-    title: PropTypes.string.isRequired,
     items: xpItemShape.isRequired,
     loading: PropTypes.bool,
     error: PropTypes.bool,
@@ -121,97 +99,76 @@ const Uses = () => {
     const { langs, machines, hp, mp, loading, error } = useCodeStats()
 
     return (
-        <div className="pb-4">
-            {/* Section header */}
-            <motion.div
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="my-10 text-center flex flex-col items-center gap-3"
-            >
-                <span className="pixel-font text-[9px] text-gold-400/60 tracking-[0.15em] w-full">◄ TECH STACK ►</span>
-                <h1 className="rpg-font text-4xl sm:text-5xl lg:text-6xl text-gold-400 tracking-wider w-full">TECH STACK</h1>
-                <div className="h-0.5 w-32 bg-gold-400/40" />
-            </motion.div>
-
-            <div className="max-w-2xl mx-auto flex flex-col gap-6">
-                {/* Tools / equipped skills — looping belt */}
-                <motion.div
-                    whileInView={{ opacity: 1, y: 0 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="rpg-panel p-4 sm:p-6"
-                >
-                    <p className="pixel-font text-[8px] text-gold-400/50 tracking-widest mb-4">TOOLS I USE</p>
-                    <div className="marquee">
-                        <div className="marquee-track gap-3">
-                            {[...TOOLS, ...TOOLS].map(({ icon: Icon, color, label }, i) => (
-                                <div
-                                    key={`${label}-${i}`}
-                                    className="inv-slot p-4 flex flex-col items-center justify-center gap-2 w-24 shrink-0"
-                                >
-                                    <Icon className={`text-4xl ${color}`} />
-                                    <span className="text-[11px] text-neutral-400 text-center leading-tight">{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <p className="text-[11px] text-neutral-600 mt-4 text-center">Hover to pause</p>
-                </motion.div>
-
-                {/* Code::Stats — languages + machines */}
-                <motion.div
-                    whileInView={{ opacity: 1, y: 0 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="rpg-panel p-4 sm:p-6 flex flex-col gap-8"
-                >
-                    <div>
-                        <p className="pixel-font text-[9px] text-gold-400/70 tracking-widest mb-3">CODE::STATS / LIVE</p>
-                        <p className="text-[11px] text-neutral-500 mb-2">
-                            Live from <a href="https://codestats.net/users/aimxnaim" target="_blank" rel="noreferrer" className="text-gold-400 hover:underline">Code::Stats</a> — HP = all-time XP, MP = today&apos;s XP
-                        </p>
-                        <div className="flex flex-col gap-2">
-                            <StatBar id="HP" colorClass="text-red-400" bar={loading ? null : hp} />
-                            <StatBar id="MP" colorClass="text-blue-400" bar={loading ? null : mp} />
-                        </div>
-                    </div>
-
-                    <StatsBlock title="LANGUAGE PROFICIENCY" items={langs} loading={loading} error={error} />
-                    <StatsBlock title="TIME BY MACHINE" items={machines} loading={loading} error={error} />
-
-                    <a
-                        href="https://codestats.net/users/aimxnaim"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="pixel-font text-[8px] text-neutral-600 hover:text-gold-400/60 transition-colors text-center"
-                    >
-                        ► CODE::STATS PROFILE
-                    </a>
-                </motion.div>
-
-                {/* Gear — placeholder hardware */}
-                <motion.div
-                    whileInView={{ opacity: 1, y: 0 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="rpg-panel p-4 sm:p-6"
-                >
-                    <p className="pixel-font text-[8px] text-gold-400/50 mb-4 tracking-widest">HARDWARE SETUP</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        {GEAR.map(({ icon: Icon, label }) => (
-                            <div key={label} className="inv-slot p-4 flex flex-col items-center gap-2">
-                                <Icon className="text-3xl text-gold-400/80" />
-                                <span className="text-[11px] text-neutral-400 text-center leading-tight">{label}</span>
+        <div className="flex flex-col gap-4">
+            {/* Tools I use — looping belt */}
+            <PixelWindow innerClassName="p-4 sm:p-6">
+                <p className={`${BLOCK_LABEL} mb-4`}>TOOLS I USE</p>
+                <div className="tools-marquee">
+                    <div className="tools-track">
+                        {[...TOOLS, ...TOOLS].map(({ icon: Icon, color, label }, i) => (
+                            <div
+                                key={`${label}-${i}`}
+                                className="font-mono text-[13px] px-4 py-2.5 bg-term-panel2 border-2 border-term-outline text-term-text whitespace-nowrap flex items-center gap-2 flex-shrink-0"
+                            >
+                                <Icon className={`text-base ${color}`} />
+                                <span>{label}</span>
                             </div>
                         ))}
                     </div>
-                </motion.div>
-            </div>
+                </div>
+            </PixelWindow>
+
+            {/* Code::Stats — live HP/MP */}
+            <PixelWindow innerClassName="p-4 sm:p-6 flex flex-col gap-4">
+                <p className={BLOCK_LABEL}>CODE::STATS — LIVE</p>
+                <p className="font-mono text-xs text-term-muted">
+                    Source:{" "}
+                    <a
+                        href="https://codestats.net/users/aimxnaim"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-acc-green hover:underline"
+                    >
+                        codestats.net/users/aimxnaim
+                    </a>
+                </p>
+                {loading && <p className="font-mono text-xs text-term-muted">LOADING STATS...</p>}
+                {error && <p className="font-mono text-xs text-acc-red">COULD NOT REACH CODESTATS.NET</p>}
+                {!loading && !error && (
+                    <div className="flex flex-col gap-2">
+                        <StatBar label="HP" xp={hp?.xp ?? 0} pct={hp?.pct ?? 0} tone="hp" />
+                        <StatBar label="MP" xp={mp?.xp ?? 0} pct={mp?.pct ?? 0} tone="mp" />
+                    </div>
+                )}
+            </PixelWindow>
+
+            {/* Language proficiency */}
+            <PixelWindow innerClassName="p-4 sm:p-6">
+                <p className={`${BLOCK_LABEL} mb-4`}>LANGUAGE PROFICIENCY</p>
+                <StatsBlock items={langs} loading={loading} error={error} />
+            </PixelWindow>
+
+            {/* Time by machine */}
+            <PixelWindow innerClassName="p-4 sm:p-6">
+                <p className={`${BLOCK_LABEL} mb-4`}>TIME BY MACHINE</p>
+                <StatsBlock items={machines} loading={loading} error={error} />
+            </PixelWindow>
+
+            {/* Hardware setup */}
+            <PixelWindow innerClassName="p-4 sm:p-6">
+                <p className={`${BLOCK_LABEL} mb-4`}>HARDWARE SETUP</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {GEAR.map(({ icon: Icon, label }) => (
+                        <div
+                            key={label}
+                            className="bg-term-panel2 border-2 border-term-outline p-4 text-center font-mono text-xs"
+                        >
+                            <Icon className="text-2xl text-acc-green mx-auto mb-2" />
+                            <span className="text-term-muted">{label}</span>
+                        </div>
+                    ))}
+                </div>
+            </PixelWindow>
         </div>
     )
 }
