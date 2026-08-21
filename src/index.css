@@ -18,9 +18,15 @@
 .container { max-width: 1400px; }
 
 /* Only the taskbar is fixed; the ticker scrolls away with the page. One
-   offset to manage, defined once and consumed by the shell's padding, by
-   scroll anchoring, and by the rail's sticky top. */
-:root { --taskbar-h: 60px; --rail-top: 76px; }
+   offset to manage, consumed by the shell's padding, by scroll anchoring,
+   and by the rail's sticky top.
+
+   These values are only the pre-hydration fallback. Taskbar.jsx measures the
+   rendered bar and overwrites both on :root, because the real height depends
+   on the RESUME button's padding, the loaded font's metrics, and which
+   children are visible at the current breakpoint — none of which can be
+   known here. Keep the fallback close so the first paint does not jump. */
+:root { --taskbar-h: 52px; --rail-top: 68px; }
 html { scroll-padding-top: var(--taskbar-h); }
 
 img { max-width: 100%; height: auto; }
@@ -53,15 +59,28 @@ img { max-width: 100%; height: auto; }
 .pf-sm { --pf-step: 5px; --pf-border: 3px; }
 .pf-lg { --pf-step: 10px; --pf-border: 5px; }
 
-/* About terminal only — the one animated glow on the page */
+/* About terminal only — the one animated glow on the page. The static filter
+   is the reduced-motion resting state, so that path still gets the green
+   halo and the hard offset shadow, just without the breathing. */
 .term-glow {
-  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 0 12px rgba(80, 250, 123, 0.2));
   box-shadow: none;
   animation: term-glow 4s ease-in-out infinite;
 }
 @keyframes term-glow {
-  0%, 100% { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 0 rgba(80,250,123,0)); }
-  50%      { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(80,250,123,0.28)); }
+  0%, 100% { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 6px rgba(80,250,123,0.10)); }
+  50%      { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 20px rgba(80,250,123,0.38)); }
+}
+
+/* The About terminal's screen. Every other window keeps the #2d2f3d panel;
+   this one is meant to read as an actual display, which also gives the green
+   halo something dark to sit against. Not pure #000 — the frame's own 5px
+   black border would vanish into it and the window would lose its edge. */
+.term-screen {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(80, 250, 123, 0.07), transparent 60%),
+    #0a0b10;
+  box-shadow: inset 0 0 60px rgba(80, 250, 123, 0.05);
 }
 
 .win-bar {
@@ -188,10 +207,17 @@ body.term-theme::after {
 .term-line.term-error  { color: #ff5555; }
 
 /* Ticker (Task 9) — scrolling system.log strip below the hero. */
-.ticker { width: 100%; overflow: hidden; background: #44475a; border-top: 3px solid #000; border-bottom: 3px solid #000; position: relative; z-index: 1; }
+/* No border-top: the ticker sits flush under the taskbar, whose own
+   border-bottom already draws that edge. Having both stacked a 6px black
+   band between them that read as a gap. */
+.ticker { width: 100%; overflow: hidden; background: #44475a; border-bottom: 3px solid #000; position: relative; z-index: 1; }
 .ticker-label { position: absolute; top: 0; left: 0; bottom: 0; display: flex; align-items: center; padding: 0 14px; background: #000; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #50fa7b; z-index: 2; }
-.ticker-track { display: flex; width: max-content; animation: ticker-marquee 28s linear infinite; padding-left: 140px; }
-.ticker-track span { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #9aa5ce; padding: 14px 0; white-space: nowrap; }
+/* Colour lives on the track, not on `.ticker-track span`. As a descendant
+   selector that rule was (0,1,1) and outranked the (0,1,0) text-acc-green /
+   text-acc-orange utilities on the [OK] and [INFO] labels, painting them
+   muted. Inherited from the parent instead, a utility on a child wins. */
+.ticker-track { display: flex; width: max-content; animation: ticker-marquee 28s linear infinite; padding-left: 140px; color: #9aa5ce; }
+.ticker-track span { font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 14px 0; white-space: nowrap; }
 @keyframes ticker-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
@@ -208,4 +234,70 @@ body.term-theme::after {
 
 @media (prefers-reduced-motion: reduce) {
   .tools-track { animation: none; }
+}
+
+/* Avatar flip — profile.dat's pixel portrait turns over to reveal the real
+   photo. The LV badge deliberately lives outside this element: inside the 3D
+   context it would rotate away with the front face and read as a glitch. */
+.avatar-flip {
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none;
+  perspective: 600px;
+  cursor: pointer;
+}
+.avatar-flip__inner {
+  position: relative; display: block; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+/* Hover only where a real pointer exists — on touch, :hover latches after a
+   tap and the card would stay face-down. Touch gets the click toggle instead,
+   which is also what keyboard users press. */
+@media (hover: hover) {
+  .avatar-flip:hover .avatar-flip__inner { transform: rotateY(180deg); }
+}
+.avatar-flip:focus-visible .avatar-flip__inner,
+.avatar-flip.is-flipped .avatar-flip__inner { transform: rotateY(180deg); }
+
+.avatar-flip__face {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  border: 2px solid #000;
+  backface-visibility: hidden;
+}
+.avatar-flip__face.is-back { transform: rotateY(180deg); }
+
+/* One-time nudge, played a beat after boot: the card turns far enough to show
+   it has a back, then springs past zero and settles. Without it the flip is a
+   feature only a wandering cursor ever finds. Rail cancels the class the
+   instant the pointer arrives — an animation outranks the hover transition,
+   so leaving it running would swallow the real interaction. */
+@keyframes avatar-peek {
+  0%   { transform: rotateY(0deg); }
+  45%  { transform: rotateY(-32deg); }
+  72%  { transform: rotateY(8deg); }
+  100% { transform: rotateY(0deg); }
+}
+.avatar-flip__inner.is-peeking { animation: avatar-peek 1.1s ease-in-out; }
+
+/* The corner hint badge. Sits outside the 3D context with the LV badge, so it
+   stays flat and legible while the card turns. */
+.avatar-flip-hint {
+  position: absolute; top: -7px; left: -7px; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3px;
+  background: #44475a; color: #bd93f9;
+  border: 2px solid #000000;
+  pointer-events: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.avatar-flip:hover + .avatar-flip-hint,
+.avatar-flip:focus-visible + .avatar-flip-hint {
+  background: #bd93f9; color: #1e1f29;
+}
+
+/* Still swaps, just without the turn or the nudge. */
+@media (prefers-reduced-motion: reduce) {
+  .avatar-flip__inner { transition: none; }
+  .avatar-flip__inner.is-peeking { animation: none; }
 }

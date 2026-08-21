@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { FaLinkedin, FaGithub, FaInstagram, FaThreads, FaDiscord, FaFilePdf } from "react-icons/fa6"
 import { formatClock } from "../lib/clock"
 import { downloadResume } from "../lib/resume"
@@ -14,14 +14,51 @@ const SOCIALS = [
 const ICON_CLASS =
     "p-1.5 text-term-muted hover:text-acc-green transition-colors"
 
+// Gap between the bar and the rail when the rail sticks.
+const RAIL_GAP = 16
+
 const Taskbar = () => {
     const [now, setNow] = useState(() => formatClock(new Date()))
     const [copied, setCopied] = useState(false)
     const reduced = useReducedMotion()
+    const headerRef = useRef(null)
 
     useEffect(() => {
         const id = setInterval(() => setNow(formatClock(new Date())), 1000)
         return () => clearInterval(id)
+    }, [])
+
+    // The bar is fixed, so the page below it has to be pushed down by exactly
+    // its height. That height is not knowable ahead of time — it depends on
+    // the RESUME button's padding, the loaded font's metrics, and which
+    // children are visible at the current breakpoint. Hardcoding it left a
+    // strip of bare background between the bar and the ticker.
+    //
+    // Publish the measured height instead, and let CSS consume it. The
+    // literals in index.css stay as the pre-hydration fallback.
+    useLayoutEffect(() => {
+        const el = headerRef.current
+        if (!el) return undefined
+
+        const publish = () => {
+            const h = Math.round(el.getBoundingClientRect().height)
+            if (h <= 0) return
+            const root = document.documentElement
+            root.style.setProperty("--taskbar-h", `${h}px`)
+            root.style.setProperty("--rail-top", `${h + RAIL_GAP}px`)
+        }
+
+        publish()
+
+        const ro = new ResizeObserver(publish)
+        ro.observe(el)
+
+        // Web fonts land after first paint and change the bar's height, but
+        // do not always resize the observed box in a way ResizeObserver
+        // reports before layout settles.
+        document.fonts?.ready.then(publish).catch(() => {})
+
+        return () => ro.disconnect()
     }, [])
 
     const copyDiscord = async () => {
@@ -37,7 +74,7 @@ const Taskbar = () => {
     }
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[70]">
+        <header ref={headerRef} className="fixed top-0 left-0 right-0 z-[70]">
             <div className="taskbar">
                 <button
                     type="button"

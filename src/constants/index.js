@@ -7,9 +7,18 @@ import uitmLogo from "../assets/project/education/uitm-logo.png";
 import matricLogo from "../assets/project/education/matric-logo.png";
 import mrsmLogo from "../assets/project/education/mrsm-logo.png";
 
-export const HERO_CONTENT = `Full stack software engineer with hands-on experience building and maintaining production web applications, from designing reusable front-end libraries to developing secure, scalable backend systems. Driven by continuous learning and a genuine interest in solving real-world problems through clean, maintainable code.`;
+// The only block of plain prose on the page — everything around it is a
+// terminal line, a card, or a tag. It leads with a hook rather than a job
+// title (the rail and the ticker already state the title twice), and it is
+// split into short paragraphs because this is the one thing a visitor
+// actually reads before deciding whether to click anything.
+export const ABOUT_LEAD = `I build the unglamorous software people can't afford to have break.`;
 
-export const ABOUT_TEXT = `I'm a Full Stack Developer at Ernst & Young, building secure compliance platforms with Angular, Node.js/Express, and TypeScript. I've designed reusable front-end libraries, delivered type-safe REST APIs with Prisma, and shipped full stack projects using the MERN stack — always with a focus on clean, maintainable code.`;
+export const ABOUT_PARAGRAPHS = [
+    `Right now that's a compliance platform for Malaysia's Consumer Credit Commission at Ernst & Young — Angular on the front, Node/Express and TypeScript behind it. The part I'm proudest of isn't a feature. It's two Angular libraries I designed and published that now render 20+ regulatory forms in production: adding a new form used to be a sprint, now it's a config file.`,
+    `Before that I stress-tested a digital bank's payment flows, shipped MERN projects because I wanted to see if I could, and finished a computer science degree at UiTM. These days I'm working through the AWS Solutions Architect – Associate.`,
+    `The through-line is simple: code that's clean, typed, and still readable six months later — by whoever inherits it, me included.`,
+];
 
 export const EDUCATION = [
     {

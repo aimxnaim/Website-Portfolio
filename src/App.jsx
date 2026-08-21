@@ -53,7 +53,7 @@ function App() {
 
                 <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
-                        <Rail active={activeTab} onTabChange={goToTab} />
+                        <Rail active={activeTab} onTabChange={goToTab} booted={booted} />
                         <div className="w-full min-w-0 order-3 lg:order-none lg:flex-1">
                             <ContentPanel
                                 active={activeTab}
