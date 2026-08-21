@@ -120,8 +120,8 @@ export const SMALL_PROJECTS = [
     {
         title: "Website Portfolio",
         subtitle: "Personal Portfolio Website",
-        description: "My code for my website portfolio. Built using React, Tailwind CSS, Framer Motion and deployed on Vercel. Feel free to look.",
-        technologies: ["HTML", "CSS", "Javascript", "React", "Tailwind CSS", "Node.js", "Vercel", "Framer Motion"],
+        description: "My code for my website portfolio. Built using React, Tailwind CSS, Vite, and Framer Motion, and deployed on Vercel. Feel free to look.",
+        technologies: ["React", "Tailwind CSS", "Vite", "Framer Motion", "JavaScript", "Vercel"],
         githubLink: "https://github.com/aimxnaim/Website-Portfolio"
     }
 ];
