@@ -3,11 +3,15 @@ import { parseCommand, COMMANDS } from "../lib/terminalCommands"
 import { downloadResume } from "../lib/resume"
 import useReducedMotion from "./useReducedMotion"
 
+// Deliberately NOT the job title, employer, or mission — profile.dat in the
+// rail and the system.log ticker already carry all three, and repeating them
+// here made the terminal read as a third copy of the same paragraph. This is
+// the off-the-clock half of the person instead: the part nothing else on the
+// page says.
 export const TERMINAL_LINES = [
-    { prompt: "$ whoami",         result: "aiman naim — full stack developer" },
-    { prompt: "$ role --current", result: "full stack developer @ ernst & young" },
-    { prompt: "$ mission",        result: "building compliance platforms for malaysia's ccc" },
-    { prompt: "$ status",         result: "open to interesting problems ✓" },
+    { prompt: "$ hobbies --list",  result: "coding (always) · mobile legends, roamer — the healer and guardian · gym" },
+    { prompt: "$ learning --now",  result: "aws certified solutions architect – associate, in progress" },
+    { prompt: "$ status",          result: "open to interesting problems ✓" },
 ]
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
+import PixelIcon from "./PixelIcon"
 import useTypewriter from "../hooks/useTypewriter"
 import useReducedMotion from "../hooks/useReducedMotion"
 import useMediaQuery from "../hooks/useMediaQuery"
@@ -14,17 +15,28 @@ const ROLE_WORDS = [
 ]
 
 // Must cover every id in TAB_IDS. Render order comes from TAB_IDS, not from
-// this object, so the rail and the panel can never disagree.
+// this object, so the rail and the panel can never disagree. The icon is drawn
+// from the id, see PixelIcon.
 const NAV_META = {
-    about:     { emoji: "👤", label: "ABOUT" },
-    career:    { emoji: "💼", label: "CAREER" },
-    education: { emoji: "🎓", label: "EDUCATION" },
-    projects:  { emoji: "📁", label: "PROJECTS" },
-    stack:     { emoji: "🛠", label: "STACK" },
+    about:     { label: "ABOUT" },
+    career:    { label: "CAREER" },
+    education: { label: "EDUCATION" },
+    projects:  { label: "PROJECTS" },
+    stack:     { label: "STACK" },
 }
 
+// Only the selected row wears the chunky black border + hard shadow. Giving
+// every row that frame — the previous treatment — meant five competing slabs
+// and no visible hierarchy, so the active state had to shout with a full green
+// fill to be seen at all. Inactive rows sit flat on the panel and the border is
+// transparent rather than absent, so promoting one shifts nothing.
 const NAV_BASE =
-    "max-lg:w-auto max-lg:flex-shrink-0 max-lg:whitespace-nowrap lg:w-full font-mono text-xs px-3 py-2 border-2 border-term-outline shadow-[2px_2px_0_#000] flex items-center gap-2.5 text-left transition-colors"
+    "group max-lg:w-auto max-lg:flex-shrink-0 max-lg:whitespace-nowrap lg:w-full font-mono text-xs px-2.5 py-2 border-2 flex items-center gap-2.5 text-left transition-colors duration-150"
+
+const NAV_STATE = {
+    active: "relative z-10 border-term-outline bg-acc-green text-[#1e1f29] shadow-[3px_3px_0_#000]",
+    idle: "border-transparent bg-transparent text-term-muted hover:border-term-outline hover:bg-term-panel2 hover:text-acc-green",
+}
 
 const Rail = ({ active, onTabChange }) => {
     const reduced = useReducedMotion()
@@ -88,10 +100,10 @@ const Rail = ({ active, onTabChange }) => {
                     role="tablist"
                     aria-label="content sections"
                     aria-orientation={isDesktop ? "vertical" : "horizontal"}
-                    className="flex max-lg:flex-row max-lg:overflow-x-auto lg:flex-col gap-1.5"
+                    className="flex max-lg:flex-row max-lg:overflow-x-auto lg:flex-col gap-1"
                 >
                     {TAB_IDS.map((id, index) => {
-                        const { emoji, label } = NAV_META[id]
+                        const { label } = NAV_META[id]
                         const isActive = id === active
                         return (
                             <button
@@ -107,16 +119,30 @@ const Rail = ({ active, onTabChange }) => {
                                 tabIndex={isActive ? 0 : -1}
                                 onClick={() => onTabChange(id)}
                                 onKeyDown={(event) => handleKeyDown(event, index)}
-                                className={`${NAV_BASE} ${isActive ? "bg-acc-green text-[#1e1f29]" : "bg-term-panel2 text-term-muted hover:text-acc-green"}`}
+                                className={`${NAV_BASE} ${isActive ? NAV_STATE.active : NAV_STATE.idle}`}
                             >
+                                {/* The icon inherits the row's text colour, so it
+                                    tracks idle / hover / active without extra classes. */}
+                                <PixelIcon name={id} />
+                                <span className="tracking-wider">{label}</span>
                                 {/* Kept in the layout when inactive so labels don't shift. */}
-                                <span className={isActive ? "" : "opacity-0"} aria-hidden="true">►</span>
-                                <span aria-hidden="true">{emoji}</span>
-                                <span>{label}</span>
+                                <span
+                                    aria-hidden="true"
+                                    className={`ml-auto pl-3 max-lg:hidden ${isActive ? "" : "opacity-0 group-hover:opacity-40"}`}
+                                >
+                                    ►
+                                </span>
                             </button>
                         )
                     })}
                 </nav>
+
+                {/* Arrow-key roving focus is implemented above but undiscoverable. */}
+                <p className="max-lg:hidden mt-2 pt-2 border-t-2 border-black/40 px-2.5 font-mono text-label text-term-muted/70">
+                    <span className="text-acc-purple">↑↓</span> navigate
+                    <span className="mx-1.5 text-term-muted/40">·</span>
+                    <span className="text-acc-purple">↵</span> open
+                </p>
             </PixelWindow>
 
             {/* Block 3 — quote + credits. No window: the quote carries its own
@@ -131,7 +157,7 @@ const Rail = ({ active, onTabChange }) => {
                 </div>
 
                 <div className="flex flex-col items-center gap-1 text-center">
-                    <p className="font-mono text-xs text-term-muted">Built with React, Tailwind & Vite — pixel/terminal edition</p>
+                    <p className="font-mono text-xs text-term-muted">Built with React, Tailwind & Vite</p>
                     <p className="font-pixel text-label text-term-muted">© {new Date().getFullYear()} AIMAN NAIM</p>
                 </div>
             </div>

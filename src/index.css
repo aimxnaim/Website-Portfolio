@@ -18,9 +18,15 @@
 .container { max-width: 1400px; }
 
 /* Only the taskbar is fixed; the ticker scrolls away with the page. One
-   offset to manage, defined once and consumed by the shell's padding, by
-   scroll anchoring, and by the rail's sticky top. */
-:root { --taskbar-h: 60px; --rail-top: 76px; }
+   offset to manage, consumed by the shell's padding, by scroll anchoring,
+   and by the rail's sticky top.
+
+   These values are only the pre-hydration fallback. Taskbar.jsx measures the
+   rendered bar and overwrites both on :root, because the real height depends
+   on the RESUME button's padding, the loaded font's metrics, and which
+   children are visible at the current breakpoint — none of which can be
+   known here. Keep the fallback close so the first paint does not jump. */
+:root { --taskbar-h: 52px; --rail-top: 68px; }
 html { scroll-padding-top: var(--taskbar-h); }
 
 img { max-width: 100%; height: auto; }
@@ -53,15 +59,28 @@ img { max-width: 100%; height: auto; }
 .pf-sm { --pf-step: 5px; --pf-border: 3px; }
 .pf-lg { --pf-step: 10px; --pf-border: 5px; }
 
-/* About terminal only — the one animated glow on the page */
+/* About terminal only — the one animated glow on the page. The static filter
+   is the reduced-motion resting state, so that path still gets the green
+   halo and the hard offset shadow, just without the breathing. */
 .term-glow {
-  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 0 12px rgba(80, 250, 123, 0.2));
   box-shadow: none;
   animation: term-glow 4s ease-in-out infinite;
 }
 @keyframes term-glow {
-  0%, 100% { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 0 rgba(80,250,123,0)); }
-  50%      { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 14px rgba(80,250,123,0.28)); }
+  0%, 100% { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 6px rgba(80,250,123,0.10)); }
+  50%      { filter: drop-shadow(6px 6px 0 rgba(0,0,0,0.5)) drop-shadow(0 0 20px rgba(80,250,123,0.38)); }
+}
+
+/* The About terminal's screen. Every other window keeps the #2d2f3d panel;
+   this one is meant to read as an actual display, which also gives the green
+   halo something dark to sit against. Not pure #000 — the frame's own 5px
+   black border would vanish into it and the window would lose its edge. */
+.term-screen {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(80, 250, 123, 0.07), transparent 60%),
+    #0a0b10;
+  box-shadow: inset 0 0 60px rgba(80, 250, 123, 0.05);
 }
 
 .win-bar {
@@ -188,7 +207,10 @@ body.term-theme::after {
 .term-line.term-error  { color: #ff5555; }
 
 /* Ticker (Task 9) — scrolling system.log strip below the hero. */
-.ticker { width: 100%; overflow: hidden; background: #44475a; border-top: 3px solid #000; border-bottom: 3px solid #000; position: relative; z-index: 1; }
+/* No border-top: the ticker sits flush under the taskbar, whose own
+   border-bottom already draws that edge. Having both stacked a 6px black
+   band between them that read as a gap. */
+.ticker { width: 100%; overflow: hidden; background: #44475a; border-bottom: 3px solid #000; position: relative; z-index: 1; }
 .ticker-label { position: absolute; top: 0; left: 0; bottom: 0; display: flex; align-items: center; padding: 0 14px; background: #000; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #50fa7b; z-index: 2; }
 /* Colour lives on the track, not on `.ticker-track span`. As a descendant
    selector that rule was (0,1,1) and outranked the (0,1,0) text-acc-green /

@@ -3,12 +3,21 @@ import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import useMediaQuery from "../hooks/useMediaQuery"
 import { COMMANDS } from "../lib/terminalCommands"
-import { ABOUT_TEXT } from "../constants"
+import { ABOUT_LEAD, ABOUT_PARAGRAPHS } from "../constants"
 
 // 900px covers iPad portrait and landscape phones. Below it the text input
 // is truly absent from the DOM (not merely CSS-hidden), so tapping cannot
 // summon the OS keyboard over the content.
 const DESKTOP_QUERY = "(min-width: 900px)"
+
+// "Fri Aug 21 09:14" — the stamp a real shell prints above the first prompt.
+// It stands in for the name/role heading this terminal used to carry, which
+// only repeated what profile.dat in the rail already says.
+const loginStamp = () =>
+    new Date().toLocaleString("en-US", {
+        weekday: "short", month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit", hour12: false,
+    }).replace(",", "")
 
 const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowRef }) => {
     const isDesktop = useMediaQuery(DESKTOP_QUERY)
@@ -30,13 +39,10 @@ const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowR
     return (
         <div className="flex flex-col gap-6">
             <div ref={windowRef}>
-                <PixelWindow size="lg" glow title="aiman@root: ~/about">
+                <PixelWindow size="lg" glow title="aiman@root: ~/about" innerClassName="term-screen">
                     <div className="px-5 py-6 sm:px-6 text-left min-h-[220px]">
-                        <div className="font-pixel text-[clamp(16px,3vw,24px)] text-term-text mb-1.5">
-                            AIMAN NAIM
-                        </div>
-                        <div className="font-mono text-sm text-acc-purple mb-5 tracking-[0.04em]">
-                            {"// full stack software engineer"}
+                        <div className="font-mono text-xs text-term-muted/70 mb-5 pb-3 border-b border-acc-green/15">
+                            last login: {loginStamp()} on ttys001
                         </div>
 
                         {/*
@@ -116,7 +122,19 @@ const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowR
                 </PixelWindow>
             </div>
 
-            <p className="font-sans text-base text-term-muted">{ABOUT_TEXT}</p>
+            {/* Capped at 68ch. The content panel runs past 900px on a desktop
+                and prose that wide is measurably harder to track line to line —
+                the terminal above can fill the width, this can't. */}
+            <div className="flex flex-col gap-4 max-w-[68ch]">
+                <p className="font-sans text-lg text-term-text leading-relaxed border-l-[3px] border-acc-green pl-4">
+                    {ABOUT_LEAD}
+                </p>
+                {ABOUT_PARAGRAPHS.map((para) => (
+                    <p key={para} className="font-sans text-base text-term-muted">
+                        {para}
+                    </p>
+                ))}
+            </div>
         </div>
     )
 }
