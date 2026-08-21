@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import PixelIcon from "./PixelIcon"
@@ -8,6 +8,7 @@ import useMediaQuery from "../hooks/useMediaQuery"
 import { liveAge } from "../lib/clock"
 import { TAB_IDS, tabButtonId, tabPanelId } from "../lib/tabs"
 import logo from "../assets/aiman.jpg"
+import photo from "../assets/aiman-profile-pic.jpg"
 
 const ROLE_WORDS = [
     "Full Stack Developer", "Front End Developer", "Back End Developer",
@@ -42,6 +43,9 @@ const Rail = ({ active, onTabChange }) => {
     const reduced = useReducedMotion()
     const btnRefs = useRef({})
     const isDesktop = useMediaQuery("(min-width: 1024px)")
+    // Click/tap toggle for the avatar. Hover is pure CSS; this only exists so
+    // touch and keyboard can reach the back face.
+    const [flipped, setFlipped] = useState(false)
 
     const role = useTypewriter({ words: ROLE_WORDS, loop: true, enabled: !reduced })
 
@@ -68,12 +72,29 @@ const Rail = ({ active, onTabChange }) => {
             {/* Block 1 — identity */}
             <PixelWindow title="profile.dat" className="w-full order-1 lg:order-none" innerClassName="p-3 sm:p-4 flex flex-col gap-4">
                 <div className="relative mx-auto w-24 h-24">
-                    <img
-                        src={logo}
-                        alt="Aiman Naim"
-                        className="w-24 h-24 object-cover border-2 border-black"
-                    />
-                    <span className="absolute bottom-[-6px] right-[-6px] font-pixel text-label bg-acc-green text-[#1e1f29] border-2 border-term-outline px-1.5 py-0.5 leading-none">
+                    {/* A button, not a hover-only div: pointerless input (touch,
+                        keyboard) needs a way to turn the card over too. Both faces
+                        are alt="" — the name and role right below already carry
+                        the identity, so alt text here would only repeat it. */}
+                    <button
+                        type="button"
+                        onClick={() => setFlipped((f) => !f)}
+                        aria-pressed={flipped}
+                        aria-label={flipped ? "Show pixel avatar" : "Show photo of Aiman Naim"}
+                        className={`avatar-flip ${flipped ? "is-flipped" : ""}`}
+                    >
+                        <span className="avatar-flip__inner">
+                            <img src={logo} alt="" className="avatar-flip__face" />
+                            <img
+                                src={photo}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                                className="avatar-flip__face is-back"
+                            />
+                        </span>
+                    </button>
+                    <span className="absolute bottom-[-6px] right-[-6px] z-10 font-pixel text-label bg-acc-green text-[#1e1f29] border-2 border-term-outline px-1.5 py-0.5 leading-none">
                         LV.{liveAge()}
                     </span>
                 </div>

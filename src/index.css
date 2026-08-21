@@ -235,3 +235,39 @@ body.term-theme::after {
 @media (prefers-reduced-motion: reduce) {
   .tools-track { animation: none; }
 }
+
+/* Avatar flip — profile.dat's pixel portrait turns over to reveal the real
+   photo. The LV badge deliberately lives outside this element: inside the 3D
+   context it would rotate away with the front face and read as a glitch. */
+.avatar-flip {
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none;
+  perspective: 600px;
+  cursor: pointer;
+}
+.avatar-flip__inner {
+  position: relative; display: block; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+/* Hover only where a real pointer exists — on touch, :hover latches after a
+   tap and the card would stay face-down. Touch gets the click toggle instead,
+   which is also what keyboard users press. */
+@media (hover: hover) {
+  .avatar-flip:hover .avatar-flip__inner { transform: rotateY(180deg); }
+}
+.avatar-flip:focus-visible .avatar-flip__inner,
+.avatar-flip.is-flipped .avatar-flip__inner { transform: rotateY(180deg); }
+
+.avatar-flip__face {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+  border: 2px solid #000;
+  backface-visibility: hidden;
+}
+.avatar-flip__face.is-back { transform: rotateY(180deg); }
+
+/* Still swaps, just without the turn. */
+@media (prefers-reduced-motion: reduce) {
+  .avatar-flip__inner { transition: none; }
+}
