@@ -54,6 +54,19 @@ const ICONS = {
         "###.....",
         "##......",
     ],
+    // Opposed arrows — "two sides, swap between them". A curved rotate arrow
+    // is the more literal glyph for a card flip, but it turns to mush at 8×8;
+    // this stays readable, and the button's aria-label carries the meaning.
+    flip: [
+        "........",
+        "......#.",
+        ".#######",
+        "......#.",
+        ".#......",
+        "#######.",
+        ".#......",
+        "........",
+    ],
 }
 
 const PixelIcon = ({ name, size = 14, className = "" }) => {

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import PixelIcon from "./PixelIcon"
@@ -39,15 +39,29 @@ const NAV_STATE = {
     idle: "border-transparent bg-transparent text-term-muted hover:border-term-outline hover:bg-term-panel2 hover:text-acc-green",
 }
 
-const Rail = ({ active, onTabChange }) => {
+const Rail = ({ active, onTabChange, booted }) => {
     const reduced = useReducedMotion()
     const btnRefs = useRef({})
     const isDesktop = useMediaQuery("(min-width: 1024px)")
     // Click/tap toggle for the avatar. Hover is pure CSS; this only exists so
     // touch and keyboard can reach the back face.
     const [flipped, setFlipped] = useState(false)
+    const [peeking, setPeeking] = useState(false)
 
     const role = useTypewriter({ words: ROLE_WORDS, loop: true, enabled: !reduced })
+
+    // Wait for `booted` rather than timing from mount: the rail renders under
+    // the boot overlay, so a mount-relative delay would spend the nudge on a
+    // covered card. The pause after gives the panel a moment to settle first.
+    useEffect(() => {
+        if (!booted || reduced) return
+        const timer = setTimeout(() => setPeeking(true), 1200)
+        return () => clearTimeout(timer)
+    }, [booted, reduced])
+
+    // Any real interaction retires the nudge for good — the hint has landed,
+    // and a running animation would otherwise outrank the hover transition.
+    const endPeek = () => setPeeking(false)
 
     const handleKeyDown = (event, index) => {
         let nextIndex = null
@@ -78,12 +92,17 @@ const Rail = ({ active, onTabChange }) => {
                         the identity, so alt text here would only repeat it. */}
                     <button
                         type="button"
-                        onClick={() => setFlipped((f) => !f)}
+                        onClick={() => { endPeek(); setFlipped((f) => !f) }}
+                        onPointerEnter={endPeek}
+                        onFocus={endPeek}
                         aria-pressed={flipped}
                         aria-label={flipped ? "Show pixel avatar" : "Show photo of Aiman Naim"}
                         className={`avatar-flip ${flipped ? "is-flipped" : ""}`}
                     >
-                        <span className="avatar-flip__inner">
+                        <span
+                            className={`avatar-flip__inner ${peeking ? "is-peeking" : ""}`}
+                            onAnimationEnd={endPeek}
+                        >
                             <img src={logo} alt="" className="avatar-flip__face" />
                             <img
                                 src={photo}
@@ -94,6 +113,11 @@ const Rail = ({ active, onTabChange }) => {
                             />
                         </span>
                     </button>
+                    {/* Immediate sibling of the button on purpose — the hover /
+                        focus styling hangs off `.avatar-flip:hover + &`. */}
+                    <span className="avatar-flip-hint">
+                        <PixelIcon name="flip" size={12} />
+                    </span>
                     <span className="absolute bottom-[-6px] right-[-6px] z-10 font-pixel text-label bg-acc-green text-[#1e1f29] border-2 border-term-outline px-1.5 py-0.5 leading-none">
                         LV.{liveAge()}
                     </span>
@@ -189,6 +213,9 @@ const Rail = ({ active, onTabChange }) => {
 Rail.propTypes = {
     active: PropTypes.string.isRequired,
     onTabChange: PropTypes.func.isRequired,
+    // Gates the avatar's one-time flip nudge so it doesn't play behind the
+    // boot overlay. Same signal useTerminal takes as `started`.
+    booted: PropTypes.bool,
 }
 
 export default Rail
