@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import PropTypes from "prop-types"
 import PixelWindow from "./PixelWindow"
 import useMediaQuery from "../hooks/useMediaQuery"
@@ -22,6 +22,21 @@ const loginStamp = () =>
 const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowRef }) => {
     const isDesktop = useMediaQuery(DESKTOP_QUERY)
     const firstRun = useRef(true)
+    const inputRef = useRef(null)
+
+    // Purely presentational, so it stays here rather than in useTerminal:
+    // it only decides whether the fake block cursor or the real caret is
+    // the one being shown.
+    const [focused, setFocused] = useState(false)
+
+    // The input is a 1-line transparent strip — an easy target to miss.
+    // Clicking anywhere on the screen focuses it, the way clicking a real
+    // terminal window does. Guarded on the selection so dragging to copy
+    // a line of output doesn't collapse it by stealing focus.
+    const focusInput = () => {
+        if (window.getSelection()?.toString()) return
+        inputRef.current?.focus()
+    }
 
     // Text typed before narrowing the viewport would otherwise persist in
     // state with no visible field, and reappear if the viewport widens.
@@ -40,7 +55,16 @@ const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowR
         <div className="flex flex-col gap-6">
             <div ref={windowRef}>
                 <PixelWindow size="lg" glow title="aiman@root: ~/about" innerClassName="term-screen">
-                    <div className="px-5 py-6 sm:px-6 text-left min-h-[220px]">
+                    {/*
+                        Not a button/role=button: the input inside is already
+                        in the tab order, so making the wrapper interactive
+                        would add a phantom stop for keyboard and screen-reader
+                        users to buy a convenience only a mouse can use.
+                    */}
+                    <div
+                        className={`px-5 py-6 sm:px-6 text-left min-h-[220px] ${isDesktop && done ? "cursor-text" : ""}`}
+                        onClick={isDesktop && done ? focusInput : undefined}
+                    >
                         <div className="font-mono text-xs text-term-muted/70 mb-5 pb-3 border-b border-acc-green/15">
                             last login: {loginStamp()} on ttys001
                         </div>
@@ -64,9 +88,17 @@ const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowR
                                 </div>
                             ))}
 
-                            {done && (
+                            {/*
+                                Desktop drops this line: styled as term-result
+                                it read as more scripted output rather than an
+                                instruction, and the input's placeholder now
+                                says the same thing where the typing happens.
+                                Mobile has no input, so it stays as the framing
+                                for the button row below.
+                            */}
+                            {done && !isDesktop && (
                                 <div className="term-line term-result">
-                                    {"type 'help' for commands"}
+                                    {"tap a command to run it"}
                                 </div>
                             )}
 
@@ -94,14 +126,43 @@ const AboutPanel = ({ lines, done, history, draft, setDraft, runCommand, windowR
                                 className="term-line flex items-center"
                             >
                                 <label htmlFor="term-input" className="term-prompt">$&nbsp;</label>
+
+                                {/*
+                                    Stands in for the caret while the field is
+                                    idle — the real one only appears once you
+                                    have already clicked in, which is too late
+                                    to be the thing that tells you to.
+
+                                    Hidden rather than unmounted the moment
+                                    focus or text makes a second cursor
+                                    visible: unmounting it collapses its
+                                    ~11px of layout and jolts the whole line
+                                    leftward on click.
+                                */}
+                                <span
+                                    className={`term-cursor ${focused || draft ? "invisible" : ""}`}
+                                    aria-hidden="true"
+                                />
+
+                                {/*
+                                    Placeholder sits at /75 rather than a
+                                    fainter dim: over the near-black screen
+                                    anything below it falls under 4.5:1, and
+                                    this is the main thing telling you the
+                                    terminal takes input.
+                                */}
                                 <input
+                                    ref={inputRef}
                                     id="term-input"
                                     value={draft}
                                     onChange={(e) => setDraft(e.target.value)}
+                                    onFocus={() => setFocused(true)}
+                                    onBlur={() => setFocused(false)}
+                                    placeholder="type a command — try 'help'"
                                     autoComplete="off"
                                     spellCheck="false"
                                     aria-label="Terminal command input"
-                                    className="flex-1 bg-transparent border-0 outline-none font-mono text-sm text-term-text caret-acc-green"
+                                    className="flex-1 bg-transparent border-0 outline-none font-mono text-sm text-term-text caret-acc-green placeholder:text-term-muted/75"
                                 />
                             </form>
                         ) : (
