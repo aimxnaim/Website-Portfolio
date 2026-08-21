@@ -190,8 +190,12 @@ body.term-theme::after {
 /* Ticker (Task 9) — scrolling system.log strip below the hero. */
 .ticker { width: 100%; overflow: hidden; background: #44475a; border-top: 3px solid #000; border-bottom: 3px solid #000; position: relative; z-index: 1; }
 .ticker-label { position: absolute; top: 0; left: 0; bottom: 0; display: flex; align-items: center; padding: 0 14px; background: #000; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #50fa7b; z-index: 2; }
-.ticker-track { display: flex; width: max-content; animation: ticker-marquee 28s linear infinite; padding-left: 140px; }
-.ticker-track span { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #9aa5ce; padding: 14px 0; white-space: nowrap; }
+/* Colour lives on the track, not on `.ticker-track span`. As a descendant
+   selector that rule was (0,1,1) and outranked the (0,1,0) text-acc-green /
+   text-acc-orange utilities on the [OK] and [INFO] labels, painting them
+   muted. Inherited from the parent instead, a utility on a child wins. */
+.ticker-track { display: flex; width: max-content; animation: ticker-marquee 28s linear infinite; padding-left: 140px; color: #9aa5ce; }
+.ticker-track span { font-family: 'JetBrains Mono', monospace; font-size: 13px; padding: 14px 0; white-space: nowrap; }
 @keyframes ticker-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 

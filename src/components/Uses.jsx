@@ -35,23 +35,38 @@ const GEAR = [
     { icon: FaComputerMouse, label: "Razer DeathAdder" },
 ]
 
-// Single row: 120px name column, .stat-track fill bar, right-aligned 76px XP column.
-const StatBar = ({ label, xp, pct, tone }) => {
+// Accent cycle for the XP bars, so adjacent rows never share a colour and a
+// reader can track one language across the list. Deliberately excludes
+// acc.red — it is the HP bar and the error state, and would read as a
+// warning here. Applied as an inline style rather than a class because
+// Tailwind's JIT cannot see dynamically built class names.
+const STAT_COLORS = ["#50fa7b", "#8be9fd", "#bd93f9", "#ff79c6", "#ffb86c"]
+
+// Single row: name column, .stat-track fill bar, right-aligned XP column.
+// The XP column is 100px because at 13px JetBrains Mono a seven-figure value
+// ("1,234,567 XP") measures ~94px; the old 76px wrapped it onto two lines.
+const StatBar = ({ label, xp, pct, tone, color }) => {
     const reduced = useReducedMotion()
     const width = `${Math.max(pct, 3)}%`
 
     return (
         <div className="flex items-center gap-3">
-            <span className="font-mono text-xs text-term-muted w-[120px] shrink-0 truncate">{label}</span>
+            <span
+                className="font-mono text-xs w-[92px] sm:w-[120px] shrink-0 truncate"
+                style={color ? { color } : undefined}
+            >
+                {label}
+            </span>
             <div className="stat-track">
                 <motion.div
                     className={`stat-fill ${tone === "hp" ? "is-hp" : tone === "mp" ? "is-mp" : ""}`}
+                    style={color ? { background: color } : undefined}
                     initial={reduced ? false : { width: 0 }}
                     animate={{ width }}
                     transition={{ duration: reduced ? 0 : 1, ease: "easeOut" }}
                 />
             </div>
-            <span className="font-mono text-xs text-term-muted w-[76px] text-right shrink-0 tabular-nums">
+            <span className="font-mono text-xs text-term-muted w-[100px] text-right shrink-0 tabular-nums whitespace-nowrap">
                 {xp.toLocaleString()} XP
             </span>
         </div>
@@ -63,6 +78,9 @@ StatBar.propTypes = {
     xp: PropTypes.number.isRequired,
     pct: PropTypes.number.isRequired,
     tone: PropTypes.oneOf(["hp", "mp"]),
+    // Hex string. Tints both the bar fill and the label; omitted for HP/MP,
+    // which carry their own tone classes.
+    color: PropTypes.string,
 }
 
 const xpItemShape = PropTypes.arrayOf(
@@ -77,12 +95,13 @@ const StatsBlock = ({ items, loading, error }) => {
 
     return (
         <div className="flex flex-col gap-2">
-            {items.map(({ name, xp }) => (
+            {items.map(({ name, xp }, i) => (
                 <StatBar
                     key={name}
                     label={name}
                     xp={xp}
                     pct={items[0].xp > 0 ? Math.max(Math.round((xp / items[0].xp) * 100), 3) : 3}
+                    color={STAT_COLORS[i % STAT_COLORS.length]}
                 />
             ))}
         </div>

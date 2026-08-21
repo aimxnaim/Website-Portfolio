@@ -10,17 +10,21 @@ const BADGE_TONE = {
 
 const ProcessRow = ({ pid, name, badge, sub, bullets = [], tags = [], links = [], image, imageAlt, imageVariant = "chip", onClick }) => (
     <PixelWindow innerClassName="grid grid-cols-1 sm:grid-cols-[90px_1fr] gap-4 sm:gap-[18px] px-[22px] py-5">
-        <div className="font-mono text-xs text-term-muted flex sm:block gap-2 items-baseline">
-            PID<span className="sm:block text-[17px] text-term-text">{pid}</span>
-        </div>
+        {/* The identity column: a logo where the entry has one, the PID as a
+            fallback where it does not (project rows, whose image is a
+            screenshot rendered further down rather than a mark). */}
+        {image && imageVariant === "chip" ? (
+            <span className="w-16 h-16 border-2 border-term-outline bg-term-panel2 p-2 flex items-center justify-center flex-shrink-0">
+                <img src={image} alt={imageAlt || name} className="max-w-full max-h-full object-contain" />
+            </span>
+        ) : (
+            <div className="font-mono text-xs text-term-muted flex sm:block gap-2 items-baseline">
+                PID<span className="sm:block text-[17px] text-term-text">{pid}</span>
+            </div>
+        )}
 
         <div>
             <div className="flex items-center gap-3 flex-wrap mb-2">
-                {image && imageVariant === "chip" && (
-                    <span className="w-8 h-8 border-2 border-term-outline bg-term-panel2 p-1 flex-shrink-0">
-                        <img src={image} alt={imageAlt || ""} className="w-full h-full object-contain" />
-                    </span>
-                )}
                 <span className="font-mono text-sm font-bold text-term-text">{name}</span>
                 {badge && (
                     <span className={`font-mono text-xs px-2 py-0.5 border-2 border-term-outline ${BADGE_TONE[badge.tone]}`}>
